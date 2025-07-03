@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIXEN V2</title>
+    <title>VIXEN V3</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -154,6 +154,10 @@
                         </div>
 
                         <div id="top-right-button-container" class="absolute top-4 right-4 flex items-center gap-2">
+                            <div id="browser-fullscreen-btn" class="btn-glass cursor-pointer p-2 rounded-full text-white/70 hover:text-white">
+                                <svg id="icon-fullscreen-enter" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                                <svg id="icon-fullscreen-exit" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 0-2-2h-3M3 16h3a2 2 0 0 0 2-2v-3"/></svg>
+                            </div>
                             <div id="hide-ui-btn" class="btn-glass cursor-pointer p-2 rounded-full text-white/70 hover:text-white">
                                <svg id="icon-eye-visible" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                <svg id="icon-eye-hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
@@ -269,6 +273,9 @@
         const statsTwitterFhd = document.getElementById('stats-twitter-fhd');
         const ambientCanvas = document.getElementById('ambient-canvas');
         const ambientCtx = ambientCanvas.getContext('2d');
+        const browserFullscreenBtn = document.getElementById('browser-fullscreen-btn');
+        const iconFullscreenEnter = document.getElementById('icon-fullscreen-enter');
+        const iconFullscreenExit = document.getElementById('icon-fullscreen-exit');
 
         // --- STATE VARIABLES ---
         let originalVideoList = [], videoList = [], history = [], currentIndex = -1, currentTrailerStartTime = 0;
@@ -313,7 +320,7 @@
             mainPlayer.classList.toggle('object-contain', !isFullScreen);
 
             if (isFullScreen) {
-                // Set styles for true fullscreen
+                // Set styles for true fullscreen trailer view
                 appContainer.style.aspectRatio = 'auto';
                 appContainer.classList.remove('normal-mode', 'rounded-lg');
                 appContainer.classList.add('fullscreen-mode');
@@ -329,7 +336,7 @@
                 toggleViewText.textContent = 'Mini View';
                 appContainer.appendChild(bottomControls);
                 bottomControls.classList.add('absolute', 'bottom-8', 'left-1/2', '-translate-x-1/2');
-                topRightButtonContainer.append(hideUiBtn, loopBtn, muteBtn);
+                topRightButtonContainer.append(browserFullscreenBtn, hideUiBtn, loopBtn, muteBtn);
             } else {
                 // Set styles for mini-view (not fullscreen)
                 if (mainPlayer.videoWidth > 0) {
@@ -352,7 +359,7 @@
                 toggleViewText.textContent = 'Fullscreen';
                 layoutContainer.appendChild(bottomControls);
                 bottomControls.classList.remove('absolute', 'bottom-8', 'left-1/2', '-translate-x-1/2');
-                miniViewButtons.append(hideUiBtn, loopBtn, muteBtn);
+                miniViewButtons.append(browserFullscreenBtn, hideUiBtn, loopBtn, muteBtn);
             }
         }
 
@@ -555,7 +562,7 @@
 
         function toggleUiVisibility() {
             isUiHidden = !isUiHidden;
-            [loopBtn, muteBtn, bottomControls, qualityMenuBtn].forEach(el => el?.classList.toggle('hidden', isUiHidden));
+            [browserFullscreenBtn, loopBtn, muteBtn, bottomControls, qualityMenuBtn].forEach(el => el?.classList.toggle('hidden', isUiHidden));
             iconEyeVisible.classList.toggle('hidden', isUiHidden);
             iconEyeHidden.classList.toggle('hidden', !isUiHidden);
             if (!isUiHidden) qualityPopover.classList.add('hidden');
@@ -570,6 +577,30 @@
             statsModal.classList.remove('hidden');
         }
 
+        // --- BROWSER FULLSCREEN ---
+        function toggleBrowserFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        function updateFullscreenIcon() {
+            if (document.fullscreenElement) {
+                iconFullscreenEnter.classList.add('hidden');
+                iconFullscreenExit.classList.remove('hidden');
+            } else {
+                iconFullscreenEnter.classList.remove('hidden');
+                iconFullscreenExit.classList.add('hidden');
+            }
+        }
+
+
         // --- EVENT LISTENERS ---
         playOverlay.addEventListener('click', () => mainPlayer.play().then(startTrailerPlayback));
         toggleViewBtn.addEventListener('click', () => setViewMode(!isFullScreen));
@@ -582,6 +613,9 @@
             loopBtn.classList.toggle('text-white/70', !isLooping);
         });
         hideUiBtn.addEventListener('click', toggleUiVisibility);
+        browserFullscreenBtn.addEventListener('click', toggleBrowserFullscreen);
+        document.addEventListener('fullscreenchange', updateFullscreenIcon);
+
         playFullBtn.addEventListener('click', () => {
             mainPlayer.pause();
             clearTimers();
