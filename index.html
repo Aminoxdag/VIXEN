@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIXEN V6</title>
+    <title>VIXEN V3</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,9 +39,25 @@
     <!-- Auth Header -->
     <div id="auth-header" class="absolute top-0 left-0 w-full p-4 z-50 flex justify-end items-center gap-4">
         <button id="open-auth-modal-btn" class="btn-glass px-4 py-2 text-xs font-bold rounded-lg">Login</button>
-        <div id="user-info" class="hidden items-center gap-3">
-            <span id="user-email-display" class="text-xs text-white/70"></span>
-            <button id="logout-btn" class="btn-glass px-4 py-2 text-xs font-bold rounded-lg">Logout</button>
+        <div id="user-menu-container" class="hidden relative">
+            <button id="user-menu-btn" class="btn-glass w-10 h-10 rounded-full flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </button>
+            <div id="user-menu-popover" class="hidden absolute top-full right-0 mt-2 w-56 btn-glass rounded-lg shadow-2xl p-2 z-50">
+                <div class="px-3 py-2">
+                    <p class="text-sm font-bold text-blend-overlay">Signed in as</p>
+                    <p id="user-email-display" class="text-xs text-white/70 truncate"></p>
+                </div>
+                <hr class="border-white/10 my-1">
+                <button id="show-favorites-btn-menu" class="popover-btn text-blend-overlay">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                    <span>My Favorites</span>
+                </button>
+                <button id="logout-btn" class="popover-btn text-blend-overlay">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    <span>Logout</span>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -122,7 +138,7 @@
                         <div id="error-message" class="hidden absolute inset-0 bg-black/70 flex-col items-center justify-center text-center p-4"><p class="text-xs text-blend-overlay">Error loading video.</p><p class="text-xs text-gray-400 mt-2 text-blend-overlay">Trying another video.</p></div>
                         <div id="play-overlay" class="hidden absolute inset-0 bg-black/30 flex-col items-center justify-center cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="mix-blend-mode: overlay;"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg><p class="mt-2 text-sm text-blend-overlay">Click to Play</p></div>
                         
-                        <div id="quality-menu-container" class="absolute top-4 left-4">
+                        <div id="quality-menu-container" class="absolute top-4 left-4 pt-16">
                             <div id="quality-menu-btn" class="btn-glass px-3 py-2 rounded-md hidden text-xs font-bold text-blend-overlay cursor-pointer"></div>
                             <div id="quality-popover" class="hidden absolute top-full mt-2 w-40 btn-glass rounded-lg shadow-2xl p-2 z-40">
                                 <div id="quality-filter-list" class="flex flex-col gap-1">
@@ -140,7 +156,7 @@
                             </div>
                         </div>
 
-                        <div id="top-right-button-container" class="absolute top-16 right-4 flex items-center gap-2">
+                        <div id="top-right-button-container" class="absolute top-4 right-4 pt-16 flex items-center gap-2">
                             <button id="favorite-btn" title="Save to Favorites" class="hidden btn-glass cursor-pointer p-2 rounded-full text-white/70 hover:text-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
                             </button>
@@ -164,10 +180,6 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
                                 </button>
                                 <div id="more-popover" class="hidden absolute top-full right-0 mt-2 w-56 btn-glass rounded-lg shadow-2xl p-2 z-40">
-                                    <button id="show-favorites-btn" class="hidden popover-btn text-blend-overlay">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
-                                        <span>My Favorites</span>
-                                    </button>
                                     <button id="random-shot-btn" class="popover-btn text-blend-overlay">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
                                         <span>Another Random Shot</span>
@@ -268,7 +280,7 @@
         const db = firebase.firestore();
         
         // --- DOM ELEMENT SELECTION ---
-        const passwordOverlay = document.getElementById('password-overlay'), passwordInput = document.getElementById('password-input'), submitPasswordBtn = document.getElementById('submit-password-btn'), passwordError = document.getElementById('password-error'), mainPlayer = document.getElementById('main-player-video'), appContainer = document.getElementById('app-container'), playerWrapper = document.getElementById('player-wrapper'), layoutContainer = document.getElementById('layout-container'), preloadPlayers = document.querySelectorAll('.preload-player'), playFullBtn = document.getElementById('play-full-btn'), toggleViewBtn = document.getElementById('toggle-view-btn'), toggleViewText = document.getElementById('toggle-view-text'), loader = document.getElementById('loader'), errorMessage = document.getElementById('error-message'), playOverlay = document.getElementById('play-overlay'), progressBar = document.getElementById('progress-bar'), videoModal = document.getElementById('video-modal'), modalPlayer = document.getElementById('modal-player'), closeModalBtn = document.getElementById('close-modal-btn'), copyLinkBtn = document.getElementById('copy-link-btn'), bottomControls = document.getElementById('bottom-controls'), fullscreenNavControls = document.getElementById('fullscreen-nav-controls'), topNavControls = document.getElementById('top-nav-controls'), fsPrevBtn = document.getElementById('fs-prev-btn'), fsNextBtn = document.getElementById('fs-next-btn'), topPrevBtn = document.getElementById('top-prev-btn'), topNextBtn = document.getElementById('top-next-btn'), muteBtn = document.getElementById('mute-btn'), iconUnmuted = document.getElementById('icon-unmuted'), iconMuted = document.getElementById('icon-muted'), loopBtn = document.getElementById('loop-btn'), hideUiBtn = document.getElementById('hide-ui-btn'), iconEyeVisible = document.getElementById('icon-eye-visible'), iconEyeHidden = document.getElementById('icon-eye-hidden'), qualityMenuBtn = document.getElementById('quality-menu-btn'), qualityPopover = document.getElementById('quality-popover'), qualityFilterList = document.getElementById('quality-filter-list'), infoBtn = document.getElementById('info-btn'), topRightButtonContainer = document.getElementById('top-right-button-container'), miniViewButtons = document.getElementById('mini-view-buttons'), statsModal = document.getElementById('stats-modal'), closeStatsModalBtn = document.getElementById('close-stats-modal-btn'), statsTotal = document.getElementById('stats-total'), statsPomf = document.getElementById('stats-pomf'), statsTwitter = document.getElementById('stats-twitter'), statsTwitterFhd = document.getElementById('stats-twitter-fhd'), ambientCanvas = document.getElementById('ambient-canvas'), ambientCtx = ambientCanvas.getContext('2d'), browserFullscreenBtn = document.getElementById('browser-fullscreen-btn'), iconFullscreenEnter = document.getElementById('icon-fullscreen-enter'), iconFullscreenExit = document.getElementById('icon-fullscreen-exit'), moreMenuBtn = document.getElementById('more-menu-btn'), morePopover = document.getElementById('more-popover'), togglePanBtn = document.getElementById('toggle-pan-btn'), toggleHdrBtn = document.getElementById('toggle-hdr-btn'), panControlsContainer = document.getElementById('pan-controls-container'), panLeftBtn = document.getElementById('pan-left-btn'), panRightBtn = document.getElementById('pan-right-btn'), pipBtn = document.getElementById('pip-btn'), randomShotBtn = document.getElementById('random-shot-btn'), favoriteBtn = document.getElementById('favorite-btn'), favoritesFilterBtn = document.getElementById('favorites-filter-btn'), authModal = document.getElementById('auth-modal'), closeAuthModalBtn = document.getElementById('close-auth-modal-btn'), openAuthModalBtn = document.getElementById('open-auth-modal-btn'), loginForm = document.getElementById('login-form'), signupForm = document.getElementById('signup-form'), showSignupBtn = document.getElementById('show-signup-btn'), showLoginBtn = document.getElementById('show-login-btn'), loginBtn = document.getElementById('login-btn'), signupBtn = document.getElementById('signup-btn'), loginEmail = document.getElementById('login-email'), loginPassword = document.getElementById('login-password'), signupEmail = document.getElementById('signup-email'), signupPassword = document.getElementById('signup-password'), loginErrorMsg = document.getElementById('login-error-msg'), signupErrorMsg = document.getElementById('signup-error-msg'), userInfo = document.getElementById('user-info'), userEmailDisplay = document.getElementById('user-email-display'), logoutBtn = document.getElementById('logout-btn'), favoritesModal = document.getElementById('favorites-modal'), closeFavoritesModalBtn = document.getElementById('close-favorites-modal-btn'), favoritesList = document.getElementById('favorites-list'), playAllFavoritesBtn = document.getElementById('play-all-favorites-btn'), showFavoritesBtn = document.getElementById('show-favorites-btn');
+        const passwordOverlay = document.getElementById('password-overlay'), passwordInput = document.getElementById('password-input'), submitPasswordBtn = document.getElementById('submit-password-btn'), passwordError = document.getElementById('password-error'), mainPlayer = document.getElementById('main-player-video'), appContainer = document.getElementById('app-container'), playerWrapper = document.getElementById('player-wrapper'), layoutContainer = document.getElementById('layout-container'), preloadPlayers = document.querySelectorAll('.preload-player'), playFullBtn = document.getElementById('play-full-btn'), toggleViewBtn = document.getElementById('toggle-view-btn'), toggleViewText = document.getElementById('toggle-view-text'), loader = document.getElementById('loader'), errorMessage = document.getElementById('error-message'), playOverlay = document.getElementById('play-overlay'), progressBar = document.getElementById('progress-bar'), videoModal = document.getElementById('video-modal'), modalPlayer = document.getElementById('modal-player'), closeModalBtn = document.getElementById('close-modal-btn'), copyLinkBtn = document.getElementById('copy-link-btn'), bottomControls = document.getElementById('bottom-controls'), fullscreenNavControls = document.getElementById('fullscreen-nav-controls'), topNavControls = document.getElementById('top-nav-controls'), fsPrevBtn = document.getElementById('fs-prev-btn'), fsNextBtn = document.getElementById('fs-next-btn'), topPrevBtn = document.getElementById('top-prev-btn'), topNextBtn = document.getElementById('top-next-btn'), muteBtn = document.getElementById('mute-btn'), iconUnmuted = document.getElementById('icon-unmuted'), iconMuted = document.getElementById('icon-muted'), loopBtn = document.getElementById('loop-btn'), hideUiBtn = document.getElementById('hide-ui-btn'), iconEyeVisible = document.getElementById('icon-eye-visible'), iconEyeHidden = document.getElementById('icon-eye-hidden'), qualityMenuBtn = document.getElementById('quality-menu-btn'), qualityPopover = document.getElementById('quality-popover'), qualityFilterList = document.getElementById('quality-filter-list'), infoBtn = document.getElementById('info-btn'), topRightButtonContainer = document.getElementById('top-right-button-container'), miniViewButtons = document.getElementById('mini-view-buttons'), statsModal = document.getElementById('stats-modal'), closeStatsModalBtn = document.getElementById('close-stats-modal-btn'), statsTotal = document.getElementById('stats-total'), statsPomf = document.getElementById('stats-pomf'), statsTwitter = document.getElementById('stats-twitter'), statsTwitterFhd = document.getElementById('stats-twitter-fhd'), ambientCanvas = document.getElementById('ambient-canvas'), ambientCtx = ambientCanvas.getContext('2d'), browserFullscreenBtn = document.getElementById('browser-fullscreen-btn'), iconFullscreenEnter = document.getElementById('icon-fullscreen-enter'), iconFullscreenExit = document.getElementById('icon-fullscreen-exit'), moreMenuBtn = document.getElementById('more-menu-btn'), morePopover = document.getElementById('more-popover'), togglePanBtn = document.getElementById('toggle-pan-btn'), toggleHdrBtn = document.getElementById('toggle-hdr-btn'), panControlsContainer = document.getElementById('pan-controls-container'), panLeftBtn = document.getElementById('pan-left-btn'), panRightBtn = document.getElementById('pan-right-btn'), pipBtn = document.getElementById('pip-btn'), randomShotBtn = document.getElementById('random-shot-btn'), favoriteBtn = document.getElementById('favorite-btn'), favoritesFilterBtn = document.getElementById('favorites-filter-btn'), authModal = document.getElementById('auth-modal'), closeAuthModalBtn = document.getElementById('close-auth-modal-btn'), openAuthModalBtn = document.getElementById('open-auth-modal-btn'), loginForm = document.getElementById('login-form'), signupForm = document.getElementById('signup-form'), showSignupBtn = document.getElementById('show-signup-btn'), showLoginBtn = document.getElementById('show-login-btn'), loginBtn = document.getElementById('login-btn'), signupBtn = document.getElementById('signup-btn'), loginEmail = document.getElementById('login-email'), loginPassword = document.getElementById('login-password'), signupEmail = document.getElementById('signup-email'), signupPassword = document.getElementById('signup-password'), loginErrorMsg = document.getElementById('login-error-msg'), signupErrorMsg = document.getElementById('signup-error-msg'), userMenuContainer = document.getElementById('user-menu-container'), userMenuBtn = document.getElementById('user-menu-btn'), userMenuPopover = document.getElementById('user-menu-popover'), userEmailDisplay = document.getElementById('user-email-display'), logoutBtn = document.getElementById('logout-btn'), favoritesModal = document.getElementById('favorites-modal'), closeFavoritesModalBtn = document.getElementById('close-favorites-modal-btn'), favoritesList = document.getElementById('favorites-list'), playAllFavoritesBtn = document.getElementById('play-all-favorites-btn'), showFavoritesBtnMenu = document.getElementById('show-favorites-btn-menu');
 
         // --- STATE VARIABLES ---
         let originalVideoList = [], videoList = [], history = [], userFavorites = [], currentIndex = -1, currentTrailerStartTime = 0;
@@ -335,22 +347,20 @@
             if (user) {
                 currentUser = user;
                 openAuthModalBtn.classList.add('hidden');
-                userInfo.classList.remove('hidden');
-                userInfo.classList.add('flex');
+                userMenuContainer.classList.remove('hidden');
                 userEmailDisplay.textContent = user.email;
                 favoriteBtn.classList.remove('hidden');
                 favoritesFilterBtn.classList.remove('hidden');
-                showFavoritesBtn.classList.remove('hidden');
+                showFavoritesBtnMenu.classList.remove('hidden');
                 getFavorites();
             } else {
                 currentUser = null;
                 userFavorites = [];
                 openAuthModalBtn.classList.remove('hidden');
-                userInfo.classList.add('hidden');
-                userInfo.classList.remove('flex');
+                userMenuContainer.classList.add('hidden');
                 favoriteBtn.classList.add('hidden');
                 favoritesFilterBtn.classList.add('hidden');
-                showFavoritesBtn.classList.add('hidden');
+                showFavoritesBtnMenu.classList.add('hidden');
                 if (currentFilter === 'Favorites') { applyFilterAndPlay('All'); }
                 updateFavoriteIcon();
             }
@@ -380,21 +390,22 @@
         closeModalBtn.addEventListener('click', closeModal);
         videoModal.addEventListener('click', (e) => { if (e.target === videoModal) closeModal(); });
         copyLinkBtn.addEventListener('click', () => { const textArea = document.createElement('textarea'); textArea.value = modalPlayer.src; document.body.appendChild(textArea); textArea.select(); document.execCommand('copy'); document.body.removeChild(textArea); const copyIcon = copyLinkBtn.querySelector('.copy-icon'); const checkIcon = copyLinkBtn.querySelector('.check-icon'); copyIcon.classList.add('hidden'); checkIcon.classList.remove('hidden'); setTimeout(() => { copyIcon.classList.remove('hidden'); checkIcon.classList.add('hidden'); }, 2000); });
-        qualityMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); const moreWasOpen = !morePopover.classList.contains('hidden'); morePopover.classList.add('hidden'); if(moreWasOpen) updatePanControlsVisibility(); qualityPopover.classList.toggle('hidden'); });
+        qualityMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); userMenuPopover.classList.add('hidden'); morePopover.classList.add('hidden'); qualityPopover.classList.toggle('hidden'); });
         infoBtn.addEventListener('click', (e) => { e.stopPropagation(); qualityPopover.classList.add('hidden'); showStats(); });
         closeStatsModalBtn.addEventListener('click', () => statsModal.classList.add('hidden'));
         statsModal.addEventListener('click', (e) => { if (e.target === statsModal) statsModal.classList.add('hidden'); });
-        moreMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); qualityPopover.classList.add('hidden'); morePopover.classList.toggle('hidden'); updatePanControlsVisibility(); });
+        moreMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); qualityPopover.classList.add('hidden'); userMenuPopover.classList.add('hidden'); morePopover.classList.toggle('hidden'); updatePanControlsVisibility(); });
+        userMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); qualityPopover.classList.add('hidden'); morePopover.classList.add('hidden'); userMenuPopover.classList.toggle('hidden'); });
         togglePanBtn.addEventListener('click', (e) => { e.stopPropagation(); isPanControlsActive = !isPanControlsActive; togglePanBtn.classList.toggle('active', isPanControlsActive); updatePanControlsVisibility(); });
         toggleHdrBtn.addEventListener('click', (e) => { e.stopPropagation(); isHdrActive = !isHdrActive; toggleHdrBtn.classList.toggle('active', isHdrActive); mainPlayer.classList.toggle('hdr-effect', isHdrActive); });
         panLeftBtn.addEventListener('click', () => { currentPanPosition = Math.max(0, currentPanPosition - 5); mainPlayer.style.objectPosition = `${currentPanPosition}% 50%`; });
         panRightBtn.addEventListener('click', () => { currentPanPosition = Math.min(100, currentPanPosition + 5); mainPlayer.style.objectPosition = `${currentPanPosition}% 50%`; });
         randomShotBtn.addEventListener('click', (e) => { e.stopPropagation(); playAnotherShot(); morePopover.classList.add('hidden'); updatePanControlsVisibility(); });
         pipBtn.addEventListener('click', (e) => { e.stopPropagation(); enterPip(); morePopover.classList.add('hidden'); updatePanControlsVisibility(); });
-        showFavoritesBtn.addEventListener('click', (e) => { e.stopPropagation(); showFavoritesModal(); morePopover.classList.add('hidden'); });
+        showFavoritesBtnMenu.addEventListener('click', (e) => { e.stopPropagation(); showFavoritesModal(); userMenuPopover.classList.add('hidden'); });
         closeFavoritesModalBtn.addEventListener('click', () => favoritesModal.classList.add('hidden'));
         playAllFavoritesBtn.addEventListener('click', () => { applyFilterAndPlay('Favorites'); favoritesModal.classList.add('hidden'); });
-        document.addEventListener('click', () => { const moreWasOpen = !morePopover.classList.contains('hidden'); qualityPopover.classList.add('hidden'); morePopover.classList.add('hidden'); if (moreWasOpen) { updatePanControlsVisibility(); } });
+        document.addEventListener('click', () => { qualityPopover.classList.add('hidden'); morePopover.classList.add('hidden'); userMenuPopover.classList.add('hidden'); updatePanControlsVisibility(); });
         
         if (sessionStorage.getItem('passwordEntered') === 'true') {
             passwordOverlay.classList.add('hidden');
