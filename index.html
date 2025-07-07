@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIXEN V4</title>
+    <title>VIXEN V5</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -55,17 +55,15 @@
 
         .btn-glass {
             background-color: rgba(30, 30, 30, 0.25);
-            backdrop-filter: blur(12px) saturate(150%);
+            backdrop-filter: blur(10px) saturate(120%);
             -webkit-backdrop-filter: blur(12px) saturate(150%);
             border: 1px solid rgba(255, 255, 255, 0.15);
-            /* MODIFIED: Added transform to transition for snappy clicks */
             transition: all 0.2s ease-in-out, transform 0.1s ease;
         }
         .btn-glass:hover {
             background-color: rgba(30, 30, 30, 0.4);
             border-color: rgba(255, 255, 255, 0.25);
         }
-        /* NEW: Added active state for better click feedback */
         .btn-glass:active {
             transform: scale(0.95);
         }
@@ -107,7 +105,6 @@
             border-radius: 0.375rem;
             font-size: 0.75rem;
             text-align: left;
-            /* MODIFIED: Added transform to transition */
             transition: background-color 0.2s, transform 0.1s ease;
         }
         .popover-btn:hover {
@@ -117,9 +114,12 @@
             background-color: rgba(0, 0, 0, 0.3);
             font-weight: bold;
         }
-        /* NEW: Added active state for popover buttons */
         .popover-btn:active {
             transform: scale(0.97);
+        }
+        .popover-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
         .popover-btn svg {
             flex-shrink: 0;
@@ -132,7 +132,10 @@
     </style>
 </head>
 <body class="bg-black text-white overflow-hidden">
+    
+    <!-- REMOVED: pip-canvas and pip-video are no longer needed -->
 
+    <!-- Password Protection Overlay -->
     <div id="password-overlay" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
         <div class="btn-glass rounded-lg shadow-2xl p-8 w-full max-w-sm text-white text-center">
             <h2 class="text-2xl font-bold mb-4 text-blend-overlay">Enter Password</h2>
@@ -160,11 +163,11 @@
             <div id="player-wrapper">
                 <canvas id="ambient-canvas"></canvas>
                 <div id="app-container" class="relative overflow-hidden">
-                    <video id="main-player-video" class="w-full h-full transition-all duration-300" preload="auto" playsinline></video>
+                    <video id="main-player-video" class="w-full h-full transition-all duration-300" preload="auto" playsinline crossorigin="anonymous"></video>
                     
-                    <video class="preload-player hidden" preload="auto" playsinline muted></video>
-                    <video class="preload-player hidden" preload="auto" playsinline muted></video>
-                    <video class="preload-player hidden" preload="auto" playsinline muted></video>
+                    <video class="preload-player hidden" preload="auto" playsinline muted crossorigin="anonymous"></video>
+                    <video class="preload-player hidden" preload="auto" playsinline muted crossorigin="anonymous"></video>
+                    <video class="preload-player hidden" preload="auto" playsinline muted crossorigin="anonymous"></video>
                     
                     <div class="absolute inset-0 z-20">
                         <div id="loader" class="absolute inset-0 flex flex-col items-center justify-center bg-black/50"><div class="loader"></div><p class="mt-4 text-xs text-blend-overlay">Loading...</p></div>
@@ -208,7 +211,16 @@
                                 <button id="more-menu-btn" title="More options" class="btn-glass cursor-pointer p-2 rounded-full text-white/70 hover:text-white">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
                                 </button>
-                                <div id="more-popover" class="hidden absolute top-full right-0 mt-2 w-48 btn-glass rounded-lg shadow-2xl p-2 z-40">
+                                <div id="more-popover" class="hidden absolute top-full right-0 mt-2 w-56 btn-glass rounded-lg shadow-2xl p-2 z-40">
+                                    <button id="random-shot-btn" class="popover-btn text-blend-overlay">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
+                                        <span>Another Random Shot</span>
+                                    </button>
+                                    <button id="pip-btn" class="popover-btn text-blend-overlay">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="13" y="15" width="8" height="6" rx="1"/><path d="M4 4h16v9H4z"/></svg>
+                                        <span>Picture-in-Picture</span>
+                                    </button>
+                                    <hr class="border-white/10 my-1">
                                     <button id="toggle-pan-btn" class="popover-btn text-blend-overlay">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline><polyline points="9 18 15 12 9 6"></polyline></svg>
                                         <span>Pan Controls</span>
@@ -226,9 +238,9 @@
                             <div id="fs-next-btn" class="cursor-pointer text-white/70 hover:text-white transition-colors p-2"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
                         </div>
                     </div>
-                    <div id="progress-bar-container" class="absolute bottom-0 left-0 w-full h-1 bg-white/20 z-30"><div id="progress-bar" class="h-full bg-white" style="width: 0%; transition: width 100ms linear;"></div></div>
+                    <div id="progress-bar-container" class="absolute bottom-0 left-0 w-full h-1 bg-white/20 z-30"><div id="progress-bar" class="h-full bg-white" style="width: 0%;"></div></div>
                     
-                    <div id="pan-controls-container" class="hidden absolute bottom-28 left-1/2 -translate-x-1/2 w-auto max-w-xs z-30 flex items-center justify-center gap-4">
+                    <div id="pan-controls-container" class="hidden absolute top-20 right-4 w-auto z-30 flex items-center justify-center gap-2">
                         <button id="pan-left-btn" title="Pan Left" class="btn-glass p-2 rounded-full text-white">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
                         </button>
@@ -247,6 +259,7 @@
         </div>
     </div>
 
+    <!-- Full screen video modal -->
     <div id="video-modal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50 p-4">
         <div class="bg-black/50 border border-white/10 rounded-lg shadow-2xl w-full max-w-4xl max-h-full flex flex-col relative overflow-hidden">
             <div class="flex justify-end items-center p-2 w-full absolute top-0 right-0 z-10">
@@ -261,11 +274,12 @@
                 </div>
             </div>
             <div class="w-full h-full flex-1">
-                 <video id="modal-player" class="w-full h-full" autoplay controls></video>
+                 <video id="modal-player" class="w-full h-full" autoplay controls crossorigin="anonymous"></video>
             </div>
         </div>
     </div>
 
+    <!-- Statistics Modal -->
     <div id="stats-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
         <div class="btn-glass rounded-lg shadow-2xl p-6 w-full max-w-sm text-white">
             <h2 class="text-xl font-bold mb-4 text-center text-blend-overlay">Video Statistics</h2>
@@ -340,11 +354,14 @@
         const panControlsContainer = document.getElementById('pan-controls-container');
         const panLeftBtn = document.getElementById('pan-left-btn');
         const panRightBtn = document.getElementById('pan-right-btn');
+        const pipBtn = document.getElementById('pip-btn');
+        const randomShotBtn = document.getElementById('random-shot-btn');
+        // REMOVED: PiP canvas/video elements are no longer selected
 
         // --- STATE VARIABLES ---
         let originalVideoList = [], videoList = [], history = [], currentIndex = -1, currentTrailerStartTime = 0;
         let isFullScreen = true, isLooping = false, isUiHidden = false, currentFilter = 'All';
-        let trailerTimer, progressTimer, ambientAnimationId = null;
+        let ambientAnimationId = null;
         let preloadingUrls = new Set();
         const VIDEO_LIST_URL = 'https://raw.githubusercontent.com/Aminoxdag/My-links/refs/heads/main/merged_list.txt';
         const TRAILER_DURATION_MS = 30000;
@@ -352,22 +369,37 @@
         let isPanControlsActive = false;
         let isHdrActive = false;
         let currentPanPosition = 50;
+        // REMOVED: pipAnimationId is no longer needed
 
         // --- AMBIENT MODE LOGIC ---
         function drawAmbientFrame() {
             if (isFullScreen || mainPlayer.paused || !ambientCtx) {
-                if (ambientAnimationId) {
-                    cancelAnimationFrame(ambientAnimationId);
-                    ambientAnimationId = null;
-                }
+                if (ambientAnimationId) cancelAnimationFrame(ambientAnimationId);
+                ambientAnimationId = null;
                 return;
             }
-            ambientCtx.drawImage(mainPlayer, 0, 0, ambientCanvas.width, ambientCanvas.height);
+            // Add a try-catch block here because drawing a cross-origin video can throw an error
+            try {
+                ambientCtx.drawImage(mainPlayer, 0, 0, ambientCanvas.width, ambientCanvas.height);
+            } catch (e) {
+                // If there's a CORS error, we can't draw the ambient frame. Stop trying.
+                console.warn("Could not draw ambient frame due to CORS policy.", e);
+                if (ambientAnimationId) cancelAnimationFrame(ambientAnimationId);
+                ambientAnimationId = null;
+                ambientCanvas.classList.remove('active'); // Hide the canvas
+                return;
+            }
             ambientAnimationId = requestAnimationFrame(drawAmbientFrame);
         }
 
         // --- CORE FUNCTIONS ---
-        function clearTimers() { clearTimeout(trailerTimer); clearInterval(progressTimer); }
+        function stopTrailer() {
+            mainPlayer.removeEventListener('timeupdate', handleTrailerProgress);
+            progressBar.style.transition = 'none';
+            progressBar.style.width = '0%';
+            progressBar.offsetHeight; // Trigger reflow
+            progressBar.style.transition = '';
+        }
         
         function updateNavButtons() {
             const showPrev = history.length > 1;
@@ -381,7 +413,8 @@
         }
 
         function updatePanControlsVisibility() {
-            const shouldBeVisible = isFullScreen && isPanControlsActive && !isUiHidden;
+            const isMoreMenuOpen = !morePopover.classList.contains('hidden');
+            const shouldBeVisible = isFullScreen && isPanControlsActive && !isUiHidden && !isMoreMenuOpen;
             panControlsContainer.classList.toggle('hidden', !shouldBeVisible);
         }
 
@@ -407,9 +440,9 @@
                 topRightButtonContainer.append(browserFullscreenBtn, hideUiBtn, loopBtn, muteBtn, moreMenuBtn.parentElement);
             } else {
                 if (mainPlayer.videoWidth > 0) {
-                     playerWrapper.style.aspectRatio = mainPlayer.videoWidth / mainPlayer.videoHeight;
+                       playerWrapper.style.aspectRatio = mainPlayer.videoWidth / mainPlayer.videoHeight;
                 } else {
-                     playerWrapper.style.aspectRatio = '16 / 9';
+                       playerWrapper.style.aspectRatio = '16 / 9';
                 }
                 appContainer.style.aspectRatio = '';
                 appContainer.classList.remove('fullscreen-mode');
@@ -464,7 +497,7 @@
                 errorMessage.classList.remove('hidden');
                 errorMessage.querySelector('p').textContent = `No videos found for "${filter}" filter.`;
                 errorMessage.querySelector('p:last-child').textContent = 'Please select another filter.';
-                clearTimers();
+                stopTrailer();
             }
         }
 
@@ -508,24 +541,43 @@
             return null;
         }
 
+        function playAnotherShot() {
+            if (!mainPlayer.duration) return;
+            currentTrailerStartTime = Math.random() * (mainPlayer.duration - (TRAILER_DURATION_MS / 1000));
+            replayTrailer();
+        }
+
         function replayTrailer() {
             mainPlayer.currentTime = currentTrailerStartTime;
             mainPlayer.play().then(startTrailerPlayback).catch(err => console.error("Replay failed", err));
         }
         
+        function handleTrailerProgress() {
+            if (mainPlayer.paused || mainPlayer.seeking) return;
+
+            const elapsedSeconds = mainPlayer.currentTime - currentTrailerStartTime;
+            const trailerDurationSeconds = TRAILER_DURATION_MS / 1000;
+
+            if (elapsedSeconds >= 0) {
+                const progress = Math.min((elapsedSeconds / trailerDurationSeconds) * 100, 100);
+                progressBar.style.width = `${progress}%`;
+            }
+
+            if (elapsedSeconds >= trailerDurationSeconds) {
+                stopTrailer();
+                if (isLooping) {
+                    replayTrailer();
+                } else {
+                    showNextVideo();
+                }
+            }
+        }
+
         function startTrailerPlayback() {
             playOverlay.classList.add('hidden');
-            clearTimers();
+            stopTrailer(); 
             drawAmbientFrame();
-            const trailerStartTime = Date.now();
-            progressTimer = setInterval(() => {
-                const elapsed = Date.now() - trailerStartTime;
-                progressBar.style.width = `${Math.min((elapsed / TRAILER_DURATION_MS) * 100, 100)}%`;
-            }, 100);
-            trailerTimer = setTimeout(() => {
-                clearInterval(progressTimer);
-                if (isLooping) replayTrailer(); else showNextVideo();
-            }, TRAILER_DURATION_MS);
+            mainPlayer.addEventListener('timeupdate', handleTrailerProgress);
         }
 
         function playTrailer(indexOrUrl, isFromHistory = false) {
@@ -542,8 +594,8 @@
                 url = videoList[index];
             }
             if (index === undefined || index < 0 || index >= videoList.length) { return; }
-            clearTimers();
-            progressBar.style.width = '0%';
+            
+            stopTrailer();
             errorMessage.classList.add('hidden');
             playOverlay.classList.add('hidden');
             loader.classList.remove('hidden');
@@ -582,7 +634,7 @@
                     qualityMenuBtn.textContent = qualityText;
                     qualityMenuBtn.classList.remove('hidden');
                 }
-                currentTrailerStartTime = Math.random() * mainPlayer.duration;
+                currentTrailerStartTime = Math.random() * Math.max(0, mainPlayer.duration - (TRAILER_DURATION_MS / 1000));
                 mainPlayer.currentTime = currentTrailerStartTime;
                 mainPlayer.addEventListener('seeked', onSeeked);
             };
@@ -650,6 +702,26 @@
             iconFullscreenExit.classList.toggle('hidden', !isBrowserFullscreen);
         }
 
+        // --- Picture-in-Picture Logic (MODIFIED) ---
+        async function enterPip() {
+            // Check if PiP is enabled and a video is ready
+            if (!document.pictureInPictureEnabled || mainPlayer.paused || !mainPlayer.duration) {
+                console.log("PiP cannot be started. (Not enabled, video paused, or no duration).");
+                return;
+            }
+
+            try {
+                // If not already in PiP, request it
+                if (document.pictureInPictureElement !== mainPlayer) {
+                    await mainPlayer.requestPictureInPicture();
+                }
+            } catch (error) {
+                // Log any errors to the console for debugging
+                console.error("PiP Error:", error);
+            }
+        }
+
+
         // --- EVENT LISTENERS ---
         playOverlay.addEventListener('click', () => mainPlayer.play().then(startTrailerPlayback));
         toggleViewBtn.addEventListener('click', () => setViewMode(!isFullScreen));
@@ -666,7 +738,7 @@
         document.addEventListener('fullscreenchange', updateFullscreenIcon);
         playFullBtn.addEventListener('click', () => {
             mainPlayer.pause();
-            clearTimers();
+            stopTrailer();
             modalPlayer.src = mainPlayer.src;
             modalPlayer.currentTime = 0;
             videoModal.classList.remove('hidden');
@@ -697,7 +769,9 @@
         });
         qualityMenuBtn.addEventListener('click', (e) => {
             e.stopPropagation();
+            const moreWasOpen = !morePopover.classList.contains('hidden');
             morePopover.classList.add('hidden');
+            if(moreWasOpen) updatePanControlsVisibility();
             qualityPopover.classList.toggle('hidden');
         });
         qualityFilterBtns.forEach(btn => {
@@ -718,6 +792,7 @@
             e.stopPropagation();
             qualityPopover.classList.add('hidden');
             morePopover.classList.toggle('hidden');
+            updatePanControlsVisibility();
         });
         togglePanBtn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -739,9 +814,27 @@
             currentPanPosition = Math.min(100, currentPanPosition + 5);
             mainPlayer.style.objectPosition = `${currentPanPosition}% 50%`;
         });
+        randomShotBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            playAnotherShot();
+            morePopover.classList.add('hidden');
+            updatePanControlsVisibility();
+        });
+        // MODIFIED: Event listener now calls the new enterPip function
+        pipBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            enterPip();
+            morePopover.classList.add('hidden');
+            updatePanControlsVisibility();
+        });
+
         document.addEventListener('click', () => {
+            const moreWasOpen = !morePopover.classList.contains('hidden');
             qualityPopover.classList.add('hidden');
             morePopover.classList.add('hidden');
+            if (moreWasOpen) {
+                updatePanControlsVisibility();
+            }
         });
 
         // --- PASSWORD & INITIALIZATION LOGIC ---
@@ -761,6 +854,7 @@
         async function initApp() {
             await fetchVideoList();
             if (originalVideoList.length > 0) {
+                pipBtn.disabled = !document.pictureInPictureEnabled;
                 setViewMode(true);
                 applyFilterAndPlay('All');
             } else {
