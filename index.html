@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIXEN V3</title>
+    <title>VIXEN V7</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,6 +32,7 @@
         .popover-btn svg { flex-shrink: 0; }
         .hdr-effect { filter: contrast(115%) saturate(120%) brightness(105%); }
         #favorite-btn.favorited svg { fill: #3b82f6; stroke: #3b82f6; } /* Blue color for favorited */
+        .thumbnail-canvas { aspect-ratio: 2 / 3; object-fit: cover; width: 100%; border-radius: 0.5rem; }
     </style>
 </head>
 <body class="bg-black text-white overflow-hidden">
@@ -99,13 +100,13 @@
     
     <!-- Favorites Modal -->
     <div id="favorites-modal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-[101] flex items-center justify-center p-4">
-        <div class="btn-glass rounded-lg shadow-2xl p-6 w-full max-w-lg text-white flex flex-col max-h-[80vh]">
+        <div class="btn-glass rounded-lg shadow-2xl p-6 w-full max-w-4xl text-white flex flex-col max-h-[80vh]">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-bold text-blend-overlay">My Favorites</h2>
                 <button id="close-favorites-modal-btn" class="text-white/50 hover:text-white p-2 text-2xl leading-none">&times;</button>
             </div>
-            <div id="favorites-list" class="flex-grow overflow-y-auto space-y-2 pr-2">
-                <!-- Favorite items will be injected here -->
+            <div id="favorites-list" class="flex-grow overflow-y-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 pr-2">
+                <!-- Favorite items with thumbnails will be injected here -->
             </div>
             <div class="mt-4 pt-4 border-t border-white/10">
                  <button id="play-all-favorites-btn" class="btn-glass w-full py-3 rounded-lg font-bold">Play All</button>
@@ -176,6 +177,11 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
                                 </button>
                                 <div id="more-popover" class="hidden absolute top-full right-0 mt-2 w-56 btn-glass rounded-lg shadow-2xl p-2 z-40">
+                                    <button id="fullscreen-popover-btn" class="popover-btn text-blend-overlay">
+                                        <svg id="icon-fullscreen-enter" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                                        <svg id="icon-fullscreen-exit" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><path d="M4 14h6v6"/><path d="M20 10h-6V4"/><path d="M14 10l7-7"/><path d="M3 21l7-7"/></svg>
+                                        <span>Fullscreen</span>
+                                    </button>
                                     <button id="random-shot-btn" class="popover-btn text-blend-overlay">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
                                         <span>Another Random Shot</span>
@@ -183,11 +189,6 @@
                                     <button id="pip-btn" class="popover-btn text-blend-overlay">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="13" y="15" width="8" height="6" rx="1"/><path d="M4 4h16v9H4z"/></svg>
                                         <span>Picture-in-Picture</span>
-                                    </button>
-                                    <button id="fullscreen-popover-btn" class="popover-btn text-blend-overlay">
-                                        <svg id="icon-fullscreen-enter-popover" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
-                                        <svg id="icon-fullscreen-exit-popover" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><path d="M4 14h6v6"/><path d="M20 10h-6V4"/><path d="M14 10l7-7"/><path d="M3 21l7-7"/></svg>
-                                        <span>Fullscreen</span>
                                     </button>
                                     <hr class="border-white/10 my-1">
                                     <button id="toggle-pan-btn" class="popover-btn text-blend-overlay">
@@ -206,18 +207,17 @@
                             <div id="fs-prev-btn" class="cursor-pointer text-white/70 hover:text-white transition-colors p-2"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></div>
                             <div id="fs-next-btn" class="cursor-pointer text-white/70 hover:text-white transition-colors p-2"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
                         </div>
+                        
+                        <div id="pan-controls-container" class="hidden absolute top-32 right-4 w-auto z-30 flex items-center justify-center gap-2">
+                            <button id="pan-left-btn" title="Pan Left" class="btn-glass p-2 rounded-full text-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                            </button>
+                            <button id="pan-right-btn" title="Pan Right" class="btn-glass p-2 rounded-full text-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </button>
+                        </div>
                     </div>
                     <div id="progress-bar-container" class="absolute bottom-0 left-0 w-full h-1 bg-white/20 z-30"><div id="progress-bar" class="h-full bg-white" style="width: 0%;"></div></div>
-                    
-                    <div id="pan-controls-container" class="hidden absolute top-24 right-4 w-auto z-30 flex items-center justify-center gap-2">
-                        <button id="pan-left-btn" title="Pan Left" class="btn-glass p-2 rounded-full text-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                        </button>
-                        <button id="pan-right-btn" title="Pan Right" class="btn-glass p-2 rounded-full text-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                        </button>
-                    </div>
-
                 </div>
             </div>
 
@@ -281,7 +281,7 @@
         const db = firebase.firestore();
         
         // --- DOM ELEMENT SELECTION ---
-        const passwordOverlay = document.getElementById('password-overlay'), passwordInput = document.getElementById('password-input'), submitPasswordBtn = document.getElementById('submit-password-btn'), passwordError = document.getElementById('password-error'), mainPlayer = document.getElementById('main-player-video'), appContainer = document.getElementById('app-container'), playerWrapper = document.getElementById('player-wrapper'), layoutContainer = document.getElementById('layout-container'), preloadPlayers = document.querySelectorAll('.preload-player'), playFullBtn = document.getElementById('play-full-btn'), toggleViewBtn = document.getElementById('toggle-view-btn'), toggleViewText = document.getElementById('toggle-view-text'), loader = document.getElementById('loader'), errorMessage = document.getElementById('error-message'), playOverlay = document.getElementById('play-overlay'), progressBar = document.getElementById('progress-bar'), videoModal = document.getElementById('video-modal'), modalPlayer = document.getElementById('modal-player'), closeModalBtn = document.getElementById('close-modal-btn'), copyLinkBtn = document.getElementById('copy-link-btn'), bottomControls = document.getElementById('bottom-controls'), fullscreenNavControls = document.getElementById('fullscreen-nav-controls'), topNavControls = document.getElementById('top-nav-controls'), fsPrevBtn = document.getElementById('fs-prev-btn'), fsNextBtn = document.getElementById('fs-next-btn'), topPrevBtn = document.getElementById('top-prev-btn'), topNextBtn = document.getElementById('top-next-btn'), muteBtn = document.getElementById('mute-btn'), iconUnmuted = document.getElementById('icon-unmuted'), iconMuted = document.getElementById('icon-muted'), loopBtn = document.getElementById('loop-btn'), hideUiBtn = document.getElementById('hide-ui-btn'), iconEyeVisible = document.getElementById('icon-eye-visible'), iconEyeHidden = document.getElementById('icon-eye-hidden'), qualityMenuBtn = document.getElementById('quality-menu-btn'), qualityPopover = document.getElementById('quality-popover'), qualityFilterList = document.getElementById('quality-filter-list'), infoBtn = document.getElementById('info-btn'), topRightButtonContainer = document.getElementById('top-right-button-container'), miniViewButtons = document.getElementById('mini-view-buttons'), statsModal = document.getElementById('stats-modal'), closeStatsModalBtn = document.getElementById('close-stats-modal-btn'), statsTotal = document.getElementById('stats-total'), statsPomf = document.getElementById('stats-pomf'), statsTwitter = document.getElementById('stats-twitter'), statsTwitterFhd = document.getElementById('stats-twitter-fhd'), ambientCanvas = document.getElementById('ambient-canvas'), ambientCtx = ambientCanvas.getContext('2d'), moreMenuBtn = document.getElementById('more-menu-btn'), morePopover = document.getElementById('more-popover'), togglePanBtn = document.getElementById('toggle-pan-btn'), toggleHdrBtn = document.getElementById('toggle-hdr-btn'), panControlsContainer = document.getElementById('pan-controls-container'), panLeftBtn = document.getElementById('pan-left-btn'), panRightBtn = document.getElementById('pan-right-btn'), pipBtn = document.getElementById('pip-btn'), randomShotBtn = document.getElementById('random-shot-btn'), favoriteBtn = document.getElementById('favorite-btn'), favoritesFilterBtn = document.getElementById('favorites-filter-btn'), authModal = document.getElementById('auth-modal'), closeAuthModalBtn = document.getElementById('close-auth-modal-btn'), openAuthModalBtn = document.getElementById('open-auth-modal-btn'), loginForm = document.getElementById('login-form'), signupForm = document.getElementById('signup-form'), showSignupBtn = document.getElementById('show-signup-btn'), showLoginBtn = document.getElementById('show-login-btn'), loginBtn = document.getElementById('login-btn'), signupBtn = document.getElementById('signup-btn'), loginEmail = document.getElementById('login-email'), loginPassword = document.getElementById('login-password'), signupEmail = document.getElementById('signup-email'), signupPassword = document.getElementById('signup-password'), loginErrorMsg = document.getElementById('login-error-msg'), signupErrorMsg = document.getElementById('signup-error-msg'), userMenuContainer = document.getElementById('user-menu-container'), userMenuBtn = document.getElementById('user-menu-btn'), userMenuPopover = document.getElementById('user-menu-popover'), userEmailDisplay = document.getElementById('user-email-display'), logoutBtn = document.getElementById('logout-btn'), favoritesModal = document.getElementById('favorites-modal'), closeFavoritesModalBtn = document.getElementById('close-favorites-modal-btn'), favoritesList = document.getElementById('favorites-list'), playAllFavoritesBtn = document.getElementById('play-all-favorites-btn'), showFavoritesBtnMenu = document.getElementById('show-favorites-btn-menu'), fullscreenPopoverBtn = document.getElementById('fullscreen-popover-btn'), iconFullscreenEnterPopover = document.getElementById('icon-fullscreen-enter-popover'), iconFullscreenExitPopover = document.getElementById('icon-fullscreen-exit-popover');
+        const passwordOverlay = document.getElementById('password-overlay'), passwordInput = document.getElementById('password-input'), submitPasswordBtn = document.getElementById('submit-password-btn'), passwordError = document.getElementById('password-error'), mainPlayer = document.getElementById('main-player-video'), appContainer = document.getElementById('app-container'), playerWrapper = document.getElementById('player-wrapper'), layoutContainer = document.getElementById('layout-container'), preloadPlayers = document.querySelectorAll('.preload-player'), playFullBtn = document.getElementById('play-full-btn'), toggleViewBtn = document.getElementById('toggle-view-btn'), toggleViewText = document.getElementById('toggle-view-text'), loader = document.getElementById('loader'), errorMessage = document.getElementById('error-message'), playOverlay = document.getElementById('play-overlay'), progressBar = document.getElementById('progress-bar'), videoModal = document.getElementById('video-modal'), modalPlayer = document.getElementById('modal-player'), closeModalBtn = document.getElementById('close-modal-btn'), copyLinkBtn = document.getElementById('copy-link-btn'), bottomControls = document.getElementById('bottom-controls'), fullscreenNavControls = document.getElementById('fullscreen-nav-controls'), topNavControls = document.getElementById('top-nav-controls'), fsPrevBtn = document.getElementById('fs-prev-btn'), fsNextBtn = document.getElementById('fs-next-btn'), topPrevBtn = document.getElementById('top-prev-btn'), topNextBtn = document.getElementById('top-next-btn'), muteBtn = document.getElementById('mute-btn'), iconUnmuted = document.getElementById('icon-unmuted'), iconMuted = document.getElementById('icon-muted'), loopBtn = document.getElementById('loop-btn'), hideUiBtn = document.getElementById('hide-ui-btn'), iconEyeVisible = document.getElementById('icon-eye-visible'), iconEyeHidden = document.getElementById('icon-eye-hidden'), qualityMenuBtn = document.getElementById('quality-menu-btn'), qualityPopover = document.getElementById('quality-popover'), qualityFilterList = document.getElementById('quality-filter-list'), infoBtn = document.getElementById('info-btn'), topRightButtonContainer = document.getElementById('top-right-button-container'), miniViewButtons = document.getElementById('mini-view-buttons'), statsModal = document.getElementById('stats-modal'), closeStatsModalBtn = document.getElementById('close-stats-modal-btn'), statsTotal = document.getElementById('stats-total'), statsPomf = document.getElementById('stats-pomf'), statsTwitter = document.getElementById('stats-twitter'), statsTwitterFhd = document.getElementById('stats-twitter-fhd'), ambientCanvas = document.getElementById('ambient-canvas'), ambientCtx = ambientCanvas.getContext('2d'), moreMenuBtn = document.getElementById('more-menu-btn'), morePopover = document.getElementById('more-popover'), togglePanBtn = document.getElementById('toggle-pan-btn'), toggleHdrBtn = document.getElementById('toggle-hdr-btn'), panControlsContainer = document.getElementById('pan-controls-container'), panLeftBtn = document.getElementById('pan-left-btn'), panRightBtn = document.getElementById('pan-right-btn'), pipBtn = document.getElementById('pip-btn'), randomShotBtn = document.getElementById('random-shot-btn'), favoriteBtn = document.getElementById('favorite-btn'), favoritesFilterBtn = document.getElementById('favorites-filter-btn'), authModal = document.getElementById('auth-modal'), closeAuthModalBtn = document.getElementById('close-auth-modal-btn'), openAuthModalBtn = document.getElementById('open-auth-modal-btn'), loginForm = document.getElementById('login-form'), signupForm = document.getElementById('signup-form'), showSignupBtn = document.getElementById('show-signup-btn'), showLoginBtn = document.getElementById('show-login-btn'), loginBtn = document.getElementById('login-btn'), signupBtn = document.getElementById('signup-btn'), loginEmail = document.getElementById('login-email'), loginPassword = document.getElementById('login-password'), signupEmail = document.getElementById('signup-email'), signupPassword = document.getElementById('signup-password'), loginErrorMsg = document.getElementById('login-error-msg'), signupErrorMsg = document.getElementById('signup-error-msg'), userMenuContainer = document.getElementById('user-menu-container'), userMenuBtn = document.getElementById('user-menu-btn'), userMenuPopover = document.getElementById('user-menu-popover'), userEmailDisplay = document.getElementById('user-email-display'), logoutBtn = document.getElementById('logout-btn'), favoritesModal = document.getElementById('favorites-modal'), closeFavoritesModalBtn = document.getElementById('close-favorites-modal-btn'), favoritesList = document.getElementById('favorites-list'), playAllFavoritesBtn = document.getElementById('play-all-favorites-btn'), showFavoritesBtnMenu = document.getElementById('show-favorites-btn-menu'), fullscreenPopoverBtn = document.getElementById('fullscreen-popover-btn'), iconFullscreenEnter = document.getElementById('icon-fullscreen-enter'), iconFullscreenExit = document.getElementById('icon-fullscreen-exit');
 
         // --- STATE VARIABLES ---
         let originalVideoList = [], videoList = [], history = [], userFavorites = [], currentIndex = -1, currentTrailerStartTime = 0;
@@ -321,23 +321,68 @@
         const toggleUiVisibility = () => { isUiHidden = !isUiHidden; [moreMenuBtn, loopBtn, muteBtn, bottomControls, qualityMenuBtn, fullscreenNavControls, favoriteBtn].forEach(el => el?.classList.toggle('hidden', isUiHidden)); if (isUiHidden) { morePopover.classList.add('hidden'); qualityPopover.classList.add('hidden'); } updatePanControlsVisibility(); iconEyeVisible.classList.toggle('hidden', isUiHidden); iconEyeHidden.classList.toggle('hidden', !isUiHidden); };
         const showStats = () => { if (originalVideoList.length === 0) return; statsTotal.textContent = originalVideoList.length; statsPomf.textContent = originalVideoList.filter(url => url.includes('pomf2.lain.la/')).length; statsTwitter.textContent = originalVideoList.filter(url => url.includes('video.twimg.com/amplify_video')).length; statsTwitterFhd.textContent = originalVideoList.filter(url => url.includes('video.twimg.com/amplify_video') && url.includes('1080')).length; statsModal.classList.remove('hidden'); };
         const toggleBrowserFullscreen = () => { if (!document.fullscreenElement) { document.documentElement.requestFullscreen().catch(err => console.error(`Error: ${err.message}`)); } else if (document.exitFullscreen) { document.exitFullscreen(); } };
-        const updateFullscreenIcon = () => { const isBrowserFullscreen = !!document.fullscreenElement; iconFullscreenEnterPopover.classList.toggle('hidden', isBrowserFullscreen); iconFullscreenExitPopover.classList.toggle('hidden', !isBrowserFullscreen); };
+        const updateFullscreenIcon = () => { const isBrowserFullscreen = !!document.fullscreenElement; iconFullscreenEnter.classList.toggle('hidden', isBrowserFullscreen); iconFullscreenExit.classList.toggle('hidden', !isBrowserFullscreen); };
         const playAnotherShot = () => { if (!mainPlayer.duration) return; currentTrailerStartTime = Math.random() * (mainPlayer.duration - (TRAILER_DURATION_MS / 1000)); replayTrailer(); };
         const replayTrailer = () => { mainPlayer.currentTime = currentTrailerStartTime; mainPlayer.play().then(startTrailerPlayback).catch(err => console.error("Replay failed", err)); };
+        
+        const createThumbnail = (videoUrl, container) => {
+            const video = document.createElement('video');
+            video.src = videoUrl;
+            video.crossOrigin = "anonymous";
+            video.preload = "metadata";
+            video.muted = true;
+            video.style.display = "none";
+
+            const canvas = document.createElement('canvas');
+            canvas.className = 'thumbnail-canvas bg-gray-800';
+            container.prepend(canvas);
+
+            video.onloadedmetadata = () => {
+                video.currentTime = Math.random() * video.duration;
+            };
+
+            video.onseeked = () => {
+                const ctx = canvas.getContext('2d');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                document.body.removeChild(video);
+            };
+            
+            video.onerror = () => {
+                 document.body.removeChild(video);
+            };
+
+            document.body.appendChild(video);
+        };
+
         const showFavoritesModal = () => {
             favoritesList.innerHTML = ''; // Clear previous items
             if (userFavorites.length === 0) {
-                favoritesList.innerHTML = '<p class="text-center text-white/50">Your favorites list is empty.</p>';
+                favoritesList.innerHTML = '<p class="text-center text-white/50 col-span-full">Your favorites list is empty.</p>';
             } else {
                 userFavorites.forEach(url => {
-                    const item = document.createElement('div');
-                    item.className = 'flex items-center justify-between p-2 rounded-md hover:bg-white/10 cursor-pointer';
-                    item.innerHTML = `<span class="text-xs truncate flex-1 mr-4">${url.split('/').pop()}</span><button class="text-blue-400 hover:text-blue-300">Play</button>`;
-                    item.addEventListener('click', () => {
+                    const itemContainer = document.createElement('div');
+                    itemContainer.className = 'flex flex-col gap-2 cursor-pointer group';
+                    
+                    const thumbnailContainer = document.createElement('div');
+                    thumbnailContainer.className = 'relative w-full aspect-[2/3] bg-gray-900 rounded-lg overflow-hidden';
+                    
+                    const playIcon = document.createElement('div');
+                    playIcon.className = 'absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity';
+                    playIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>`;
+                    
+                    thumbnailContainer.appendChild(playIcon);
+                    itemContainer.appendChild(thumbnailContainer);
+                    
+                    createThumbnail(url, thumbnailContainer);
+                    
+                    itemContainer.addEventListener('click', () => {
                         playTrailer(url);
                         favoritesModal.classList.add('hidden');
                     });
-                    favoritesList.appendChild(item);
+                    
+                    favoritesList.appendChild(itemContainer);
                 });
             }
             favoritesModal.classList.remove('hidden');
