@@ -3,137 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIXEN V5</title>
+    <title>VIXEN V6</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: "Open Sans", sans-serif;
-            background-color: #000;
-            -webkit-font-smoothing: none;
-            -moz-osx-font-smoothing: grayscale;
-            font-smooth: never;
-        }
-        p, span, button, div, input {
-            line-height: 1.5;
-        }
-        #app-container.fullscreen-mode {
-            position: fixed; 
-            inset: 0; 
-            width: 100vw;
-            height: 100vh;
-            border-radius: 0;
-        }
-        #player-wrapper {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            max-width: 90vw;
-            max-height: 75vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        #app-container.normal-mode {
-            width: 100%; 
-            height: 100%;
-            position: relative;
-            z-index: 2;
-        }
-        .loader {
-            border: 5px solid rgba(255, 255, 255, 0.2);
-            border-top-color: #fff; border-radius: 50%;
-            width: 50px; height: 50px;
-            animation: spin 1s linear infinite;
-        }
+        body { font-family: "Open Sans", sans-serif; background-color: #000; -webkit-font-smoothing: none; -moz-osx-font-smoothing: grayscale; font-smooth: never; }
+        p, span, button, div, input { line-height: 1.5; }
+        #app-container.fullscreen-mode { position: fixed; inset: 0; width: 100vw; height: 100vh; border-radius: 0; }
+        #player-wrapper { position: relative; width: 100%; height: 100%; max-width: 90vw; max-height: 75vh; display: flex; align-items: center; justify-content: center; }
+        #app-container.normal-mode { width: 100%; height: 100%; position: relative; z-index: 2; }
+        .loader { border: 5px solid rgba(255, 255, 255, 0.2); border-top-color: #fff; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        
         #main-player-video::-webkit-media-controls { display: none !important; }
         #main-player-video { -webkit-mask-image: -webkit-radial-gradient(white, black); }
-
-        .btn-glass {
-            background-color: rgba(30, 30, 30, 0.25);
-            backdrop-filter: blur(10px) saturate(120%);
-            -webkit-backdrop-filter: blur(12px) saturate(150%);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            transition: all 0.2s ease-in-out, transform 0.1s ease;
-        }
-        .btn-glass:hover {
-            background-color: rgba(30, 30, 30, 0.4);
-            border-color: rgba(255, 255, 255, 0.25);
-        }
-        .btn-glass:active {
-            transform: scale(0.95);
-        }
-
-        .text-blend-overlay {
-            color: white;
-            mix-blend-mode: overlay;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-            transform: translateZ(0); 
-        }
-        .quality-filter-btn.active {
-            background-color: #000;
-            color: #ffff;
-            font-weight: bold;
-        }
-
-        #ambient-canvas {
-            position: absolute;
-            top: 60%; 
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            height: 40%; 
-            z-index: 1; 
-            filter: blur(80px);
-            opacity: 0;
-            transition: opacity 0.7s ease-in-out;
-        }
-        #ambient-canvas.active {
-            opacity: 1;
-        }
-
-        .popover-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            width: 100%;
-            padding: 0.5rem 0.75rem;
-            border-radius: 0.375rem;
-            font-size: 0.75rem;
-            text-align: left;
-            transition: background-color 0.2s, transform 0.1s ease;
-        }
-        .popover-btn:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        .popover-btn.active {
-            background-color: rgba(0, 0, 0, 0.3);
-            font-weight: bold;
-        }
-        .popover-btn:active {
-            transform: scale(0.97);
-        }
-        .popover-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        .popover-btn svg {
-            flex-shrink: 0;
-        }
-
-        .hdr-effect {
-            filter: contrast(115%) saturate(120%) brightness(105%);
-        }
-
+        .btn-glass { background-color: rgba(30, 30, 30, 0.25); backdrop-filter: blur(12px) saturate(150%); -webkit-backdrop-filter: blur(12px) saturate(150%); border: 1px solid rgba(255, 255, 255, 0.15); transition: all 0.2s ease-in-out, transform 0.1s ease; }
+        .btn-glass:hover { background-color: rgba(30, 30, 30, 0.4); border-color: rgba(255, 255, 255, 0.25); }
+        .btn-glass:active { transform: scale(0.95); }
+        .text-blend-overlay { color: white; mix-blend-mode: overlay; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); transform: translateZ(0); }
+        .quality-filter-btn.active, .popover-btn.active { background-color: rgba(0, 0, 0, 0.3); font-weight: bold; }
+        #ambient-canvas { position: absolute; top: 60%; left: 50%; transform: translateX(-50%); width: 90%; height: 40%; z-index: 1; filter: blur(80px); opacity: 0; transition: opacity 0.7s ease-in-out; }
+        #ambient-canvas.active { opacity: 1; }
+        .popover-btn { display: flex; align-items: center; gap: 0.75rem; width: 100%; padding: 0.5rem 0.75rem; border-radius: 0.375rem; font-size: 0.75rem; text-align: left; transition: background-color 0.2s, transform 0.1s ease; }
+        .popover-btn:hover { background-color: rgba(255, 255, 255, 0.1); }
+        .popover-btn:active { transform: scale(0.97); }
+        .popover-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .popover-btn svg { flex-shrink: 0; }
+        .hdr-effect { filter: contrast(115%) saturate(120%) brightness(105%); }
+        #favorite-btn.favorited svg { fill: #3b82f6; stroke: #3b82f6; } /* Blue color for favorited */
     </style>
 </head>
 <body class="bg-black text-white overflow-hidden">
-    
-    <!-- REMOVED: pip-canvas and pip-video are no longer needed -->
+
+    <!-- Auth Header -->
+    <div id="auth-header" class="absolute top-0 left-0 w-full p-4 z-50 flex justify-end items-center gap-4">
+        <button id="open-auth-modal-btn" class="btn-glass px-4 py-2 text-xs font-bold rounded-lg">Login</button>
+        <div id="user-info" class="hidden items-center gap-3">
+            <span id="user-email-display" class="text-xs text-white/70"></span>
+            <button id="logout-btn" class="btn-glass px-4 py-2 text-xs font-bold rounded-lg">Logout</button>
+        </div>
+    </div>
 
     <!-- Password Protection Overlay -->
     <div id="password-overlay" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
@@ -142,16 +52,55 @@
             <p class="text-xs text-white/50 mb-6 text-blend-overlay">You need a password to access this page.</p>
             <input id="password-input" type="password" class="btn-glass w-full p-3 text-center text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent placeholder:text-white/40" placeholder="••••••••">
             <p id="password-error" class="text-red-400 text-xs mt-2 hidden">Incorrect password. Please try again.</p>
-            <button id="submit-password-btn" class="btn-glass mt-6 w-full py-3 rounded-lg text-white font-bold">
-                Unlock
-            </button>
+            <button id="submit-password-btn" class="btn-glass mt-6 w-full py-3 rounded-lg text-white font-bold">Unlock</button>
+        </div>
+    </div>
+
+    <!-- Auth Modals -->
+    <div id="auth-modal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-[101] flex items-center justify-center p-4">
+        <div class="btn-glass rounded-lg shadow-2xl p-8 w-full max-w-sm text-white relative">
+            <button id="close-auth-modal-btn" class="absolute top-2 right-2 text-white/50 hover:text-white p-2 text-2xl leading-none">&times;</button>
+            <!-- Login Form -->
+            <div id="login-form">
+                <h2 class="text-2xl font-bold mb-4 text-center text-blend-overlay">Login</h2>
+                <input id="login-email" type="email" class="btn-glass w-full p-3 mb-4 text-center text-white rounded-lg placeholder:text-white/40" placeholder="Email">
+                <input id="login-password" type="password" class="btn-glass w-full p-3 mb-4 text-center text-white rounded-lg placeholder:text-white/40" placeholder="Password">
+                <p id="login-error-msg" class="text-red-400 text-xs mb-4 text-center hidden"></p>
+                <button id="login-btn" class="btn-glass w-full py-3 rounded-lg font-bold">Login</button>
+                <p class="text-xs text-center mt-4">No account? <button id="show-signup-btn" class="font-bold hover:underline">Sign Up</button></p>
+            </div>
+            <!-- Signup Form -->
+            <div id="signup-form" class="hidden">
+                <h2 class="text-2xl font-bold mb-4 text-center text-blend-overlay">Create Account</h2>
+                <input id="signup-email" type="email" class="btn-glass w-full p-3 mb-4 text-center text-white rounded-lg placeholder:text-white/40" placeholder="Email">
+                <input id="signup-password" type="password" class="btn-glass w-full p-3 mb-4 text-center text-white rounded-lg placeholder:text-white/40" placeholder="Password">
+                 <p id="signup-error-msg" class="text-red-400 text-xs mb-4 text-center hidden"></p>
+                <button id="signup-btn" class="btn-glass w-full py-3 rounded-lg font-bold">Sign Up</button>
+                <p class="text-xs text-center mt-4">Already have an account? <button id="show-login-btn" class="font-bold hover:underline">Login</button></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Favorites Modal -->
+    <div id="favorites-modal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-[101] flex items-center justify-center p-4">
+        <div class="btn-glass rounded-lg shadow-2xl p-6 w-full max-w-lg text-white flex flex-col max-h-[80vh]">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-blend-overlay">My Favorites</h2>
+                <button id="close-favorites-modal-btn" class="text-white/50 hover:text-white p-2 text-2xl leading-none">&times;</button>
+            </div>
+            <div id="favorites-list" class="flex-grow overflow-y-auto space-y-2 pr-2">
+                <!-- Favorite items will be injected here -->
+            </div>
+            <div class="mt-4 pt-4 border-t border-white/10">
+                 <button id="play-all-favorites-btn" class="btn-glass w-full py-3 rounded-lg font-bold">Play All</button>
+            </div>
         </div>
     </div>
 
 
+    <!-- Main Content -->
     <div id="view-wrapper" class="w-full h-screen flex items-center justify-center">
         <div id="layout-container" class="flex flex-col items-center justify-center gap-6">
-            
             <div id="top-nav-controls" class="hidden w-full max-w-lg">
                 <div class="flex items-center justify-between px-2">
                     <div id="top-prev-btn" class="cursor-pointer text-white/70 hover:text-white transition-colors p-2"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></div>
@@ -164,7 +113,6 @@
                 <canvas id="ambient-canvas"></canvas>
                 <div id="app-container" class="relative overflow-hidden">
                     <video id="main-player-video" class="w-full h-full transition-all duration-300" preload="auto" playsinline crossorigin="anonymous"></video>
-                    
                     <video class="preload-player hidden" preload="auto" playsinline muted crossorigin="anonymous"></video>
                     <video class="preload-player hidden" preload="auto" playsinline muted crossorigin="anonymous"></video>
                     <video class="preload-player hidden" preload="auto" playsinline muted crossorigin="anonymous"></video>
@@ -177,11 +125,12 @@
                         <div id="quality-menu-container" class="absolute top-4 left-4">
                             <div id="quality-menu-btn" class="btn-glass px-3 py-2 rounded-md hidden text-xs font-bold text-blend-overlay cursor-pointer"></div>
                             <div id="quality-popover" class="hidden absolute top-full mt-2 w-40 btn-glass rounded-lg shadow-2xl p-2 z-40">
-                                <div class="flex flex-col gap-1">
+                                <div id="quality-filter-list" class="flex flex-col gap-1">
                                     <button data-filter="All" class="quality-filter-btn text-left w-full px-3 py-2 rounded-md hover:bg-white/10 text-xs text-blend-overlay">All</button>
                                     <button data-filter="Pomf" class="quality-filter-btn text-left w-full px-3 py-2 rounded-md hover:bg-white/10 text-xs text-blend-overlay">Pomf</button>
                                     <button data-filter="Twitter" class="quality-filter-btn text-left w-full px-3 py-2 rounded-md hover:bg-white/10 text-xs text-blend-overlay">Twitter</button>
                                     <button data-filter="TwitterFHD" class="quality-filter-btn text-left w-full px-3 py-2 rounded-md hover:bg-white/10 text-xs text-blend-overlay">Twitter FHD</button>
+                                    <button data-filter="Favorites" id="favorites-filter-btn" class="hidden quality-filter-btn text-left w-full px-3 py-2 rounded-md hover:bg-white/10 text-xs text-blend-overlay">Favorites</button>
                                 </div>
                                 <hr class="border-white/10 my-2">
                                 <button id="info-btn" class="text-left w-full px-3 py-2 rounded-md hover:bg-white/10 text-xs text-blend-overlay flex items-center justify-center gap-2">
@@ -191,7 +140,10 @@
                             </div>
                         </div>
 
-                        <div id="top-right-button-container" class="absolute top-4 right-4 flex items-center gap-2">
+                        <div id="top-right-button-container" class="absolute top-16 right-4 flex items-center gap-2">
+                            <button id="favorite-btn" title="Save to Favorites" class="hidden btn-glass cursor-pointer p-2 rounded-full text-white/70 hover:text-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                            </button>
                             <div id="browser-fullscreen-btn" class="btn-glass cursor-pointer p-2 rounded-full text-white/70 hover:text-white">
                                 <svg id="icon-fullscreen-enter" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
                                 <svg id="icon-fullscreen-exit" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><path d="M4 14h6v6"/><path d="M20 10h-6V4"/><path d="M14 10l7-7"/><path d="M3 21l7-7"/></svg>
@@ -212,6 +164,10 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
                                 </button>
                                 <div id="more-popover" class="hidden absolute top-full right-0 mt-2 w-56 btn-glass rounded-lg shadow-2xl p-2 z-40">
+                                    <button id="show-favorites-btn" class="hidden popover-btn text-blend-overlay">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                                        <span>My Favorites</span>
+                                    </button>
                                     <button id="random-shot-btn" class="popover-btn text-blend-overlay">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
                                         <span>Another Random Shot</span>
@@ -293,574 +249,153 @@
         </div>
     </div>
 
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
     <script>
-        // --- DOM ELEMENT SELECTION ---
-        const passwordOverlay = document.getElementById('password-overlay');
-        const passwordInput = document.getElementById('password-input');
-        const submitPasswordBtn = document.getElementById('submit-password-btn');
-        const passwordError = document.getElementById('password-error');
-        const mainPlayer = document.getElementById('main-player-video');
-        const appContainer = document.getElementById('app-container');
-        const playerWrapper = document.getElementById('player-wrapper');
-        const layoutContainer = document.getElementById('layout-container');
-        const preloadPlayers = document.querySelectorAll('.preload-player');
-        const playFullBtn = document.getElementById('play-full-btn');
-        const toggleViewBtn = document.getElementById('toggle-view-btn');
-        const toggleViewText = document.getElementById('toggle-view-text');
-        const loader = document.getElementById('loader');
-        const errorMessage = document.getElementById('error-message');
-        const playOverlay = document.getElementById('play-overlay');
-        const progressBar = document.getElementById('progress-bar');
-        const videoModal = document.getElementById('video-modal');
-        const modalPlayer = document.getElementById('modal-player');
-        const closeModalBtn = document.getElementById('close-modal-btn');
-        const copyLinkBtn = document.getElementById('copy-link-btn');
-        const bottomControls = document.getElementById('bottom-controls');
-        const fullscreenNavControls = document.getElementById('fullscreen-nav-controls');
-        const topNavControls = document.getElementById('top-nav-controls');
-        const fsPrevBtn = document.getElementById('fs-prev-btn');
-        const fsNextBtn = document.getElementById('fs-next-btn');
-        const topPrevBtn = document.getElementById('top-prev-btn');
-        const topNextBtn = document.getElementById('top-next-btn');
-        const muteBtn = document.getElementById('mute-btn');
-        const iconUnmuted = document.getElementById('icon-unmuted');
-        const iconMuted = document.getElementById('icon-muted');
-        const loopBtn = document.getElementById('loop-btn');
-        const hideUiBtn = document.getElementById('hide-ui-btn');
-        const iconEyeVisible = document.getElementById('icon-eye-visible');
-        const iconEyeHidden = document.getElementById('icon-eye-hidden');
-        const qualityMenuBtn = document.getElementById('quality-menu-btn');
-        const qualityPopover = document.getElementById('quality-popover');
-        const qualityFilterBtns = document.querySelectorAll('.quality-filter-btn');
-        const infoBtn = document.getElementById('info-btn');
-        const topRightButtonContainer = document.getElementById('top-right-button-container');
-        const miniViewButtons = document.getElementById('mini-view-buttons');
-        const statsModal = document.getElementById('stats-modal');
-        const closeStatsModalBtn = document.getElementById('close-stats-modal-btn');
-        const statsTotal = document.getElementById('stats-total');
-        const statsPomf = document.getElementById('stats-pomf');
-        const statsTwitter = document.getElementById('stats-twitter');
-        const statsTwitterFhd = document.getElementById('stats-twitter-fhd');
-        const ambientCanvas = document.getElementById('ambient-canvas');
-        const ambientCtx = ambientCanvas.getContext('2d');
-        const browserFullscreenBtn = document.getElementById('browser-fullscreen-btn');
-        const iconFullscreenEnter = document.getElementById('icon-fullscreen-enter');
-        const iconFullscreenExit = document.getElementById('icon-fullscreen-exit');
-        const moreMenuBtn = document.getElementById('more-menu-btn');
-        const morePopover = document.getElementById('more-popover');
-        const togglePanBtn = document.getElementById('toggle-pan-btn');
-        const toggleHdrBtn = document.getElementById('toggle-hdr-btn');
-        const panControlsContainer = document.getElementById('pan-controls-container');
-        const panLeftBtn = document.getElementById('pan-left-btn');
-        const panRightBtn = document.getElementById('pan-right-btn');
-        const pipBtn = document.getElementById('pip-btn');
-        const randomShotBtn = document.getElementById('random-shot-btn');
-        // REMOVED: PiP canvas/video elements are no longer selected
-
-        // --- STATE VARIABLES ---
-        let originalVideoList = [], videoList = [], history = [], currentIndex = -1, currentTrailerStartTime = 0;
-        let isFullScreen = true, isLooping = false, isUiHidden = false, currentFilter = 'All';
-        let ambientAnimationId = null;
-        let preloadingUrls = new Set();
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- CONSTANTS & CONFIG ---
+        const firebaseConfig = { apiKey: "AIzaSyB6IdPKhMAAFrLLogwlHCan9G6uX_XD0d8", authDomain: "rave-clone-f7b4f.firebaseapp.com", projectId: "rave-clone-f7b4f", storageBucket: "rave-clone-f7b4f.appspot.com", messagingSenderId: "671814768020", appId: "1:671814768020:web:8dbd18a4056ceaacba6b81" };
         const VIDEO_LIST_URL = 'https://raw.githubusercontent.com/Aminoxdag/My-links/refs/heads/main/merged_list.txt';
         const TRAILER_DURATION_MS = 30000;
         const CORRECT_PASSWORD = '1432145';
-        let isPanControlsActive = false;
-        let isHdrActive = false;
-        let currentPanPosition = 50;
-        // REMOVED: pipAnimationId is no longer needed
 
-        // --- AMBIENT MODE LOGIC ---
-        function drawAmbientFrame() {
-            if (isFullScreen || mainPlayer.paused || !ambientCtx) {
-                if (ambientAnimationId) cancelAnimationFrame(ambientAnimationId);
-                ambientAnimationId = null;
-                return;
-            }
-            // Add a try-catch block here because drawing a cross-origin video can throw an error
-            try {
-                ambientCtx.drawImage(mainPlayer, 0, 0, ambientCanvas.width, ambientCanvas.height);
-            } catch (e) {
-                // If there's a CORS error, we can't draw the ambient frame. Stop trying.
-                console.warn("Could not draw ambient frame due to CORS policy.", e);
-                if (ambientAnimationId) cancelAnimationFrame(ambientAnimationId);
-                ambientAnimationId = null;
-                ambientCanvas.classList.remove('active'); // Hide the canvas
-                return;
-            }
-            ambientAnimationId = requestAnimationFrame(drawAmbientFrame);
-        }
-
-        // --- CORE FUNCTIONS ---
-        function stopTrailer() {
-            mainPlayer.removeEventListener('timeupdate', handleTrailerProgress);
-            progressBar.style.transition = 'none';
-            progressBar.style.width = '0%';
-            progressBar.offsetHeight; // Trigger reflow
-            progressBar.style.transition = '';
-        }
+        // --- FIREBASE INITIALIZATION ---
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
         
-        function updateNavButtons() {
-            const showPrev = history.length > 1;
-            fsPrevBtn.style.visibility = showPrev ? 'visible' : 'hidden';
-            topPrevBtn.style.visibility = showPrev ? 'visible' : 'hidden';
-        }
+        // --- DOM ELEMENT SELECTION ---
+        const passwordOverlay = document.getElementById('password-overlay'), passwordInput = document.getElementById('password-input'), submitPasswordBtn = document.getElementById('submit-password-btn'), passwordError = document.getElementById('password-error'), mainPlayer = document.getElementById('main-player-video'), appContainer = document.getElementById('app-container'), playerWrapper = document.getElementById('player-wrapper'), layoutContainer = document.getElementById('layout-container'), preloadPlayers = document.querySelectorAll('.preload-player'), playFullBtn = document.getElementById('play-full-btn'), toggleViewBtn = document.getElementById('toggle-view-btn'), toggleViewText = document.getElementById('toggle-view-text'), loader = document.getElementById('loader'), errorMessage = document.getElementById('error-message'), playOverlay = document.getElementById('play-overlay'), progressBar = document.getElementById('progress-bar'), videoModal = document.getElementById('video-modal'), modalPlayer = document.getElementById('modal-player'), closeModalBtn = document.getElementById('close-modal-btn'), copyLinkBtn = document.getElementById('copy-link-btn'), bottomControls = document.getElementById('bottom-controls'), fullscreenNavControls = document.getElementById('fullscreen-nav-controls'), topNavControls = document.getElementById('top-nav-controls'), fsPrevBtn = document.getElementById('fs-prev-btn'), fsNextBtn = document.getElementById('fs-next-btn'), topPrevBtn = document.getElementById('top-prev-btn'), topNextBtn = document.getElementById('top-next-btn'), muteBtn = document.getElementById('mute-btn'), iconUnmuted = document.getElementById('icon-unmuted'), iconMuted = document.getElementById('icon-muted'), loopBtn = document.getElementById('loop-btn'), hideUiBtn = document.getElementById('hide-ui-btn'), iconEyeVisible = document.getElementById('icon-eye-visible'), iconEyeHidden = document.getElementById('icon-eye-hidden'), qualityMenuBtn = document.getElementById('quality-menu-btn'), qualityPopover = document.getElementById('quality-popover'), qualityFilterList = document.getElementById('quality-filter-list'), infoBtn = document.getElementById('info-btn'), topRightButtonContainer = document.getElementById('top-right-button-container'), miniViewButtons = document.getElementById('mini-view-buttons'), statsModal = document.getElementById('stats-modal'), closeStatsModalBtn = document.getElementById('close-stats-modal-btn'), statsTotal = document.getElementById('stats-total'), statsPomf = document.getElementById('stats-pomf'), statsTwitter = document.getElementById('stats-twitter'), statsTwitterFhd = document.getElementById('stats-twitter-fhd'), ambientCanvas = document.getElementById('ambient-canvas'), ambientCtx = ambientCanvas.getContext('2d'), browserFullscreenBtn = document.getElementById('browser-fullscreen-btn'), iconFullscreenEnter = document.getElementById('icon-fullscreen-enter'), iconFullscreenExit = document.getElementById('icon-fullscreen-exit'), moreMenuBtn = document.getElementById('more-menu-btn'), morePopover = document.getElementById('more-popover'), togglePanBtn = document.getElementById('toggle-pan-btn'), toggleHdrBtn = document.getElementById('toggle-hdr-btn'), panControlsContainer = document.getElementById('pan-controls-container'), panLeftBtn = document.getElementById('pan-left-btn'), panRightBtn = document.getElementById('pan-right-btn'), pipBtn = document.getElementById('pip-btn'), randomShotBtn = document.getElementById('random-shot-btn'), favoriteBtn = document.getElementById('favorite-btn'), favoritesFilterBtn = document.getElementById('favorites-filter-btn'), authModal = document.getElementById('auth-modal'), closeAuthModalBtn = document.getElementById('close-auth-modal-btn'), openAuthModalBtn = document.getElementById('open-auth-modal-btn'), loginForm = document.getElementById('login-form'), signupForm = document.getElementById('signup-form'), showSignupBtn = document.getElementById('show-signup-btn'), showLoginBtn = document.getElementById('show-login-btn'), loginBtn = document.getElementById('login-btn'), signupBtn = document.getElementById('signup-btn'), loginEmail = document.getElementById('login-email'), loginPassword = document.getElementById('login-password'), signupEmail = document.getElementById('signup-email'), signupPassword = document.getElementById('signup-password'), loginErrorMsg = document.getElementById('login-error-msg'), signupErrorMsg = document.getElementById('signup-error-msg'), userInfo = document.getElementById('user-info'), userEmailDisplay = document.getElementById('user-email-display'), logoutBtn = document.getElementById('logout-btn'), favoritesModal = document.getElementById('favorites-modal'), closeFavoritesModalBtn = document.getElementById('close-favorites-modal-btn'), favoritesList = document.getElementById('favorites-list'), playAllFavoritesBtn = document.getElementById('play-all-favorites-btn'), showFavoritesBtn = document.getElementById('show-favorites-btn');
 
-        function updateMuteIcon() {
-            iconMuted.classList.toggle('hidden', !mainPlayer.muted);
-            iconUnmuted.classList.toggle('hidden', mainPlayer.muted);
-        }
+        // --- STATE VARIABLES ---
+        let originalVideoList = [], videoList = [], history = [], userFavorites = [], currentIndex = -1, currentTrailerStartTime = 0;
+        let isFullScreen = true, isLooping = false, isUiHidden = false, currentFilter = 'All';
+        let ambientAnimationId = null, currentUser = null, isPanControlsActive = false, isHdrActive = false, currentPanPosition = 50;
+        let preloadingUrls = new Set();
 
-        function updatePanControlsVisibility() {
-            const isMoreMenuOpen = !morePopover.classList.contains('hidden');
-            const shouldBeVisible = isFullScreen && isPanControlsActive && !isUiHidden && !isMoreMenuOpen;
-            panControlsContainer.classList.toggle('hidden', !shouldBeVisible);
-        }
-
-        // --- UI MODE MANAGEMENT ---
-        function setViewMode(fullscreen) {
-            isFullScreen = fullscreen;
-            mainPlayer.classList.toggle('object-cover', isFullScreen);
-            mainPlayer.classList.toggle('object-contain', !isFullScreen);
-
-            if (isFullScreen) {
-                appContainer.style.aspectRatio = 'auto';
-                appContainer.classList.remove('normal-mode', 'rounded-lg');
-                appContainer.classList.add('fullscreen-mode');
-                playerWrapper.style.display = 'none';
-                layoutContainer.prepend(appContainer);
-                ambientCanvas.classList.remove('active');
-                if (ambientAnimationId) cancelAnimationFrame(ambientAnimationId);
-                fullscreenNavControls.classList.remove('hidden');
-                topNavControls.classList.add('hidden');
-                toggleViewText.textContent = 'Mini View';
-                appContainer.appendChild(bottomControls);
-                bottomControls.classList.add('absolute', 'bottom-8', 'left-1/2', '-translate-x-1/2');
-                topRightButtonContainer.append(browserFullscreenBtn, hideUiBtn, loopBtn, muteBtn, moreMenuBtn.parentElement);
+        // --- FUNCTION DEFINITIONS ---
+        const setErrorMessage = (element, message) => { element.textContent = message; element.classList.remove('hidden'); };
+        const clearErrorMessages = () => { loginErrorMsg.classList.add('hidden'); signupErrorMsg.classList.add('hidden'); };
+        const handleSignUp = () => { const email = signupEmail.value; const password = signupPassword.value; auth.createUserWithEmailAndPassword(email, password).then(() => authModal.classList.add('hidden')).catch(error => setErrorMessage(signupErrorMsg, error.message)); };
+        const handleLogin = () => { const email = loginEmail.value; const password = loginPassword.value; auth.signInWithEmailAndPassword(email, password).then(() => authModal.classList.add('hidden')).catch(error => setErrorMessage(loginErrorMsg, error.message)); };
+        const handleLogout = () => auth.signOut();
+        const getFavorites = async () => { if (!currentUser) return; const doc = await db.collection('users').doc(currentUser.uid).get(); userFavorites = (doc.exists && doc.data().favorites) ? doc.data().favorites : []; updateFavoriteIcon(); };
+        const toggleFavorite = async () => { if (!currentUser || !mainPlayer.src) return; const videoUrl = mainPlayer.src; const userDocRef = db.collection('users').doc(currentUser.uid); if (userFavorites.includes(videoUrl)) { userFavorites = userFavorites.filter(url => url !== videoUrl); await userDocRef.update({ favorites: firebase.firestore.FieldValue.arrayRemove(videoUrl) }); } else { userFavorites.push(videoUrl); await userDocRef.set({ favorites: firebase.firestore.FieldValue.arrayUnion(videoUrl) }, { merge: true }); } updateFavoriteIcon(); };
+        const updateFavoriteIcon = () => { if (!currentUser || !mainPlayer.src) { favoriteBtn.classList.remove('favorited'); return; } favoriteBtn.classList.toggle('favorited', userFavorites.includes(mainPlayer.src)); };
+        const enterPip = async () => { if (!document.pictureInPictureEnabled || mainPlayer.paused || !mainPlayer.duration) { console.log("PiP cannot be started."); return; } try { if (document.pictureInPictureElement !== mainPlayer) { await mainPlayer.requestPictureInPicture(); } } catch (error) { console.error("PiP Error:", error); } };
+        const stopTrailer = () => { mainPlayer.removeEventListener('timeupdate', handleTrailerProgress); progressBar.style.transition = 'none'; progressBar.style.width = '0%'; progressBar.offsetHeight; progressBar.style.transition = ''; };
+        const updateNavButtons = () => { const showPrev = history.length > 1; fsPrevBtn.style.visibility = showPrev ? 'visible' : 'hidden'; topPrevBtn.style.visibility = showPrev ? 'visible' : 'hidden'; };
+        const updateMuteIcon = () => { iconMuted.classList.toggle('hidden', !mainPlayer.muted); iconUnmuted.classList.toggle('hidden', mainPlayer.muted); };
+        const updatePanControlsVisibility = () => { const isMoreMenuOpen = !morePopover.classList.contains('hidden'); const shouldBeVisible = isFullScreen && isPanControlsActive && !isUiHidden && !isMoreMenuOpen; panControlsContainer.classList.toggle('hidden', !shouldBeVisible); };
+        const fetchVideoList = async () => { try { const response = await fetch(VIDEO_LIST_URL, { cache: "no-store" }); const text = await response.text(); originalVideoList = text.split('\n').filter(url => url.trim().startsWith('http')).map(url => url.trim()); if (originalVideoList.length === 0) throw new Error('Video list is empty.'); } catch (error) { loader.innerHTML = '<p class="text-red-400 text-center p-4">Failed to load video list.</p>'; } };
+        const handleTrailerProgress = () => { if (mainPlayer.paused || mainPlayer.seeking) return; const elapsedSeconds = mainPlayer.currentTime - currentTrailerStartTime; const trailerDurationSeconds = TRAILER_DURATION_MS / 1000; if (elapsedSeconds >= 0) { const progress = Math.min((elapsedSeconds / trailerDurationSeconds) * 100, 100); progressBar.style.width = `${progress}%`; } if (elapsedSeconds >= trailerDurationSeconds) { stopTrailer(); if (isLooping) { replayTrailer(); } else { showNextVideo(); } } };
+        const drawAmbientFrame = () => { if (isFullScreen || mainPlayer.paused || !ambientCtx) { if (ambientAnimationId) cancelAnimationFrame(ambientAnimationId); ambientAnimationId = null; return; } try { ambientCtx.drawImage(mainPlayer, 0, 0, ambientCanvas.width, ambientCanvas.height); } catch (e) { console.warn("Could not draw ambient frame due to CORS policy.", e); if (ambientAnimationId) cancelAnimationFrame(ambientAnimationId); ambientAnimationId = null; ambientCanvas.classList.remove('active'); return; } ambientAnimationId = requestAnimationFrame(drawAmbientFrame); };
+        const startTrailerPlayback = () => { playOverlay.classList.add('hidden'); stopTrailer(); drawAmbientFrame(); mainPlayer.addEventListener('timeupdate', handleTrailerProgress); };
+        const applyFilter = (filter) => { currentFilter = filter; switch (filter) { case 'Pomf': videoList = originalVideoList.filter(url => url.includes('pomf2.lain.la')); break; case 'Twitter': videoList = originalVideoList.filter(url => url.includes('video.twimg.com/amplify_video')); break; case 'TwitterFHD': videoList = originalVideoList.filter(url => url.includes('video.twimg.com/amplify_video') && url.includes('1080')); break; case 'Favorites': videoList = userFavorites.length > 0 ? [...userFavorites] : []; break; default: videoList = [...originalVideoList]; break; } document.querySelectorAll('.quality-filter-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.filter === currentFilter)); history = []; updateNavButtons(); preloadingUrls.clear(); preloadPlayers.forEach(p => p.src = ''); };
+        const getNewRandomIndex = (excludeUrls = []) => { if (videoList.length <= 1) return 0; let newIndex, newUrl; const combinedExcludes = new Set([...excludeUrls, mainPlayer.src]); do { newIndex = Math.floor(Math.random() * videoList.length); newUrl = videoList[newIndex]; } while (combinedExcludes.has(newUrl) && combinedExcludes.size < videoList.length); return newIndex; };
+        const managePreloading = () => { if (videoList.length < 2) return; preloadingUrls.clear(); preloadingUrls.add(mainPlayer.src); preloadPlayers.forEach(p => { if (p.src) preloadingUrls.add(p.src); }); preloadPlayers.forEach(player => { if (!player.src || player.readyState === 4) { const newIndex = getNewRandomIndex(Array.from(preloadingUrls)); const newUrl = videoList[newIndex]; if (newUrl) { player.src = newUrl; player.load(); preloadingUrls.add(newUrl); } } }); };
+        const getReadyPreloadedVideo = () => { for (const player of preloadPlayers) { if (player.src && player.readyState >= 3) { const readyUrl = player.src; player.src = ''; return readyUrl; } } return null; };
+        const setViewMode = (fullscreen) => { isFullScreen = fullscreen; mainPlayer.classList.toggle('object-cover', isFullScreen); mainPlayer.classList.toggle('object-contain', !isFullScreen); if (isFullScreen) { appContainer.style.aspectRatio = 'auto'; appContainer.classList.remove('normal-mode', 'rounded-lg'); appContainer.classList.add('fullscreen-mode'); playerWrapper.style.display = 'none'; layoutContainer.prepend(appContainer); ambientCanvas.classList.remove('active'); if (ambientAnimationId) cancelAnimationFrame(ambientAnimationId); fullscreenNavControls.classList.remove('hidden'); topNavControls.classList.add('hidden'); toggleViewText.textContent = 'Mini View'; appContainer.appendChild(bottomControls); bottomControls.classList.add('absolute', 'bottom-8', 'left-1/2', '-translate-x-1/2'); topRightButtonContainer.append(favoriteBtn, browserFullscreenBtn, hideUiBtn, loopBtn, muteBtn, moreMenuBtn.parentElement); } else { if (mainPlayer.videoWidth > 0) { playerWrapper.style.aspectRatio = mainPlayer.videoWidth / mainPlayer.videoHeight; } else { playerWrapper.style.aspectRatio = '16 / 9'; } appContainer.style.aspectRatio = ''; appContainer.classList.remove('fullscreen-mode'); appContainer.classList.add('normal-mode', 'rounded-lg'); playerWrapper.style.display = 'flex'; playerWrapper.prepend(appContainer); ambientCanvas.classList.add('active'); drawAmbientFrame(); fullscreenNavControls.classList.add('hidden'); topNavControls.classList.remove('hidden'); toggleViewText.textContent = 'Fullscreen'; layoutContainer.appendChild(bottomControls); bottomControls.classList.remove('absolute', 'bottom-8', 'left-1/2', '-translate-x-1/2'); miniViewButtons.append(favoriteBtn, browserFullscreenBtn, hideUiBtn, loopBtn, muteBtn, moreMenuBtn.parentElement); mainPlayer.style.objectPosition = '50% 50%'; } updatePanControlsVisibility(); };
+        const playTrailer = (indexOrUrl, isFromHistory = false) => { let url, index; if (typeof indexOrUrl === 'string') { url = indexOrUrl; index = videoList.indexOf(url); if (index === -1) { index = getNewRandomIndex(); url = videoList[index]; } } else { index = indexOrUrl; url = videoList[index]; } if (index === undefined || index < 0 || index >= videoList.length || !url) { if (currentFilter === 'Favorites') { errorMessage.classList.remove('hidden'); errorMessage.querySelector('p').textContent = `Your favorites list is empty.`; errorMessage.querySelector('p:last-child').textContent = 'Save some videos first!'; loader.classList.add('hidden'); } return; } stopTrailer(); errorMessage.classList.add('hidden'); playOverlay.classList.add('hidden'); loader.classList.remove('hidden'); mainPlayer.style.opacity = '0'; qualityMenuBtn.classList.add('hidden'); currentPanPosition = 50; mainPlayer.style.objectPosition = `${currentPanPosition}% 50%`; currentIndex = index; if (!isFromHistory) { history.push(currentIndex); } updateNavButtons(); updateFavoriteIcon(); const onSeeked = () => { mainPlayer.removeEventListener('seeked', onSeeked); loader.classList.add('hidden'); mainPlayer.style.opacity = '1'; mainPlayer.play().then(startTrailerPlayback).catch(error => { setTimeout(() => { if (mainPlayer.paused) playOverlay.classList.remove('hidden'); else startTrailerPlayback(); }, 150); }); }; const onLoadedMetadata = () => { mainPlayer.removeEventListener('loadedmetadata', onLoadedMetadata); ambientCanvas.width = mainPlayer.videoWidth / 10; ambientCanvas.height = mainPlayer.videoHeight / 10; setViewMode(isFullScreen); const videoSrc = mainPlayer.src; const videoHeight = mainPlayer.videoHeight; let qualityText = ''; if (videoSrc.includes('pomf')) qualityText = 'Pomf'; else if (videoSrc.includes('1080')) qualityText = '1080p'; else if (videoHeight >= 720) qualityText = '720p'; else if (videoHeight >= 480) qualityText = '480p'; else if (videoHeight > 0) qualityText = `${videoHeight}p`; if (qualityText) { qualityMenuBtn.textContent = qualityText; qualityMenuBtn.classList.remove('hidden'); } currentTrailerStartTime = Math.random() * Math.max(0, mainPlayer.duration - (TRAILER_DURATION_MS / 1000)); mainPlayer.currentTime = currentTrailerStartTime; mainPlayer.addEventListener('seeked', onSeeked); }; mainPlayer.onloadeddata = null; mainPlayer.addEventListener('loadedmetadata', onLoadedMetadata); mainPlayer.onerror = () => { loader.classList.add('hidden'); errorMessage.classList.remove('hidden'); errorMessage.querySelector('p').textContent = 'Error loading video.'; errorMessage.querySelector('p:last-child').textContent = 'Trying another video.'; setTimeout(showNextVideo, 2000); }; mainPlayer.src = url; managePreloading(); if (history.length <= 1) mainPlayer.muted = true; updateMuteIcon(); updateFavoriteIcon(); };
+        const checkPassword = () => { if (passwordInput.value === CORRECT_PASSWORD) { sessionStorage.setItem('passwordEntered', 'true'); passwordOverlay.classList.add('hidden'); initApp(); } else { passwordError.classList.remove('hidden'); passwordInput.value = ''; passwordInput.focus(); } };
+        const initApp = async () => { await fetchVideoList(); if (originalVideoList.length > 0) { pipBtn.disabled = !document.pictureInPictureEnabled; setViewMode(true); applyFilterAndPlay('All'); } else { playerWrapper.classList.add('hidden'); } };
+        const applyFilterAndPlay = (filter) => { applyFilter(filter); qualityPopover.classList.add('hidden'); if (videoList.length > 0) { playTrailer(getNewRandomIndex()); } else { loader.classList.add('hidden'); errorMessage.classList.remove('hidden'); errorMessage.querySelector('p').textContent = `No videos found for "${filter}" filter.`; if(filter === 'Favorites') { errorMessage.querySelector('p').textContent = `Your favorites list is empty.`; } errorMessage.querySelector('p:last-child').textContent = ''; stopTrailer(); } };
+        const showNextVideo = () => { const readyUrl = getReadyPreloadedVideo(); if (readyUrl) { playTrailer(readyUrl); } else { const nextIndex = getNewRandomIndex(Array.from(preloadingUrls)); playTrailer(nextIndex); } };
+        const showPreviousVideo = () => { if (history.length > 1) { history.pop(); playTrailer(history[history.length - 1], true); } };
+        const toggleUiVisibility = () => { isUiHidden = !isUiHidden; [moreMenuBtn, browserFullscreenBtn, loopBtn, muteBtn, bottomControls, qualityMenuBtn, fullscreenNavControls, favoriteBtn].forEach(el => el?.classList.toggle('hidden', isUiHidden)); if (isUiHidden) { morePopover.classList.add('hidden'); qualityPopover.classList.add('hidden'); } updatePanControlsVisibility(); iconEyeVisible.classList.toggle('hidden', isUiHidden); iconEyeHidden.classList.toggle('hidden', !isUiHidden); };
+        const showStats = () => { if (originalVideoList.length === 0) return; statsTotal.textContent = originalVideoList.length; statsPomf.textContent = originalVideoList.filter(url => url.includes('pomf2.lain.la/')).length; statsTwitter.textContent = originalVideoList.filter(url => url.includes('video.twimg.com/amplify_video')).length; statsTwitterFhd.textContent = originalVideoList.filter(url => url.includes('video.twimg.com/amplify_video') && url.includes('1080')).length; statsModal.classList.remove('hidden'); };
+        const toggleBrowserFullscreen = () => { if (!document.fullscreenElement) { document.documentElement.requestFullscreen().catch(err => console.error(`Error: ${err.message}`)); } else if (document.exitFullscreen) { document.exitFullscreen(); } };
+        const updateFullscreenIcon = () => { const isBrowserFullscreen = !!document.fullscreenElement; iconFullscreenEnter.classList.toggle('hidden', isBrowserFullscreen); iconFullscreenExit.classList.toggle('hidden', !isBrowserFullscreen); };
+        const playAnotherShot = () => { if (!mainPlayer.duration) return; currentTrailerStartTime = Math.random() * (mainPlayer.duration - (TRAILER_DURATION_MS / 1000)); replayTrailer(); };
+        const replayTrailer = () => { mainPlayer.currentTime = currentTrailerStartTime; mainPlayer.play().then(startTrailerPlayback).catch(err => console.error("Replay failed", err)); };
+        const showFavoritesModal = () => {
+            favoritesList.innerHTML = ''; // Clear previous items
+            if (userFavorites.length === 0) {
+                favoritesList.innerHTML = '<p class="text-center text-white/50">Your favorites list is empty.</p>';
             } else {
-                if (mainPlayer.videoWidth > 0) {
-                       playerWrapper.style.aspectRatio = mainPlayer.videoWidth / mainPlayer.videoHeight;
-                } else {
-                       playerWrapper.style.aspectRatio = '16 / 9';
-                }
-                appContainer.style.aspectRatio = '';
-                appContainer.classList.remove('fullscreen-mode');
-                appContainer.classList.add('normal-mode', 'rounded-lg');
-                playerWrapper.style.display = 'flex';
-                playerWrapper.prepend(appContainer);
-                ambientCanvas.classList.add('active');
-                drawAmbientFrame();
-                fullscreenNavControls.classList.add('hidden');
-                topNavControls.classList.remove('hidden');
-                toggleViewText.textContent = 'Fullscreen';
-                layoutContainer.appendChild(bottomControls);
-                bottomControls.classList.remove('absolute', 'bottom-8', 'left-1/2', '-translate-x-1/2');
-                miniViewButtons.append(browserFullscreenBtn, hideUiBtn, loopBtn, muteBtn, moreMenuBtn.parentElement);
-                mainPlayer.style.objectPosition = '50% 50%';
-            }
-            updatePanControlsVisibility();
-        }
-
-        // --- VIDEO & FILTERING LOGIC ---
-        async function fetchVideoList() {
-            try {
-                const response = await fetch(VIDEO_LIST_URL, { cache: "no-store" });
-                const text = await response.text();
-                originalVideoList = text.split('\n').filter(url => url.trim().startsWith('http')).map(url => url.trim());
-                if (originalVideoList.length === 0) throw new Error('Video list is empty.');
-            } catch (error) { loader.innerHTML = '<p class="text-red-400 text-center p-4">Failed to load video list.</p>'; }
-        }
-
-        function applyFilter(filter) {
-            currentFilter = filter;
-            switch (filter) {
-                case 'Pomf': videoList = originalVideoList.filter(url => url.includes('pomf2.lain.la')); break;
-                case 'Twitter': videoList = originalVideoList.filter(url => url.includes('video.twimg.com/amplify_video')); break;
-                case 'TwitterFHD': videoList = originalVideoList.filter(url => url.includes('video.twimg.com/amplify_video') && url.includes('1080')); break;
-                default: videoList = [...originalVideoList]; break;
-            }
-            qualityFilterBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.filter === currentFilter));
-            history = [];
-            updateNavButtons();
-            preloadingUrls.clear();
-            preloadPlayers.forEach(p => p.src = '');
-        }
-
-        function applyFilterAndPlay(filter) {
-            applyFilter(filter);
-            qualityPopover.classList.add('hidden');
-            if (videoList.length > 0) {
-                playTrailer(getNewRandomIndex());
-            } else {
-                loader.classList.add('hidden');
-                errorMessage.classList.remove('hidden');
-                errorMessage.querySelector('p').textContent = `No videos found for "${filter}" filter.`;
-                errorMessage.querySelector('p:last-child').textContent = 'Please select another filter.';
-                stopTrailer();
-            }
-        }
-
-        function getNewRandomIndex(excludeUrls = []) {
-            if (videoList.length <= 1) return 0;
-            let newIndex, newUrl;
-            const combinedExcludes = new Set([...excludeUrls, mainPlayer.src]);
-            do {
-                newIndex = Math.floor(Math.random() * videoList.length);
-                newUrl = videoList[newIndex];
-            } while (combinedExcludes.has(newUrl) && combinedExcludes.size < videoList.length);
-            return newIndex;
-        }
-
-        function managePreloading() {
-            if (videoList.length < 2) return;
-            preloadingUrls.clear();
-            preloadingUrls.add(mainPlayer.src);
-            preloadPlayers.forEach(p => { if (p.src) preloadingUrls.add(p.src); });
-            preloadPlayers.forEach(player => {
-                if (!player.src || player.readyState === 4) {
-                    const newIndex = getNewRandomIndex(Array.from(preloadingUrls));
-                    const newUrl = videoList[newIndex];
-                    if (newUrl) {
-                        player.src = newUrl;
-                        player.load();
-                        preloadingUrls.add(newUrl);
-                    }
-                }
-            });
-        }
-        
-        function getReadyPreloadedVideo() {
-            for (const player of preloadPlayers) {
-                if (player.src && player.readyState >= 3) {
-                    const readyUrl = player.src;
-                    player.src = '';
-                    return readyUrl;
-                }
-            }
-            return null;
-        }
-
-        function playAnotherShot() {
-            if (!mainPlayer.duration) return;
-            currentTrailerStartTime = Math.random() * (mainPlayer.duration - (TRAILER_DURATION_MS / 1000));
-            replayTrailer();
-        }
-
-        function replayTrailer() {
-            mainPlayer.currentTime = currentTrailerStartTime;
-            mainPlayer.play().then(startTrailerPlayback).catch(err => console.error("Replay failed", err));
-        }
-        
-        function handleTrailerProgress() {
-            if (mainPlayer.paused || mainPlayer.seeking) return;
-
-            const elapsedSeconds = mainPlayer.currentTime - currentTrailerStartTime;
-            const trailerDurationSeconds = TRAILER_DURATION_MS / 1000;
-
-            if (elapsedSeconds >= 0) {
-                const progress = Math.min((elapsedSeconds / trailerDurationSeconds) * 100, 100);
-                progressBar.style.width = `${progress}%`;
-            }
-
-            if (elapsedSeconds >= trailerDurationSeconds) {
-                stopTrailer();
-                if (isLooping) {
-                    replayTrailer();
-                } else {
-                    showNextVideo();
-                }
-            }
-        }
-
-        function startTrailerPlayback() {
-            playOverlay.classList.add('hidden');
-            stopTrailer(); 
-            drawAmbientFrame();
-            mainPlayer.addEventListener('timeupdate', handleTrailerProgress);
-        }
-
-        function playTrailer(indexOrUrl, isFromHistory = false) {
-            let url, index;
-            if (typeof indexOrUrl === 'string') {
-                url = indexOrUrl;
-                index = videoList.indexOf(url);
-                if (index === -1) {
-                    index = getNewRandomIndex();
-                    url = videoList[index];
-                }
-            } else {
-                index = indexOrUrl;
-                url = videoList[index];
-            }
-            if (index === undefined || index < 0 || index >= videoList.length) { return; }
-            
-            stopTrailer();
-            errorMessage.classList.add('hidden');
-            playOverlay.classList.add('hidden');
-            loader.classList.remove('hidden');
-            mainPlayer.style.opacity = '0';
-            qualityMenuBtn.classList.add('hidden');
-            
-            currentPanPosition = 50;
-            mainPlayer.style.objectPosition = `${currentPanPosition}% 50%`;
-
-            currentIndex = index;
-            if (!isFromHistory) { history.push(currentIndex); }
-            updateNavButtons();
-            
-            const onSeeked = () => {
-                mainPlayer.removeEventListener('seeked', onSeeked);
-                loader.classList.add('hidden');
-                mainPlayer.style.opacity = '1';
-                mainPlayer.play().then(startTrailerPlayback).catch(error => {
-                    setTimeout(() => { if (mainPlayer.paused) playOverlay.classList.remove('hidden'); else startTrailerPlayback(); }, 150);
+                userFavorites.forEach(url => {
+                    const item = document.createElement('div');
+                    item.className = 'flex items-center justify-between p-2 rounded-md hover:bg-white/10 cursor-pointer';
+                    item.innerHTML = `<span class="text-xs truncate flex-1 mr-4">${url.split('/').pop()}</span><button class="text-blue-400 hover:text-blue-300">Play</button>`;
+                    item.addEventListener('click', () => {
+                        playTrailer(url);
+                        favoritesModal.classList.add('hidden');
+                    });
+                    favoritesList.appendChild(item);
                 });
-            };
-            const onLoadedMetadata = () => {
-                mainPlayer.removeEventListener('loadedmetadata', onLoadedMetadata);
-                ambientCanvas.width = mainPlayer.videoWidth / 10;
-                ambientCanvas.height = mainPlayer.videoHeight / 10;
-                setViewMode(isFullScreen);
-                const videoSrc = mainPlayer.src;
-                const videoHeight = mainPlayer.videoHeight;
-                let qualityText = '';
-                if (videoSrc.includes('pomf')) qualityText = 'Pomf';
-                else if (videoSrc.includes('1080')) qualityText = '1080p';
-                else if (videoHeight >= 720) qualityText = '720p';
-                else if (videoHeight >= 480) qualityText = '480p';
-                else if (videoHeight > 0) qualityText = `${videoHeight}p`;
-                if (qualityText) {
-                    qualityMenuBtn.textContent = qualityText;
-                    qualityMenuBtn.classList.remove('hidden');
-                }
-                currentTrailerStartTime = Math.random() * Math.max(0, mainPlayer.duration - (TRAILER_DURATION_MS / 1000));
-                mainPlayer.currentTime = currentTrailerStartTime;
-                mainPlayer.addEventListener('seeked', onSeeked);
-            };
-            mainPlayer.onloadeddata = null;
-            mainPlayer.addEventListener('loadedmetadata', onLoadedMetadata);
-            mainPlayer.onerror = () => { 
-                loader.classList.add('hidden'); 
-                errorMessage.classList.remove('hidden'); 
-                errorMessage.querySelector('p').textContent = 'Error loading video.';
-                errorMessage.querySelector('p:last-child').textContent = 'Trying another video.';
-                setTimeout(showNextVideo, 2000); 
-            };
-            mainPlayer.src = url;
-            managePreloading(); 
-            if (history.length <= 1) mainPlayer.muted = true;
-            updateMuteIcon();
-        }
-        
-        function showNextVideo() {
-            const readyUrl = getReadyPreloadedVideo();
-            if (readyUrl) {
-                playTrailer(readyUrl);
+            }
+            favoritesModal.classList.remove('hidden');
+        };
+
+        // --- EVENT LISTENERS INITIALIZATION ---
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                currentUser = user;
+                openAuthModalBtn.classList.add('hidden');
+                userInfo.classList.remove('hidden');
+                userInfo.classList.add('flex');
+                userEmailDisplay.textContent = user.email;
+                favoriteBtn.classList.remove('hidden');
+                favoritesFilterBtn.classList.remove('hidden');
+                showFavoritesBtn.classList.remove('hidden');
+                getFavorites();
             } else {
-                const nextIndex = getNewRandomIndex(Array.from(preloadingUrls));
-                playTrailer(nextIndex);
+                currentUser = null;
+                userFavorites = [];
+                openAuthModalBtn.classList.remove('hidden');
+                userInfo.classList.add('hidden');
+                userInfo.classList.remove('flex');
+                favoriteBtn.classList.add('hidden');
+                favoritesFilterBtn.classList.add('hidden');
+                showFavoritesBtn.classList.add('hidden');
+                if (currentFilter === 'Favorites') { applyFilterAndPlay('All'); }
+                updateFavoriteIcon();
             }
-        }
-
-        function showPreviousVideo() {
-            if (history.length > 1) { history.pop(); playTrailer(history[history.length - 1], true); }
-        }
-
-        function toggleUiVisibility() {
-            isUiHidden = !isUiHidden;
-            [moreMenuBtn, browserFullscreenBtn, loopBtn, muteBtn, bottomControls, qualityMenuBtn, fullscreenNavControls].forEach(el => el?.classList.toggle('hidden', isUiHidden));
-            if (isUiHidden) {
-                morePopover.classList.add('hidden');
-                qualityPopover.classList.add('hidden');
-            }
-            updatePanControlsVisibility();
-            iconEyeVisible.classList.toggle('hidden', isUiHidden);
-            iconEyeHidden.classList.toggle('hidden', !isUiHidden);
-        }
-
-        function showStats() {
-            if (originalVideoList.length === 0) return;
-            statsTotal.textContent = originalVideoList.length;
-            statsPomf.textContent = originalVideoList.filter(url => url.includes('pomf2.lain.la/')).length;
-            statsTwitter.textContent = originalVideoList.filter(url => url.includes('video.twimg.com/amplify_video')).length;
-            statsTwitterFhd.textContent = originalVideoList.filter(url => url.includes('video.twimg.com/amplify_video') && url.includes('1080')).length;
-            statsModal.classList.remove('hidden');
-        }
-
-        function toggleBrowserFullscreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => console.error(`Error: ${err.message}`));
-            } else if (document.exitFullscreen) {
-                document.exitFullscreen();
-            }
-        }
-
-        function updateFullscreenIcon() {
-            const isBrowserFullscreen = !!document.fullscreenElement;
-            iconFullscreenEnter.classList.toggle('hidden', isBrowserFullscreen);
-            iconFullscreenExit.classList.toggle('hidden', !isBrowserFullscreen);
-        }
-
-        // --- Picture-in-Picture Logic (MODIFIED) ---
-        async function enterPip() {
-            // Check if PiP is enabled and a video is ready
-            if (!document.pictureInPictureEnabled || mainPlayer.paused || !mainPlayer.duration) {
-                console.log("PiP cannot be started. (Not enabled, video paused, or no duration).");
-                return;
-            }
-
-            try {
-                // If not already in PiP, request it
-                if (document.pictureInPictureElement !== mainPlayer) {
-                    await mainPlayer.requestPictureInPicture();
-                }
-            } catch (error) {
-                // Log any errors to the console for debugging
-                console.error("PiP Error:", error);
-            }
-        }
-
-
-        // --- EVENT LISTENERS ---
+        });
+        document.querySelectorAll('.quality-filter-btn').forEach(btn => { btn.addEventListener('click', (e) => { e.stopPropagation(); applyFilterAndPlay(e.currentTarget.dataset.filter); }); });
+        submitPasswordBtn.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keyup', (e) => { if (e.key === 'Enter') checkPassword(); });
+        openAuthModalBtn.addEventListener('click', () => { authModal.classList.remove('hidden'); clearErrorMessages(); });
+        closeAuthModalBtn.addEventListener('click', () => authModal.classList.add('hidden'));
+        showSignupBtn.addEventListener('click', () => { loginForm.classList.add('hidden'); signupForm.classList.remove('hidden'); clearErrorMessages(); });
+        showLoginBtn.addEventListener('click', () => { signupForm.classList.add('hidden'); loginForm.classList.remove('hidden'); clearErrorMessages(); });
+        loginBtn.addEventListener('click', handleLogin);
+        signupBtn.addEventListener('click', handleSignUp);
+        logoutBtn.addEventListener('click', handleLogout);
+        favoriteBtn.addEventListener('click', toggleFavorite);
         playOverlay.addEventListener('click', () => mainPlayer.play().then(startTrailerPlayback));
         toggleViewBtn.addEventListener('click', () => setViewMode(!isFullScreen));
         [fsNextBtn, topNextBtn].forEach(btn => btn.addEventListener('click', showNextVideo));
         [fsPrevBtn, topPrevBtn].forEach(btn => btn.addEventListener('click', showPreviousVideo));
         muteBtn.addEventListener('click', () => { mainPlayer.muted = !mainPlayer.muted; updateMuteIcon(); });
-        loopBtn.addEventListener('click', () => {
-            isLooping = !isLooping;
-            loopBtn.classList.toggle('text-blue-500', isLooping);
-            loopBtn.classList.toggle('text-white/70', !isLooping);
-        });
+        loopBtn.addEventListener('click', () => { isLooping = !isLooping; loopBtn.classList.toggle('text-blue-500', isLooping); loopBtn.classList.toggle('text-white/70', !isLooping); });
         hideUiBtn.addEventListener('click', toggleUiVisibility);
         browserFullscreenBtn.addEventListener('click', toggleBrowserFullscreen);
         document.addEventListener('fullscreenchange', updateFullscreenIcon);
-        playFullBtn.addEventListener('click', () => {
-            mainPlayer.pause();
-            stopTrailer();
-            modalPlayer.src = mainPlayer.src;
-            modalPlayer.currentTime = 0;
-            videoModal.classList.remove('hidden');
-        });
-        const closeModal = () => {
-            videoModal.classList.add('hidden');
-            modalPlayer.pause();
-            modalPlayer.src = '';
-            mainPlayer.play().then(startTrailerPlayback).catch(err => playOverlay.classList.remove('hidden'));
-        };
+        playFullBtn.addEventListener('click', () => { mainPlayer.pause(); stopTrailer(); modalPlayer.src = mainPlayer.src; modalPlayer.currentTime = 0; videoModal.classList.remove('hidden'); });
+        const closeModal = () => { videoModal.classList.add('hidden'); modalPlayer.pause(); modalPlayer.src = ''; mainPlayer.play().then(startTrailerPlayback).catch(err => playOverlay.classList.remove('hidden')); };
         closeModalBtn.addEventListener('click', closeModal);
         videoModal.addEventListener('click', (e) => { if (e.target === videoModal) closeModal(); });
-        copyLinkBtn.addEventListener('click', () => {
-            const textArea = document.createElement('textarea');
-            textArea.value = modalPlayer.src;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-            const copyIcon = copyLinkBtn.querySelector('.copy-icon');
-            const checkIcon = copyLinkBtn.querySelector('.check-icon');
-            copyIcon.classList.add('hidden');
-            checkIcon.classList.remove('hidden');
-            setTimeout(() => {
-                copyIcon.classList.remove('hidden');
-                checkIcon.classList.add('hidden');
-            }, 2000);
-        });
-        qualityMenuBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const moreWasOpen = !morePopover.classList.contains('hidden');
-            morePopover.classList.add('hidden');
-            if(moreWasOpen) updatePanControlsVisibility();
-            qualityPopover.classList.toggle('hidden');
-        });
-        qualityFilterBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                applyFilterAndPlay(e.currentTarget.dataset.filter);
-            });
-        });
-        infoBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            qualityPopover.classList.add('hidden');
-            showStats();
-        });
+        copyLinkBtn.addEventListener('click', () => { const textArea = document.createElement('textarea'); textArea.value = modalPlayer.src; document.body.appendChild(textArea); textArea.select(); document.execCommand('copy'); document.body.removeChild(textArea); const copyIcon = copyLinkBtn.querySelector('.copy-icon'); const checkIcon = copyLinkBtn.querySelector('.check-icon'); copyIcon.classList.add('hidden'); checkIcon.classList.remove('hidden'); setTimeout(() => { copyIcon.classList.remove('hidden'); checkIcon.classList.add('hidden'); }, 2000); });
+        qualityMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); const moreWasOpen = !morePopover.classList.contains('hidden'); morePopover.classList.add('hidden'); if(moreWasOpen) updatePanControlsVisibility(); qualityPopover.classList.toggle('hidden'); });
+        infoBtn.addEventListener('click', (e) => { e.stopPropagation(); qualityPopover.classList.add('hidden'); showStats(); });
         closeStatsModalBtn.addEventListener('click', () => statsModal.classList.add('hidden'));
         statsModal.addEventListener('click', (e) => { if (e.target === statsModal) statsModal.classList.add('hidden'); });
+        moreMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); qualityPopover.classList.add('hidden'); morePopover.classList.toggle('hidden'); updatePanControlsVisibility(); });
+        togglePanBtn.addEventListener('click', (e) => { e.stopPropagation(); isPanControlsActive = !isPanControlsActive; togglePanBtn.classList.toggle('active', isPanControlsActive); updatePanControlsVisibility(); });
+        toggleHdrBtn.addEventListener('click', (e) => { e.stopPropagation(); isHdrActive = !isHdrActive; toggleHdrBtn.classList.toggle('active', isHdrActive); mainPlayer.classList.toggle('hdr-effect', isHdrActive); });
+        panLeftBtn.addEventListener('click', () => { currentPanPosition = Math.max(0, currentPanPosition - 5); mainPlayer.style.objectPosition = `${currentPanPosition}% 50%`; });
+        panRightBtn.addEventListener('click', () => { currentPanPosition = Math.min(100, currentPanPosition + 5); mainPlayer.style.objectPosition = `${currentPanPosition}% 50%`; });
+        randomShotBtn.addEventListener('click', (e) => { e.stopPropagation(); playAnotherShot(); morePopover.classList.add('hidden'); updatePanControlsVisibility(); });
+        pipBtn.addEventListener('click', (e) => { e.stopPropagation(); enterPip(); morePopover.classList.add('hidden'); updatePanControlsVisibility(); });
+        showFavoritesBtn.addEventListener('click', (e) => { e.stopPropagation(); showFavoritesModal(); morePopover.classList.add('hidden'); });
+        closeFavoritesModalBtn.addEventListener('click', () => favoritesModal.classList.add('hidden'));
+        playAllFavoritesBtn.addEventListener('click', () => { applyFilterAndPlay('Favorites'); favoritesModal.classList.add('hidden'); });
+        document.addEventListener('click', () => { const moreWasOpen = !morePopover.classList.contains('hidden'); qualityPopover.classList.add('hidden'); morePopover.classList.add('hidden'); if (moreWasOpen) { updatePanControlsVisibility(); } });
         
-        moreMenuBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            qualityPopover.classList.add('hidden');
-            morePopover.classList.toggle('hidden');
-            updatePanControlsVisibility();
-        });
-        togglePanBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            isPanControlsActive = !isPanControlsActive;
-            togglePanBtn.classList.toggle('active', isPanControlsActive);
-            updatePanControlsVisibility();
-        });
-        toggleHdrBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            isHdrActive = !isHdrActive;
-            toggleHdrBtn.classList.toggle('active', isHdrActive);
-            mainPlayer.classList.toggle('hdr-effect', isHdrActive);
-        });
-        panLeftBtn.addEventListener('click', () => {
-            currentPanPosition = Math.max(0, currentPanPosition - 5);
-            mainPlayer.style.objectPosition = `${currentPanPosition}% 50%`;
-        });
-        panRightBtn.addEventListener('click', () => {
-            currentPanPosition = Math.min(100, currentPanPosition + 5);
-            mainPlayer.style.objectPosition = `${currentPanPosition}% 50%`;
-        });
-        randomShotBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            playAnotherShot();
-            morePopover.classList.add('hidden');
-            updatePanControlsVisibility();
-        });
-        // MODIFIED: Event listener now calls the new enterPip function
-        pipBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            enterPip();
-            morePopover.classList.add('hidden');
-            updatePanControlsVisibility();
-        });
-
-        document.addEventListener('click', () => {
-            const moreWasOpen = !morePopover.classList.contains('hidden');
-            qualityPopover.classList.add('hidden');
-            morePopover.classList.add('hidden');
-            if (moreWasOpen) {
-                updatePanControlsVisibility();
-            }
-        });
-
-        // --- PASSWORD & INITIALIZATION LOGIC ---
-        function checkPassword() {
-            if (passwordInput.value === CORRECT_PASSWORD) {
-                sessionStorage.setItem('passwordEntered', 'true');
-                passwordOverlay.classList.add('hidden');
-                initApp();
-            } else {
-                passwordError.classList.remove('hidden');
-                passwordInput.value = '';
-                passwordInput.focus();
-            }
-        }
-        submitPasswordBtn.addEventListener('click', checkPassword);
-        passwordInput.addEventListener('keyup', (e) => { if (e.key === 'Enter') checkPassword(); });
-        async function initApp() {
-            await fetchVideoList();
-            if (originalVideoList.length > 0) {
-                pipBtn.disabled = !document.pictureInPictureEnabled;
-                setViewMode(true);
-                applyFilterAndPlay('All');
-            } else {
-                playerWrapper.classList.add('hidden');
-            }
-        }
         if (sessionStorage.getItem('passwordEntered') === 'true') {
             passwordOverlay.classList.add('hidden');
             initApp();
@@ -868,7 +403,7 @@
             passwordOverlay.classList.remove('hidden');
             passwordInput.focus();
         }
-
+    });
     </script>
 </body>
 </html>
