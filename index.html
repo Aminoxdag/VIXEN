@@ -91,7 +91,7 @@
                 <h2 class="text-2xl font-bold mb-4 text-center text-blend-overlay">Create Account</h2>
                 <input id="signup-email" type="email" class="btn-glass w-full p-3 mb-4 text-center text-white rounded-lg placeholder:text-white/40" placeholder="Email">
                 <input id="signup-password" type="password" class="btn-glass w-full p-3 mb-4 text-center text-white rounded-lg placeholder:text-white/40" placeholder="Password">
-                 <p id="signup-error-msg" class="text-red-400 text-xs mb-4 text-center hidden"></p>
+                <p id="signup-error-msg" class="text-red-400 text-xs mb-4 text-center hidden"></p>
                 <button id="signup-btn" class="btn-glass w-full py-3 rounded-lg font-bold">Sign Up</button>
                 <p class="text-xs text-center mt-4">Already have an account? <button id="show-login-btn" class="font-bold hover:underline">Login</button></p>
             </div>
@@ -139,21 +139,25 @@
                         <div id="error-message" class="hidden absolute inset-0 bg-black/70 flex-col items-center justify-center text-center p-4"><p class="text-xs text-blend-overlay">Error loading video.</p><p class="text-xs text-gray-400 mt-2 text-blend-overlay">Trying another video.</p></div>
                         <div id="play-overlay" class="hidden absolute inset-0 bg-black/30 flex-col items-center justify-center cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="mix-blend-mode: overlay;"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg><p class="mt-2 text-sm text-blend-overlay">Click to Play</p></div>
                         
-                        <div id="quality-menu-container" class="absolute top-4 left-4 pt-16">
-                            <div id="quality-menu-btn" class="btn-glass px-3 py-2 rounded-md hidden text-xs font-bold text-blend-overlay cursor-pointer"></div>
-                            <div id="quality-popover" class="hidden absolute top-full mt-2 w-40 btn-glass rounded-lg shadow-2xl p-2 z-40">
-                                <div id="quality-filter-list" class="flex flex-col gap-1">
-                                    <button data-filter="All" class="quality-filter-btn text-left w-full px-3 py-2 rounded-md hover:bg-white/10 text-xs text-blend-overlay">All</button>
-                                    <button data-filter="Pomf" class="quality-filter-btn text-left w-full px-3 py-2 rounded-md hover:bg-white/10 text-xs text-blend-overlay">Pomf</button>
-                                    <button data-filter="Twitter" class="quality-filter-btn text-left w-full px-3 py-2 rounded-md hover:bg-white/10 text-xs text-blend-overlay">Twitter</button>
-                                    <button data-filter="TwitterFHD" class="quality-filter-btn text-left w-full px-3 py-2 rounded-md hover:bg-white/10 text-xs text-blend-overlay">Twitter FHD</button>
-                                    <button data-filter="Favorites" id="favorites-filter-btn" class="hidden quality-filter-btn text-left w-full px-3 py-2 rounded-md hover:bg-white/10 text-xs text-blend-overlay">Favorites</button>
+                        <div id="quality-menu-container" class="absolute top-4 left-4 pt-16 flex flex-col items-start gap-2">
+                            <!-- MODIFIED: Duration Display - Made non-interactive -->
+                            <div id="duration-display" class="bg-black/25 backdrop-blur-md border border-white/15 px-3 py-1 rounded-md text-xs text-blend-overlay hidden cursor-default">--:--</div>
+                            <div class="relative">
+                                <div id="quality-menu-btn" class="btn-glass px-3 py-2 rounded-md hidden text-xs font-bold text-blend-overlay cursor-pointer"></div>
+                                <div id="quality-popover" class="hidden absolute top-full mt-2 w-40 btn-glass rounded-lg shadow-2xl p-2 z-40">
+                                    <div id="quality-filter-list" class="flex flex-col gap-1">
+                                        <button data-filter="All" class="quality-filter-btn text-left w-full px-3 py-2 rounded-md hover:bg-white/10 text-xs text-blend-overlay">All</button>
+                                        <button data-filter="Pomf" class="quality-filter-btn text-left w-full px-3 py-2 rounded-md hover:bg-white/10 text-xs text-blend-overlay">Pomf</button>
+                                        <button data-filter="Twitter" class="quality-filter-btn text-left w-full px-3 py-2 rounded-md hover:bg-white/10 text-xs text-blend-overlay">Twitter</button>
+                                        <button data-filter="TwitterFHD" class="quality-filter-btn text-left w-full px-3 py-2 rounded-md hover:bg-white/10 text-xs text-blend-overlay">Twitter FHD</button>
+                                        <button data-filter="Favorites" id="favorites-filter-btn" class="hidden quality-filter-btn text-left w-full px-3 py-2 rounded-md hover:bg-white/10 text-xs text-blend-overlay">Favorites</button>
+                                    </div>
+                                    <hr class="border-white/10 my-2">
+                                    <button id="info-btn" class="text-left w-full px-3 py-2 rounded-md hover:bg-white/10 text-xs text-blend-overlay flex items-center justify-center gap-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                                        <span>Info</span>
+                                    </button>
                                 </div>
-                                <hr class="border-white/10 my-2">
-                                <button id="info-btn" class="text-left w-full px-3 py-2 rounded-md hover:bg-white/10 text-xs text-blend-overlay flex items-center justify-center gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                                    <span>Info</span>
-                                </button>
                             </div>
                         </div>
 
@@ -281,7 +285,94 @@
         const db = firebase.firestore();
         
         // --- DOM ELEMENT SELECTION ---
-        const passwordOverlay = document.getElementById('password-overlay'), passwordInput = document.getElementById('password-input'), submitPasswordBtn = document.getElementById('submit-password-btn'), passwordError = document.getElementById('password-error'), mainPlayer = document.getElementById('main-player-video'), appContainer = document.getElementById('app-container'), playerWrapper = document.getElementById('player-wrapper'), layoutContainer = document.getElementById('layout-container'), preloadPlayers = document.querySelectorAll('.preload-player'), playFullBtn = document.getElementById('play-full-btn'), toggleViewBtn = document.getElementById('toggle-view-btn'), toggleViewText = document.getElementById('toggle-view-text'), loader = document.getElementById('loader'), errorMessage = document.getElementById('error-message'), playOverlay = document.getElementById('play-overlay'), progressBar = document.getElementById('progress-bar'), videoModal = document.getElementById('video-modal'), modalPlayer = document.getElementById('modal-player'), closeModalBtn = document.getElementById('close-modal-btn'), copyLinkBtn = document.getElementById('copy-link-btn'), bottomControls = document.getElementById('bottom-controls'), fullscreenNavControls = document.getElementById('fullscreen-nav-controls'), topNavControls = document.getElementById('top-nav-controls'), fsPrevBtn = document.getElementById('fs-prev-btn'), fsNextBtn = document.getElementById('fs-next-btn'), topPrevBtn = document.getElementById('top-prev-btn'), topNextBtn = document.getElementById('top-next-btn'), muteBtn = document.getElementById('mute-btn'), iconUnmuted = document.getElementById('icon-unmuted'), iconMuted = document.getElementById('icon-muted'), loopBtn = document.getElementById('loop-btn'), hideUiBtn = document.getElementById('hide-ui-btn'), iconEyeVisible = document.getElementById('icon-eye-visible'), iconEyeHidden = document.getElementById('icon-eye-hidden'), qualityMenuBtn = document.getElementById('quality-menu-btn'), qualityPopover = document.getElementById('quality-popover'), qualityFilterList = document.getElementById('quality-filter-list'), infoBtn = document.getElementById('info-btn'), topRightButtonContainer = document.getElementById('top-right-button-container'), miniViewButtons = document.getElementById('mini-view-buttons'), statsModal = document.getElementById('stats-modal'), closeStatsModalBtn = document.getElementById('close-stats-modal-btn'), statsTotal = document.getElementById('stats-total'), statsPomf = document.getElementById('stats-pomf'), statsTwitter = document.getElementById('stats-twitter'), statsTwitterFhd = document.getElementById('stats-twitter-fhd'), ambientCanvas = document.getElementById('ambient-canvas'), ambientCtx = ambientCanvas.getContext('2d'), moreMenuBtn = document.getElementById('more-menu-btn'), morePopover = document.getElementById('more-popover'), togglePanBtn = document.getElementById('toggle-pan-btn'), toggleHdrBtn = document.getElementById('toggle-hdr-btn'), panControlsContainer = document.getElementById('pan-controls-container'), panLeftBtn = document.getElementById('pan-left-btn'), panRightBtn = document.getElementById('pan-right-btn'), pipBtn = document.getElementById('pip-btn'), randomShotBtn = document.getElementById('random-shot-btn'), favoriteBtn = document.getElementById('favorite-btn'), favoritesFilterBtn = document.getElementById('favorites-filter-btn'), authModal = document.getElementById('auth-modal'), closeAuthModalBtn = document.getElementById('close-auth-modal-btn'), openAuthModalBtn = document.getElementById('open-auth-modal-btn'), loginForm = document.getElementById('login-form'), signupForm = document.getElementById('signup-form'), showSignupBtn = document.getElementById('show-signup-btn'), showLoginBtn = document.getElementById('show-login-btn'), loginBtn = document.getElementById('login-btn'), signupBtn = document.getElementById('signup-btn'), loginEmail = document.getElementById('login-email'), loginPassword = document.getElementById('login-password'), signupEmail = document.getElementById('signup-email'), signupPassword = document.getElementById('signup-password'), loginErrorMsg = document.getElementById('login-error-msg'), signupErrorMsg = document.getElementById('signup-error-msg'), userMenuContainer = document.getElementById('user-menu-container'), userMenuBtn = document.getElementById('user-menu-btn'), userMenuPopover = document.getElementById('user-menu-popover'), userEmailDisplay = document.getElementById('user-email-display'), logoutBtn = document.getElementById('logout-btn'), favoritesModal = document.getElementById('favorites-modal'), closeFavoritesModalBtn = document.getElementById('close-favorites-modal-btn'), favoritesList = document.getElementById('favorites-list'), playAllFavoritesBtn = document.getElementById('play-all-favorites-btn'), showFavoritesBtnMenu = document.getElementById('show-favorites-btn-menu'), fullscreenPopoverBtn = document.getElementById('fullscreen-popover-btn'), iconFullscreenEnter = document.getElementById('icon-fullscreen-enter'), iconFullscreenExit = document.getElementById('icon-fullscreen-exit');
+        const passwordOverlay = document.getElementById('password-overlay'),
+            passwordInput = document.getElementById('password-input'),
+            submitPasswordBtn = document.getElementById('submit-password-btn'),
+            passwordError = document.getElementById('password-error'),
+            mainPlayer = document.getElementById('main-player-video'),
+            appContainer = document.getElementById('app-container'),
+            playerWrapper = document.getElementById('player-wrapper'),
+            layoutContainer = document.getElementById('layout-container'),
+            preloadPlayers = document.querySelectorAll('.preload-player'),
+            playFullBtn = document.getElementById('play-full-btn'),
+            toggleViewBtn = document.getElementById('toggle-view-btn'),
+            toggleViewText = document.getElementById('toggle-view-text'),
+            loader = document.getElementById('loader'),
+            errorMessage = document.getElementById('error-message'),
+            playOverlay = document.getElementById('play-overlay'),
+            progressBar = document.getElementById('progress-bar'),
+            videoModal = document.getElementById('video-modal'),
+            modalPlayer = document.getElementById('modal-player'),
+            closeModalBtn = document.getElementById('close-modal-btn'),
+            copyLinkBtn = document.getElementById('copy-link-btn'),
+            bottomControls = document.getElementById('bottom-controls'),
+            fullscreenNavControls = document.getElementById('fullscreen-nav-controls'),
+            topNavControls = document.getElementById('top-nav-controls'),
+            fsPrevBtn = document.getElementById('fs-prev-btn'),
+            fsNextBtn = document.getElementById('fs-next-btn'),
+            topPrevBtn = document.getElementById('top-prev-btn'),
+            topNextBtn = document.getElementById('top-next-btn'),
+            muteBtn = document.getElementById('mute-btn'),
+            iconUnmuted = document.getElementById('icon-unmuted'),
+            iconMuted = document.getElementById('icon-muted'),
+            loopBtn = document.getElementById('loop-btn'),
+            hideUiBtn = document.getElementById('hide-ui-btn'),
+            iconEyeVisible = document.getElementById('icon-eye-visible'),
+            iconEyeHidden = document.getElementById('icon-eye-hidden'),
+            qualityMenuBtn = document.getElementById('quality-menu-btn'),
+            qualityPopover = document.getElementById('quality-popover'),
+            qualityFilterList = document.getElementById('quality-filter-list'),
+            infoBtn = document.getElementById('info-btn'),
+            topRightButtonContainer = document.getElementById('top-right-button-container'),
+            miniViewButtons = document.getElementById('mini-view-buttons'),
+            statsModal = document.getElementById('stats-modal'),
+            closeStatsModalBtn = document.getElementById('close-stats-modal-btn'),
+            statsTotal = document.getElementById('stats-total'),
+            statsPomf = document.getElementById('stats-pomf'),
+            statsTwitter = document.getElementById('stats-twitter'),
+            statsTwitterFhd = document.getElementById('stats-twitter-fhd'),
+            ambientCanvas = document.getElementById('ambient-canvas'),
+            ambientCtx = ambientCanvas.getContext('2d'),
+            moreMenuBtn = document.getElementById('more-menu-btn'),
+            morePopover = document.getElementById('more-popover'),
+            togglePanBtn = document.getElementById('toggle-pan-btn'),
+            toggleHdrBtn = document.getElementById('toggle-hdr-btn'),
+            panControlsContainer = document.getElementById('pan-controls-container'),
+            panLeftBtn = document.getElementById('pan-left-btn'),
+            panRightBtn = document.getElementById('pan-right-btn'),
+            pipBtn = document.getElementById('pip-btn'),
+            randomShotBtn = document.getElementById('random-shot-btn'),
+            favoriteBtn = document.getElementById('favorite-btn'),
+            favoritesFilterBtn = document.getElementById('favorites-filter-btn'),
+            authModal = document.getElementById('auth-modal'),
+            closeAuthModalBtn = document.getElementById('close-auth-modal-btn'),
+            openAuthModalBtn = document.getElementById('open-auth-modal-btn'),
+            loginForm = document.getElementById('login-form'),
+            signupForm = document.getElementById('signup-form'),
+            showSignupBtn = document.getElementById('show-signup-btn'),
+            showLoginBtn = document.getElementById('show-login-btn'),
+            loginBtn = document.getElementById('login-btn'),
+            signupBtn = document.getElementById('signup-btn'),
+            loginEmail = document.getElementById('login-email'),
+            loginPassword = document.getElementById('login-password'),
+            signupEmail = document.getElementById('signup-email'),
+            signupPassword = document.getElementById('signup-password'),
+            loginErrorMsg = document.getElementById('login-error-msg'),
+            signupErrorMsg = document.getElementById('signup-error-msg'),
+            userMenuContainer = document.getElementById('user-menu-container'),
+            userMenuBtn = document.getElementById('user-menu-btn'),
+            userMenuPopover = document.getElementById('user-menu-popover'),
+            userEmailDisplay = document.getElementById('user-email-display'),
+            logoutBtn = document.getElementById('logout-btn'),
+            favoritesModal = document.getElementById('favorites-modal'),
+            closeFavoritesModalBtn = document.getElementById('close-favorites-modal-btn'),
+            favoritesList = document.getElementById('favorites-list'),
+            playAllFavoritesBtn = document.getElementById('play-all-favorites-btn'),
+            showFavoritesBtnMenu = document.getElementById('show-favorites-btn-menu'),
+            fullscreenPopoverBtn = document.getElementById('fullscreen-popover-btn'),
+            iconFullscreenEnter = document.getElementById('icon-fullscreen-enter'),
+            iconFullscreenExit = document.getElementById('icon-fullscreen-exit'),
+            durationDisplay = document.getElementById('duration-display');
 
         // --- STATE VARIABLES ---
         let originalVideoList = [], videoList = [], history = [], userFavorites = [], currentIndex = -1, currentTrailerStartTime = 0;
@@ -290,6 +381,12 @@
         let preloadingUrls = new Set();
 
         // --- FUNCTION DEFINITIONS ---
+        const formatTime = (seconds) => {
+            if (isNaN(seconds) || seconds < 0) return '--:--';
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = Math.floor(seconds % 60);
+            return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+        };
         const setErrorMessage = (element, message) => { element.textContent = message; element.classList.remove('hidden'); };
         const clearErrorMessages = () => { loginErrorMsg.classList.add('hidden'); signupErrorMsg.classList.add('hidden'); };
         const handleSignUp = () => { const email = signupEmail.value; const password = signupPassword.value; auth.createUserWithEmailAndPassword(email, password).then(() => authModal.classList.add('hidden')).catch(error => setErrorMessage(signupErrorMsg, error.message)); };
@@ -312,13 +409,13 @@
         const managePreloading = () => { if (videoList.length < 2) return; preloadingUrls.clear(); preloadingUrls.add(mainPlayer.src); preloadPlayers.forEach(p => { if (p.src) preloadingUrls.add(p.src); }); preloadPlayers.forEach(player => { if (!player.src || player.readyState === 4) { const newIndex = getNewRandomIndex(Array.from(preloadingUrls)); const newUrl = videoList[newIndex]; if (newUrl) { player.src = newUrl; player.load(); preloadingUrls.add(newUrl); } } }); };
         const getReadyPreloadedVideo = () => { for (const player of preloadPlayers) { if (player.src && player.readyState >= 3) { const readyUrl = player.src; player.src = ''; return readyUrl; } } return null; };
         const setViewMode = (fullscreen) => { isFullScreen = fullscreen; mainPlayer.classList.toggle('object-cover', isFullScreen); mainPlayer.classList.toggle('object-contain', !isFullScreen); if (isFullScreen) { appContainer.style.aspectRatio = 'auto'; appContainer.classList.remove('normal-mode', 'rounded-lg'); appContainer.classList.add('fullscreen-mode'); playerWrapper.style.display = 'none'; layoutContainer.prepend(appContainer); ambientCanvas.classList.remove('active'); if (ambientAnimationId) cancelAnimationFrame(ambientAnimationId); fullscreenNavControls.classList.remove('hidden'); topNavControls.classList.add('hidden'); toggleViewText.textContent = 'Mini View'; appContainer.appendChild(bottomControls); bottomControls.classList.add('absolute', 'bottom-8', 'left-1/2', '-translate-x-1/2'); topRightButtonContainer.append(favoriteBtn, hideUiBtn, loopBtn, muteBtn, moreMenuBtn.parentElement); } else { if (mainPlayer.videoWidth > 0) { playerWrapper.style.aspectRatio = mainPlayer.videoWidth / mainPlayer.videoHeight; } else { playerWrapper.style.aspectRatio = '16 / 9'; } appContainer.style.aspectRatio = ''; appContainer.classList.remove('fullscreen-mode'); appContainer.classList.add('normal-mode', 'rounded-lg'); playerWrapper.style.display = 'flex'; playerWrapper.prepend(appContainer); ambientCanvas.classList.add('active'); drawAmbientFrame(); fullscreenNavControls.classList.add('hidden'); topNavControls.classList.remove('hidden'); toggleViewText.textContent = 'Fullscreen'; layoutContainer.appendChild(bottomControls); bottomControls.classList.remove('absolute', 'bottom-8', 'left-1/2', '-translate-x-1/2'); miniViewButtons.append(favoriteBtn, hideUiBtn, loopBtn, muteBtn, moreMenuBtn.parentElement); mainPlayer.style.objectPosition = '50% 50%'; } updatePanControlsVisibility(); };
-        const playTrailer = (indexOrUrl, isFromHistory = false) => { let url, index; if (typeof indexOrUrl === 'string') { url = indexOrUrl; index = videoList.indexOf(url); if (index === -1) { index = getNewRandomIndex(); url = videoList[index]; } } else { index = indexOrUrl; url = videoList[index]; } if (index === undefined || index < 0 || index >= videoList.length || !url) { if (currentFilter === 'Favorites') { errorMessage.classList.remove('hidden'); errorMessage.querySelector('p').textContent = `Your favorites list is empty.`; errorMessage.querySelector('p:last-child').textContent = 'Save some videos first!'; loader.classList.add('hidden'); } return; } stopTrailer(); errorMessage.classList.add('hidden'); playOverlay.classList.add('hidden'); loader.classList.remove('hidden'); mainPlayer.style.opacity = '0'; qualityMenuBtn.classList.add('hidden'); currentPanPosition = 50; mainPlayer.style.objectPosition = `${currentPanPosition}% 50%`; currentIndex = index; if (!isFromHistory) { history.push(currentIndex); } updateNavButtons(); updateFavoriteIcon(); const onSeeked = () => { mainPlayer.removeEventListener('seeked', onSeeked); loader.classList.add('hidden'); mainPlayer.style.opacity = '1'; mainPlayer.play().then(startTrailerPlayback).catch(error => { setTimeout(() => { if (mainPlayer.paused) playOverlay.classList.remove('hidden'); else startTrailerPlayback(); }, 150); }); }; const onLoadedMetadata = () => { mainPlayer.removeEventListener('loadedmetadata', onLoadedMetadata); ambientCanvas.width = mainPlayer.videoWidth / 10; ambientCanvas.height = mainPlayer.videoHeight / 10; setViewMode(isFullScreen); const videoSrc = mainPlayer.src; const videoHeight = mainPlayer.videoHeight; let qualityText = ''; if (videoSrc.includes('pomf')) qualityText = 'Pomf'; else if (videoSrc.includes('1080')) qualityText = '1080p'; else if (videoHeight >= 720) qualityText = '720p'; else if (videoHeight >= 480) qualityText = '480p'; else if (videoHeight > 0) qualityText = `${videoHeight}p`; if (qualityText) { qualityMenuBtn.textContent = qualityText; qualityMenuBtn.classList.remove('hidden'); } currentTrailerStartTime = Math.random() * Math.max(0, mainPlayer.duration - (TRAILER_DURATION_MS / 1000)); mainPlayer.currentTime = currentTrailerStartTime; mainPlayer.addEventListener('seeked', onSeeked); }; mainPlayer.onloadeddata = null; mainPlayer.addEventListener('loadedmetadata', onLoadedMetadata); mainPlayer.onerror = () => { loader.classList.add('hidden'); errorMessage.classList.remove('hidden'); errorMessage.querySelector('p').textContent = 'Error loading video.'; errorMessage.querySelector('p:last-child').textContent = 'Trying another video.'; setTimeout(showNextVideo, 2000); }; mainPlayer.src = url; managePreloading(); if (history.length <= 1) mainPlayer.muted = true; updateMuteIcon(); updateFavoriteIcon(); };
+        const playTrailer = (indexOrUrl, isFromHistory = false) => { let url, index; if (typeof indexOrUrl === 'string') { url = indexOrUrl; index = videoList.indexOf(url); if (index === -1) { index = getNewRandomIndex(); url = videoList[index]; } } else { index = indexOrUrl; url = videoList[index]; } if (index === undefined || index < 0 || index >= videoList.length || !url) { if (currentFilter === 'Favorites') { errorMessage.classList.remove('hidden'); errorMessage.querySelector('p').textContent = `Your favorites list is empty.`; errorMessage.querySelector('p:last-child').textContent = 'Save some videos first!'; loader.classList.add('hidden'); } return; } stopTrailer(); errorMessage.classList.add('hidden'); playOverlay.classList.add('hidden'); loader.classList.remove('hidden'); mainPlayer.style.opacity = '0'; qualityMenuBtn.classList.add('hidden'); durationDisplay.classList.add('hidden'); currentPanPosition = 50; mainPlayer.style.objectPosition = `${currentPanPosition}% 50%`; currentIndex = index; if (!isFromHistory) { history.push(currentIndex); } updateNavButtons(); updateFavoriteIcon(); const onSeeked = () => { mainPlayer.removeEventListener('seeked', onSeeked); loader.classList.add('hidden'); mainPlayer.style.opacity = '1'; mainPlayer.play().then(startTrailerPlayback).catch(error => { setTimeout(() => { if (mainPlayer.paused) playOverlay.classList.remove('hidden'); else startTrailerPlayback(); }, 150); }); }; const onLoadedMetadata = () => { mainPlayer.removeEventListener('loadedmetadata', onLoadedMetadata); ambientCanvas.width = mainPlayer.videoWidth / 10; ambientCanvas.height = mainPlayer.videoHeight / 10; setViewMode(isFullScreen); durationDisplay.textContent = formatTime(mainPlayer.duration); durationDisplay.classList.remove('hidden'); const videoSrc = mainPlayer.src; const videoHeight = mainPlayer.videoHeight; let qualityText = ''; if (videoSrc.includes('pomf')) qualityText = 'Pomf'; else if (videoSrc.includes('1080')) qualityText = '1080p'; else if (videoHeight >= 720) qualityText = '720p'; else if (videoHeight >= 480) qualityText = '480p'; else if (videoHeight > 0) qualityText = `${videoHeight}p`; if (qualityText) { qualityMenuBtn.textContent = qualityText; qualityMenuBtn.classList.remove('hidden'); } currentTrailerStartTime = Math.random() * Math.max(0, mainPlayer.duration - (TRAILER_DURATION_MS / 1000)); mainPlayer.currentTime = currentTrailerStartTime; mainPlayer.addEventListener('seeked', onSeeked); }; mainPlayer.onloadeddata = null; mainPlayer.addEventListener('loadedmetadata', onLoadedMetadata); mainPlayer.onerror = () => { loader.classList.add('hidden'); errorMessage.classList.remove('hidden'); errorMessage.querySelector('p').textContent = 'Error loading video.'; errorMessage.querySelector('p:last-child').textContent = 'Trying another video.'; setTimeout(showNextVideo, 2000); }; mainPlayer.src = url; managePreloading(); if (history.length <= 1) mainPlayer.muted = true; updateMuteIcon(); updateFavoriteIcon(); };
         const checkPassword = () => { if (passwordInput.value === CORRECT_PASSWORD) { sessionStorage.setItem('passwordEntered', 'true'); passwordOverlay.classList.add('hidden'); initApp(); } else { passwordError.classList.remove('hidden'); passwordInput.value = ''; passwordInput.focus(); } };
         const initApp = async () => { await fetchVideoList(); if (originalVideoList.length > 0) { pipBtn.disabled = !document.pictureInPictureEnabled; setViewMode(true); applyFilterAndPlay('All'); } else { playerWrapper.classList.add('hidden'); } };
         const applyFilterAndPlay = (filter) => { applyFilter(filter); qualityPopover.classList.add('hidden'); if (videoList.length > 0) { playTrailer(getNewRandomIndex()); } else { loader.classList.add('hidden'); errorMessage.classList.remove('hidden'); errorMessage.querySelector('p').textContent = `No videos found for "${filter}" filter.`; if(filter === 'Favorites') { errorMessage.querySelector('p').textContent = `Your favorites list is empty.`; } errorMessage.querySelector('p:last-child').textContent = ''; stopTrailer(); } };
         const showNextVideo = () => { const readyUrl = getReadyPreloadedVideo(); if (readyUrl) { playTrailer(readyUrl); } else { const nextIndex = getNewRandomIndex(Array.from(preloadingUrls)); playTrailer(nextIndex); } };
         const showPreviousVideo = () => { if (history.length > 1) { history.pop(); playTrailer(history[history.length - 1], true); } };
-        const toggleUiVisibility = () => { isUiHidden = !isUiHidden; [moreMenuBtn, loopBtn, muteBtn, bottomControls, qualityMenuBtn, fullscreenNavControls, favoriteBtn].forEach(el => el?.classList.toggle('hidden', isUiHidden)); if (isUiHidden) { morePopover.classList.add('hidden'); qualityPopover.classList.add('hidden'); } updatePanControlsVisibility(); iconEyeVisible.classList.toggle('hidden', isUiHidden); iconEyeHidden.classList.toggle('hidden', !isUiHidden); };
+        const toggleUiVisibility = () => { isUiHidden = !isUiHidden; [moreMenuBtn, loopBtn, muteBtn, bottomControls, qualityMenuBtn, fullscreenNavControls, favoriteBtn, durationDisplay].forEach(el => el?.classList.toggle('hidden', isUiHidden)); if (isUiHidden) { morePopover.classList.add('hidden'); qualityPopover.classList.add('hidden'); } updatePanControlsVisibility(); iconEyeVisible.classList.toggle('hidden', isUiHidden); iconEyeHidden.classList.toggle('hidden', !isUiHidden); };
         const showStats = () => { if (originalVideoList.length === 0) return; statsTotal.textContent = originalVideoList.length; statsPomf.textContent = originalVideoList.filter(url => url.includes('pomf2.lain.la/')).length; statsTwitter.textContent = originalVideoList.filter(url => url.includes('video.twimg.com/amplify_video')).length; statsTwitterFhd.textContent = originalVideoList.filter(url => url.includes('video.twimg.com/amplify_video') && url.includes('1080')).length; statsModal.classList.remove('hidden'); };
         const toggleBrowserFullscreen = () => { if (!document.fullscreenElement) { document.documentElement.requestFullscreen().catch(err => console.error(`Error: ${err.message}`)); } else if (document.exitFullscreen) { document.exitFullscreen(); } };
         const updateFullscreenIcon = () => { const isBrowserFullscreen = !!document.fullscreenElement; iconFullscreenEnter.classList.toggle('hidden', isBrowserFullscreen); iconFullscreenExit.classList.toggle('hidden', !isBrowserFullscreen); };
