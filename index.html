@@ -11,7 +11,7 @@
     <style>
         /* CSS Variables for Theming */
         :root {
-            --accent-color: transparent; /* Default is no color */
+            --accent-color: transparent;
             --glass-bg: rgba(40, 40, 40, 0.45);
             --glass-bg-hover: rgba(55, 55, 55, 0.65);
             --glass-border: rgba(255, 255, 255, 0.12);
@@ -20,7 +20,7 @@
             --text-primary: #ffffff;
             --text-secondary: rgba(255, 255, 255, 0.7);
             --bg-primary: #000000;
-            --glass-accent-tint: transparent; /* Default is no tint */
+            --glass-accent-tint: transparent;
         }
 
         html.light {
@@ -32,7 +32,7 @@
             --glass-shadow: 0 6px 20px rgba(0,0,0,0.1);
             --text-primary: #000000;
             --text-secondary: rgba(0, 0, 0, 0.6);
-            --bg-primary: #f3f4f6; /* Gray 100 */
+            --bg-primary: #f3f4f6;
             --glass-accent-tint: transparent;
         }
 
@@ -55,7 +55,7 @@
         #main-player-video::-webkit-media-controls { display: none !important; }
         #main-player-video { -webkit-mask-image: -webkit-radial-gradient(white, black); }
 
-        /* Liquid Glass UI with Accent Tint */
+        /* Liquid Glass UI */
         .btn-glass, .popover-glass { 
             background-color: var(--glass-bg);
             background-image: 
@@ -72,12 +72,22 @@
             border-color: var(--glass-border-hover); 
         }
         .btn-glass:active { transform: scale(0.95); }
-        .text-blend-overlay { color: var(--text-primary); mix-blend-mode: overlay; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); transform: translateZ(0); }
-        html.light .text-blend-overlay { color: var(--text-primary); mix-blend-mode: normal; text-shadow: none; }
+        
+        .text-blend-overlay { 
+            color: var(--text-primary); 
+            mix-blend-mode: overlay; 
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); 
+            transform: translateZ(0); 
+        }
+        html.light .text-blend-overlay { 
+            color: var(--text-primary); 
+            mix-blend-mode: normal; 
+            text-shadow: none; 
+        }
         
         /* Accent Color Application */
         #progress-bar { background-color: var(--accent-color); }
-        #loop-btn.active-accent, #toggle-hdr-btn.active, #toggle-pan-btn.active, #favorite-btn.favorited svg { 
+        #loop-btn.active-accent, #toggle-pan-btn.active, #favorite-btn.favorited svg { 
             color: var(--accent-color);
             fill: var(--accent-color);
         }
@@ -89,14 +99,8 @@
         
         /* Modern Theme Swatches (Hexagon) */
         .theme-swatch {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-            width: 32px; 
-            height: 32px;
-            background-color: var(--color-swatch-bg, #333);
+            position: relative; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;
+            width: 32px; height: 32px; background-color: var(--color-swatch-bg, #333);
             clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
         }
         .theme-swatch:hover { transform: scale(1.15); }
@@ -112,67 +116,74 @@
         #color-picker-wrapper:hover { transform: scale(1.15); }
         #custom-color-picker { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
 
-        /* NEW: Custom styles for the range slider */
+        /* Custom styles for the range slider */
         input[type="range"] {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 100%;
-            height: 6px;
-            background: rgba(127, 127, 127, 0.25);
-            border-radius: 3px;
-            outline: none;
-            transition: background 0.2s;
+            -webkit-appearance: none; appearance: none; width: 100%; height: 6px; background: rgba(127, 127, 127, 0.25);
+            border-radius: 3px; outline: none; transition: background 0.2s;
         }
         input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 18px;
-            height: 18px;
-            background: #fff;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 1px solid rgba(0,0,0,0.1);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            -webkit-appearance: none; appearance: none; width: 18px; height: 18px; background: #fff; border-radius: 50%;
+            cursor: pointer; border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
         input[type="range"]::-moz-range-thumb {
-            width: 18px;
-            height: 18px;
-            background: #fff;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 1px solid rgba(0,0,0,0.1);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            width: 18px; height: 18px; background: #fff; border-radius: 50%; cursor: pointer;
+            border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
-        html.dark input[type="range"]::-webkit-slider-thumb {
-            background: #e5e7eb; /* gray-200 */
-        }
-        html.dark input[type="range"]::-moz-range-thumb {
-            background: #e5e7eb; /* gray-200 */
-        }
-
+        html.dark input[type="range"]::-webkit-slider-thumb { background: #e5e7eb; }
+        html.dark input[type="range"]::-moz-range-thumb { background: #e5e7eb; }
 
         /* Common styles for source images */
-        .source-img { width: auto; border-radius: 0.375rem; cursor: pointer; }
+        .source-img { width: auto; border-radius: 0.375rem; }
         #source-img-0 { height: 9rem; }
         #source-img-1 { height: 2rem; }
 
         /* General styles */
         #ambient-canvas { position: absolute; top: 60%; left: 50%; transform: translateX(-50%); width: 90%; height: 40%; z-index: 1; filter: blur(80px); opacity: 0; transition: opacity 0.7s ease-in-out; }
         #ambient-canvas.active { opacity: 1; }
-        .popover-btn { display: flex; align-items: center; gap: 0.75rem; width: 100%; padding: 0.5rem 0.75rem; border-radius: 0.375rem; font-size: 0.75rem; text-align: left; transition: background-color 0.2s, transform 0.1s ease; }
+        .popover-btn { display: flex; align-items: center; gap: 0.75rem; width: 100%; padding: 0.5rem 0.75rem; border-radius: 0.375rem; font-size: 0.75rem; text-align: left; transition: background-color 0.2s, transform 0.1s ease; color: var(--text-primary); }
         .popover-btn:hover { background-color: rgba(127, 127, 127, 0.1); }
         .popover-btn:active { transform: scale(0.97); }
         .popover-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .popover-btn svg { flex-shrink: 0; }
-        .hdr-effect { filter: contrast(115%) saturate(120%) brightness(105%); }
         .thumbnail-canvas { aspect-ratio: 2 / 3; object-fit: cover; width: 100%; border-radius: 0.5rem; }
+
+        /* Styles for the filter selector */
+        #filter-selector-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 0.75rem;
+            width: 100%;
+            user-select: none;
+        }
+        #filter-name-display {
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: var(--text-primary);
+            flex-grow: 1;
+            text-align: center;
+        }
+        .filter-arrow-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.25rem;
+            transition: color 0.2s, transform 0.1s ease;
+        }
+        .filter-arrow-btn:hover {
+            color: var(--text-primary);
+        }
+        .filter-arrow-btn:active {
+            transform: scale(0.9);
+        }
     </style>
 </head>
 <body class="overflow-hidden">
     
     <!-- Source Switcher -->
     <div id="source-switcher-container" class="absolute top-0 left-0 p-4 z-50">
-        <div id="source-switcher" class="relative h-10 w-auto flex items-center">
+        <div id="source-switcher" class="relative h-10 w-auto flex items-center cursor-pointer">
             <img id="source-img-0" src="https://images2.imgbox.com/fd/05/NpOmSeKe_o.png" data-source-index="0" class="source-img" alt="Merged Source">
             <img id="source-img-1" src="https://images2.imgbox.com/e5/66/eItGctof_o.png" data-source-index="1" class="source-img hidden" alt="Blacked Only Source">
         </div>
@@ -180,27 +191,27 @@
 
     <!-- Auth Header -->
     <div id="auth-header" class="absolute top-0 right-0 p-4 z-50 flex justify-end items-center gap-4">
-        <button id="open-auth-modal-btn" class="btn-glass px-4 py-2 text-xs font-bold rounded-lg"><span class="text-blend-overlay">Login</span></button>
+        <button id="open-auth-modal-btn" class="btn-glass px-4 py-2 text-xs font-bold rounded-lg" style="color: var(--text-primary);">Login</button>
         <div id="user-menu-container" class="hidden relative">
             <button id="user-menu-btn" class="btn-glass w-10 h-10 rounded-full flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
             </button>
             <div id="user-menu-popover" class="hidden absolute top-full right-0 mt-2 w-56 popover-glass rounded-lg shadow-2xl p-2 z-50">
                 <div class="px-3 py-2">
-                    <p class="text-sm font-bold text-blend-overlay">Signed in as</p>
+                    <p class="text-sm font-bold" style="color: var(--text-primary);">Signed in as</p>
                     <p id="user-email-display" class="text-xs truncate" style="color: var(--text-secondary);"></p>
                 </div>
                 <hr class="border-white/10 dark:border-black/10 my-1">
-                <button id="show-favorites-btn-menu" class="popover-btn text-blend-overlay">
+                <button id="show-favorites-btn-menu" class="popover-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
                     <span>My Favorites</span>
                 </button>
-                <button id="show-history-btn" class="popover-btn text-blend-overlay">
+                <button id="show-history-btn" class="popover-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M12 8v4l4 2"></path></svg>
                     <span>History</span>
                 </button>
                 <hr class="border-white/10 dark:border-black/10 my-1">
-                <button id="logout-btn" class="popover-btn text-blend-overlay">
+                <button id="logout-btn" class="popover-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
                     <span>Logout</span>
                 </button>
@@ -212,10 +223,10 @@
     <div id="password-overlay" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
         <div class="btn-glass rounded-lg shadow-2xl p-8 w-full max-w-sm text-center">
             <h2 class="text-2xl font-bold mb-4 text-blend-overlay">Enter Password</h2>
-            <p class="text-xs mb-6 text-blend-overlay" style="color: var(--text-secondary);">You need a password to access this page.</p>
+            <p class="text-xs mb-6" style="color: var(--text-secondary);">You need a password to access this page.</p>
             <input id="password-input" type="password" class="btn-glass w-full p-3 text-center rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent placeholder:text-white/40" placeholder="••••••••" style="color: var(--text-primary);">
             <p id="password-error" class="text-red-400 text-xs mt-2 hidden">Incorrect password. Please try again.</p>
-            <button id="submit-password-btn" class="btn-glass mt-6 w-full py-3 rounded-lg font-bold"><span class="text-blend-overlay">Unlock</span></button>
+            <button id="submit-password-btn" class="btn-glass mt-6 w-full py-3 rounded-lg font-bold" style="color: var(--text-primary);">Unlock</button>
         </div>
     </div>
     
@@ -228,16 +239,16 @@
                 <input id="login-email" type="email" class="btn-glass w-full p-3 mb-4 text-center rounded-lg" placeholder="Email" style="color: var(--text-primary);">
                 <input id="login-password" type="password" class="btn-glass w-full p-3 mb-4 text-center rounded-lg" placeholder="Password" style="color: var(--text-primary);">
                 <p id="login-error-msg" class="text-red-400 text-xs mb-4 text-center hidden"></p>
-                <button id="login-btn" class="btn-glass w-full py-3 rounded-lg font-bold"><span class="text-blend-overlay">Login</span></button>
-                <p class="text-xs text-center mt-4 text-blend-overlay">No account? <button id="show-signup-btn" class="font-bold hover:underline">Sign Up</button></p>
+                <button id="login-btn" class="btn-glass w-full py-3 rounded-lg font-bold" style="color: var(--text-primary);">Login</button>
+                <p class="text-xs text-center mt-4" style="color: var(--text-secondary);">No account? <button id="show-signup-btn" class="font-bold hover:underline" style="color: var(--text-primary);">Sign Up</button></p>
             </div>
             <div id="signup-form" class="hidden">
                 <h2 class="text-2xl font-bold mb-4 text-center text-blend-overlay">Create Account</h2>
                 <input id="signup-email" type="email" class="btn-glass w-full p-3 mb-4 text-center rounded-lg" placeholder="Email" style="color: var(--text-primary);">
                 <input id="signup-password" type="password" class="btn-glass w-full p-3 mb-4 text-center rounded-lg" placeholder="Password" style="color: var(--text-primary);">
                 <p id="signup-error-msg" class="text-red-400 text-xs mb-4 text-center hidden"></p>
-                <button id="signup-btn" class="btn-glass w-full py-3 rounded-lg font-bold"><span class="text-blend-overlay">Sign Up</span></button>
-                <p class="text-xs text-center mt-4 text-blend-overlay">Already have an account? <button id="show-login-btn" class="font-bold hover:underline">Login</button></p>
+                <button id="signup-btn" class="btn-glass w-full py-3 rounded-lg font-bold" style="color: var(--text-primary);">Sign Up</button>
+                <p class="text-xs text-center mt-4" style="color: var(--text-secondary);">Already have an account? <button id="show-login-btn" class="font-bold hover:underline" style="color: var(--text-primary);">Login</button></p>
             </div>
         </div>
     </div>
@@ -245,12 +256,12 @@
     <div id="favorites-modal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-[101] flex items-center justify-center p-4">
         <div class="popover-glass rounded-lg shadow-2xl p-6 w-full max-w-4xl flex flex-col max-h-[80vh]">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-bold text-blend-overlay">My Favorites</h2>
+                <h2 class="text-xl font-bold" style="color: var(--text-primary);">My Favorites</h2>
                 <button id="close-favorites-modal-btn" class="p-2 text-2xl leading-none" style="color: var(--text-secondary);">&times;</button>
             </div>
             <div id="favorites-list" class="flex-grow overflow-y-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 pr-2"></div>
             <div class="mt-4 pt-4 border-t border-white/10 dark:border-black/10">
-                 <button id="play-all-favorites-btn" class="btn-glass w-full py-3 rounded-lg font-bold"><span class="text-blend-overlay">Play All</span></button>
+                 <button id="play-all-favorites-btn" class="btn-glass w-full py-3 rounded-lg font-bold" style="color: var(--text-primary);">Play All</button>
             </div>
         </div>
     </div>
@@ -258,12 +269,12 @@
     <div id="history-modal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-[101] flex items-center justify-center p-4">
         <div class="popover-glass rounded-lg shadow-2xl p-6 w-full max-w-4xl flex flex-col max-h-[80vh]">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-bold text-blend-overlay">Viewing History</h2>
+                <h2 class="text-xl font-bold" style="color: var(--text-primary);">Viewing History</h2>
                 <button id="close-history-modal-btn" class="p-2 text-2xl leading-none" style="color: var(--text-secondary);">&times;</button>
             </div>
             <div id="history-list" class="flex-grow overflow-y-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 pr-2"></div>
             <div class="mt-4 pt-4 border-t border-white/10 dark:border-black/10">
-                 <button id="load-more-history-btn" class="btn-glass w-full py-3 rounded-lg font-bold"><span class="text-blend-overlay">Load More</span></button>
+                 <button id="load-more-history-btn" class="btn-glass w-full py-3 rounded-lg font-bold" style="color: var(--text-primary);">Load More</button>
             </div>
         </div>
     </div>
@@ -271,26 +282,25 @@
     <div id="themes-modal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-[101] flex items-center justify-center p-4">
         <div class="popover-glass rounded-lg shadow-2xl p-8 w-full max-w-md flex flex-col">
              <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-bold text-blend-overlay">Themes</h2>
+                <h2 class="text-xl font-bold" style="color: var(--text-primary);">Themes</h2>
                 <button id="close-themes-modal-btn" class="p-2 text-2xl leading-none" style="color: var(--text-secondary);">&times;</button>
             </div>
             <div class="flex flex-col gap-6">
                 <div>
-                    <h3 class="text-sm font-bold mb-3 text-blend-overlay" style="color: var(--text-secondary);">Mode</h3>
+                    <h3 class="text-sm font-bold mb-3" style="color: var(--text-secondary);">Mode</h3>
                     <div class="grid grid-cols-2 gap-4">
-                        <button id="light-mode-btn" class="btn-glass text-center py-3 rounded-lg font-bold"><span class="text-blend-overlay">Light</span></button>
-                        <button id="dark-mode-btn" class="btn-glass text-center py-3 rounded-lg font-bold"><span class="text-blend-overlay">Dark</span></button>
+                        <button id="light-mode-btn" class="btn-glass text-center py-3 rounded-lg font-bold" style="color: var(--text-primary);">Light</button>
+                        <button id="dark-mode-btn" class="btn-glass text-center py-3 rounded-lg font-bold" style="color: var(--text-primary);">Dark</button>
                     </div>
                 </div>
                 <div>
-                     <h3 class="text-sm font-bold mb-3 text-blend-overlay" style="color: var(--text-secondary);">Accent Color</h3>
+                     <h3 class="text-sm font-bold mb-3" style="color: var(--text-secondary);">Accent Color</h3>
                      <div id="accent-color-list" class="grid grid-cols-7 sm:grid-cols-9 gap-3 items-center">
                          <!-- Color swatches will be injected here -->
                      </div>
                 </div>
-                <!-- UPDATED: Glass Tint Control with Slider -->
                 <div>
-                    <h3 class="text-sm font-bold mb-3 text-blend-overlay" style="color: var(--text-secondary);">Glass Tint Intensity</h3>
+                    <h3 class="text-sm font-bold mb-3" style="color: var(--text-secondary);">Glass Tint Intensity</h3>
                     <div class="bg-black/10 dark:bg-white/5 p-3 rounded-lg flex items-center gap-4">
                         <input id="glass-tint-slider" type="range" min="0" max="0.5" step="0.01" value="0.15" class="w-full">
                     </div>
@@ -338,24 +348,24 @@
                     <video class="preload-player hidden" preload="auto" playsinline muted crossorigin="anonymous"></video>
                     
                     <div id="ui-overlay" class="absolute inset-0 z-20">
-                        <div id="loader" class="absolute inset-0 flex flex-col items-center justify-center bg-black/50"><div class="loader"></div><p class="mt-4 text-xs text-blend-overlay">Loading...</p></div>
-                        <div id="error-message" class="hidden absolute inset-0 bg-black/70 flex-col items-center justify-center text-center p-4"><p class="text-xs text-blend-overlay">Error loading video.</p><p class="text-xs mt-2 text-blend-overlay" style="color: var(--text-secondary);">Trying another video.</p></div>
-                        <div id="play-overlay" class="hidden absolute inset-0 bg-black/30 flex-col items-center justify-center cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="mix-blend-mode: overlay;"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg><p class="mt-2 text-sm text-blend-overlay">Click to Play</p></div>
+                        <div id="loader" class="absolute inset-0 flex flex-col items-center justify-center bg-black/50"><div class="loader"></div><p class="mt-4 text-xs" style="color: var(--text-primary);">Loading...</p></div>
+                        <div id="error-message" class="hidden absolute inset-0 bg-black/70 flex-col items-center justify-center text-center p-4"><p class="text-xs" style="color: var(--text-primary);">Error loading video.</p><p class="text-xs mt-2" style="color: var(--text-secondary);">Trying another video.</p></div>
+                        <div id="play-overlay" class="hidden absolute inset-0 bg-black/30 flex-col items-center justify-center cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="mix-blend-mode: overlay;"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg><p class="mt-2 text-sm" style="color: var(--text-primary);">Click to Play</p></div>
                         
                         <div id="quality-menu-container" class="absolute top-4 left-4 pt-16 flex flex-col items-start gap-2">
-                            <div id="duration-display" class="bg-black/25 dark:bg-black/25 backdrop-blur-md border border-white/15 dark:border-white/15 px-3 py-1 rounded-md text-xs text-blend-overlay hidden cursor-default">--:--</div>
+                            <div id="duration-display" class="btn-glass px-3 py-1 rounded-md text-xs hidden cursor-default" style="color: var(--text-secondary);">--:--</div>
                             <div class="relative">
-                                <div id="quality-menu-btn" class="btn-glass px-3 py-2 rounded-md hidden text-xs font-bold cursor-pointer"><span class="text-blend-overlay"></span></div>
+                                <div id="quality-menu-btn" class="btn-glass px-3 py-2 rounded-md hidden text-xs font-bold cursor-pointer" style="color: var(--text-primary);"></div>
                                 <div id="quality-popover" class="hidden absolute top-full mt-2 w-40 popover-glass rounded-lg shadow-2xl p-2 z-40">
                                     <div id="quality-filter-list" class="flex flex-col gap-1">
-                                        <button data-filter="All" class="quality-filter-btn text-left w-full px-3 py-2 rounded-md hover:bg-white/10 dark:hover:bg-black/10 text-xs text-blend-overlay">All</button>
-                                        <button data-filter="Pomf" class="quality-filter-btn text-left w-full px-3 py-2 rounded-md hover:bg-white/10 dark:hover:bg-black/10 text-xs text-blend-overlay">Pomf</button>
-                                        <button data-filter="Twitter" class="quality-filter-btn text-left w-full px-3 py-2 rounded-md hover:bg-white/10 dark:hover:bg-black/10 text-xs text-blend-overlay">Twitter</button>
-                                        <button data-filter="TwitterFHD" class="quality-filter-btn text-left w-full px-3 py-2 rounded-md hover:bg-white/10 dark:hover:bg-black/10 text-xs text-blend-overlay">Twitter FHD</button>
-                                        <button data-filter="Favorites" id="favorites-filter-btn" class="hidden quality-filter-btn text-left w-full px-3 py-2 rounded-md hover:bg-white/10 dark:hover:bg-black/10 text-xs text-blend-overlay">Favorites</button>
+                                        <button data-filter="All" class="quality-filter-btn text-left w-full px-3 py-2 rounded-md hover:bg-white/10 dark:hover:bg-black/10 text-xs" style="color: var(--text-primary);">All</button>
+                                        <button data-filter="Pomf" class="quality-filter-btn text-left w-full px-3 py-2 rounded-md hover:bg-white/10 dark:hover:bg-black/10 text-xs" style="color: var(--text-primary);">Pomf</button>
+                                        <button data-filter="Twitter" class="quality-filter-btn text-left w-full px-3 py-2 rounded-md hover:bg-white/10 dark:hover:bg-black/10 text-xs" style="color: var(--text-primary);">Twitter</button>
+                                        <button data-filter="TwitterFHD" class="quality-filter-btn text-left w-full px-3 py-2 rounded-md hover:bg-white/10 dark:hover:bg-black/10 text-xs" style="color: var(--text-primary);">Twitter FHD</button>
+                                        <button data-filter="Favorites" id="favorites-filter-btn" class="hidden quality-filter-btn text-left w-full px-3 py-2 rounded-md hover:bg-white/10 dark:hover:bg-black/10 text-xs" style="color: var(--text-primary);">Favorites</button>
                                     </div>
                                     <hr class="border-white/10 dark:border-black/10 my-2">
-                                    <button id="info-btn" class="text-left w-full px-3 py-2 rounded-md hover:bg-white/10 dark:hover:bg-black/10 text-xs text-blend-overlay flex items-center justify-center gap-2">
+                                    <button id="info-btn" class="text-left w-full px-3 py-2 rounded-md hover:bg-white/10 dark:hover:bg-black/10 text-xs flex items-center justify-center gap-2" style="color: var(--text-primary);">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                                         <span>Info</span>
                                     </button>
@@ -365,60 +375,67 @@
 
                         <div id="top-right-button-container" class="absolute top-4 right-4 pt-16 flex items-center gap-2">
                             <button id="favorite-btn" title="Save to Favorites" class="hidden btn-glass cursor-pointer p-2 rounded-full" style="color: var(--text-secondary);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg></button>
-                            <div id="hide-ui-btn" class="btn-glass cursor-pointer p-2 rounded-full" style="color: var(--text-secondary);"><svg id="icon-eye-visible" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg><svg id="icon-eye-hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg></div>
                             <div id="loop-btn" class="btn-glass cursor-pointer p-2 rounded-full" style="color: var(--text-secondary);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg></div>
-                            <div id="mute-btn" class="btn-glass cursor-pointer p-2 rounded-full" style="color: var(--text-primary);"><svg id="icon-unmuted" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg><svg id="icon-muted" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg></div>
+                            <div id="mute-btn" class="btn-glass cursor-pointer p-2 rounded-full" style="color: var(--text-secondary);"><svg id="icon-unmuted" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg><svg id="icon-muted" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg></div>
                             <div id="more-menu-container" class="relative">
                                 <button id="more-menu-btn" title="More options" class="btn-glass cursor-pointer p-2 rounded-full" style="color: var(--text-secondary);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></button>
                                 <div id="more-popover" class="hidden absolute top-full right-0 mt-2 w-56 popover-glass rounded-lg shadow-2xl p-2 z-40">
-                                    <button id="show-themes-btn" class="popover-btn text-blend-overlay">
+                                    <button id="show-themes-btn" class="popover-btn">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-palette-icon lucide-palette"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/></svg>
                                         <span>Themes</span>
                                     </button>
                                     <hr class="border-white/10 dark:border-black/10 my-1">
-                                    <button id="fullscreen-popover-btn" class="popover-btn text-blend-overlay">
+                                    <button id="fullscreen-popover-btn" class="popover-btn">
                                         <svg id="icon-fullscreen-enter" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
                                         <svg id="icon-fullscreen-exit" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><path d="M4 14h6v6"/><path d="M20 10h-6V4"/><path d="M14 10l7-7"/><path d="M3 21l7-7"/></svg>
                                         <span>Fullscreen</span>
                                     </button>
-                                    <button id="random-shot-btn" class="popover-btn text-blend-overlay">
+                                    <!-- FIXED: Moved Hide UI button here -->
+                                    <button id="hide-ui-btn" class="popover-btn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                        <span>Hide UI</span>
+                                    </button>
+                                    <button id="random-shot-btn" class="popover-btn">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
                                         <span>Another Random Shot</span>
                                     </button>
-                                    <button id="pip-btn" class="popover-btn text-blend-overlay">
+                                    <button id="pip-btn" class="popover-btn">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="13" y="15" width="8" height="6" rx="1"/><path d="M4 4h16v9H4z"/></svg>
                                         <span>Picture-in-Picture</span>
                                     </button>
                                     <hr class="border-white/10 dark:border-black/10 my-1">
-                                    <button id="toggle-pan-btn" class="popover-btn text-blend-overlay">
+                                    <button id="toggle-pan-btn" class="popover-btn">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline><polyline points="9 18 15 12 9 6"></polyline></svg>
                                         <span>Pan Controls</span>
                                     </button>
-                                    <button id="toggle-hdr-btn" class="popover-btn text-blend-overlay">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.5v15m7.5-7.5h-15"></path><path d="M16 8.27a4.5 4.5 0 0 0-8 0"></path><path d="M16 15.73a4.5 4.5 0 0 1-8 0"></path></svg>
-                                        <span>HDR Effect</span>
-                                    </button>
+                                    <div id="filter-selector-container" class="popover-btn">
+                                        <button id="prev-filter-btn" class="filter-arrow-btn">&lt;</button>
+                                        <span id="filter-name-display">Normal</span>
+                                        <button id="next-filter-btn" class="filter-arrow-btn">&gt;</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div id="fullscreen-nav-controls" class="w-full flex items-center justify-between absolute top-1/2 -translate-y-1/2 px-4">
-                            <div id="fs-prev-btn" class="cursor-pointer transition-colors p-2" style="color: var(--text-secondary);"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></div>
-                            <div id="fs-next-btn" class="cursor-pointer transition-colors p-2" style="color: var(--text-secondary);"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
-                        </div>
-                        
-                        <div id="pan-controls-container" class="hidden absolute top-32 right-4 w-auto z-30 flex items-center justify-center gap-2">
-                            <button id="pan-left-btn" title="Pan Left" class="btn-glass p-2 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
-                            <button id="pan-right-btn" title="Pan Right" class="btn-glass p-2 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
-                        </div>
                     </div>
+                    
+                    <div id="fullscreen-nav-controls" class="w-full flex items-center justify-between absolute top-1/2 -translate-y-1/2 px-4 z-30">
+                        <div id="fs-prev-btn" class="cursor-pointer transition-colors p-2" style="color: var(--text-secondary);"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></div>
+                        <div id="fs-next-btn" class="cursor-pointer transition-colors p-2" style="color: var(--text-secondary);"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
+                    </div>
+
                     <div id="progress-bar-container" class="absolute bottom-0 left-0 w-full h-1 bg-black/20 z-30"><div id="progress-bar" class="h-full" style="width: 0%;"></div></div>
+                    
+                    <div id="show-ui-btn-container" class="hidden absolute top-4 right-4 pt-16 z-50">
+                        <button id="show-ui-btn" class="btn-glass p-2 rounded-full" style="color: var(--text-secondary);">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                        </button>
+                    </div>
                 </div>
             </div>
 
             <div id="bottom-controls" class="flex flex-col sm:flex-row items-center gap-4 z-20 w-11/12 max-w-md mt-2">
-                <button id="play-full-btn" class="btn-glass w-full sm:w-auto justify-center py-3 px-6 rounded-lg shadow-lg flex items-center gap-3 text-xs"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg><span class="text-blend-overlay">Watch Full</span></button>
-                <button id="toggle-view-btn" class="btn-glass w-full sm:w-auto justify-center py-3 px-6 rounded-lg shadow-lg flex items-center gap-3 text-xs"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg><span id="toggle-view-text" class="text-blend-overlay">Mini View</span></button>
+                <button id="play-full-btn" class="btn-glass w-full sm:w-auto justify-center py-3 px-6 rounded-lg shadow-lg flex items-center gap-3 text-xs" style="color: var(--text-primary);"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg><span>Watch Full</span></button>
+                <button id="toggle-view-btn" class="btn-glass w-full sm:w-auto justify-center py-3 px-6 rounded-lg shadow-lg flex items-center gap-3 text-xs" style="color: var(--text-primary);"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg><span id="toggle-view-text">Mini View</span></button>
             </div>
         </div>
     </div>
@@ -441,18 +458,31 @@
             { name: 'Purple', color: '#a855f7' }, { name: 'Orange', color: '#f97316' }, { name: 'Pink', color: '#ec4899' },
             { name: 'Teal', color: '#14b8a6' }, { name: 'Yellow', color: '#eab308' }
         ];
+        const VIDEO_FILTERS = [
+            { name: 'Normal', value: 'none' },
+            { name: 'Cinematic', value: 'contrast(1.1) saturate(1.2) brightness(0.95)' },
+            { name: 'Vintage', value: 'sepia(0.6) brightness(0.9) contrast(1.1)' },
+            { name: 'Noir', value: 'grayscale(1) contrast(1.3)' },
+            { name: 'K-Drama', value: 'saturate(1.4) brightness(1.05) contrast(1.05) hue-rotate(-5deg)' },
+            { name: 'Arctic', value: 'contrast(1.2) saturate(0.1) brightness(1.1)' },
+            { name: 'Inferno', value: 'saturate(2) hue-rotate(-30deg) contrast(1.1)' },
+        ];
         const TRAILER_DURATION_MS = 30000, CORRECT_PASSWORD = '1432145', HISTORY_PAGE_SIZE = 5, MAX_HISTORY_SIZE = 20;
 
         let originalVideoList = [], videoList = [], history = [], userFavorites = [], currentIndex = -1, currentTrailerStartTime = 0;
         let isFullScreen = true, isLooping = false, isUiHidden = false, currentFilter = 'All';
-        let ambientAnimationId = null, currentUser = null, isPanControlsActive = false, isHdrActive = false, currentPanPosition = 50;
+        let ambientAnimationId = null, currentUser = null, isPanControlsActive = false, currentPanPosition = 50;
         let preloadingUrls = new Set(), cachedHistory = [], historyCurrentPage = 1, currentSourceIndex = 0;
-        let glassTintIntensity = 0.15; // NEW: State for glass tint intensity
+        let glassTintIntensity = 0.15;
+        let currentVideoFilterIndex = 0;
 
         // --- DOM SELECTION ---
         const els = {
             html: document.documentElement,
-            passwordOverlay: document.getElementById('password-overlay'), passwordInput: document.getElementById('password-input'), submitPasswordBtn: document.getElementById('submit-password-btn'), passwordError: document.getElementById('password-error'), mainPlayer: document.getElementById('main-player-video'), appContainer: document.getElementById('app-container'), playerWrapper: document.getElementById('player-wrapper'), layoutContainer: document.getElementById('layout-container'), preloadPlayers: document.querySelectorAll('.preload-player'), playFullBtn: document.getElementById('play-full-btn'), toggleViewBtn: document.getElementById('toggle-view-btn'), toggleViewText: document.getElementById('toggle-view-text'), loader: document.getElementById('loader'), errorMessage: document.getElementById('error-message'), playOverlay: document.getElementById('play-overlay'), progressBar: document.getElementById('progress-bar'), progressBarContainer: document.getElementById('progress-bar-container'), videoModal: document.getElementById('video-modal'), modalPlayer: document.getElementById('modal-player'), closeModalBtn: document.getElementById('close-modal-btn'), copyLinkBtn: document.getElementById('copy-link-btn'), bottomControls: document.getElementById('bottom-controls'), fullscreenNavControls: document.getElementById('fullscreen-nav-controls'), topNavControls: document.getElementById('top-nav-controls'), fsPrevBtn: document.getElementById('fs-prev-btn'), fsNextBtn: document.getElementById('fs-next-btn'), topPrevBtn: document.getElementById('top-prev-btn'), topNextBtn: document.getElementById('top-next-btn'), muteBtn: document.getElementById('mute-btn'), iconUnmuted: document.getElementById('icon-unmuted'), iconMuted: document.getElementById('icon-muted'), loopBtn: document.getElementById('loop-btn'), hideUiBtn: document.getElementById('hide-ui-btn'), iconEyeVisible: document.getElementById('icon-eye-visible'), iconEyeHidden: document.getElementById('icon-eye-hidden'), qualityMenuBtn: document.getElementById('quality-menu-btn'), qualityPopover: document.getElementById('quality-popover'), qualityFilterList: document.getElementById('quality-filter-list'), infoBtn: document.getElementById('info-btn'), topRightButtonContainer: document.getElementById('top-right-button-container'), miniViewButtons: document.getElementById('mini-view-buttons'), ambientCanvas: document.getElementById('ambient-canvas'), ambientCtx: document.getElementById('ambient-canvas').getContext('2d'), moreMenuBtn: document.getElementById('more-menu-btn'), morePopover: document.getElementById('more-popover'), togglePanBtn: document.getElementById('toggle-pan-btn'), toggleHdrBtn: document.getElementById('toggle-hdr-btn'), panControlsContainer: document.getElementById('pan-controls-container'), panLeftBtn: document.getElementById('pan-left-btn'), panRightBtn: document.getElementById('pan-right-btn'), pipBtn: document.getElementById('pip-btn'), randomShotBtn: document.getElementById('random-shot-btn'), favoriteBtn: document.getElementById('favorite-btn'), favoritesFilterBtn: document.getElementById('favorites-filter-btn'), authModal: document.getElementById('auth-modal'), closeAuthModalBtn: document.getElementById('close-auth-modal-btn'), openAuthModalBtn: document.getElementById('open-auth-modal-btn'), loginForm: document.getElementById('login-form'), signupForm: document.getElementById('signup-form'), showSignupBtn: document.getElementById('show-signup-btn'), showLoginBtn: document.getElementById('show-login-btn'), loginBtn: document.getElementById('login-btn'), signupBtn: document.getElementById('signup-btn'), loginEmail: document.getElementById('login-email'), loginPassword: document.getElementById('login-password'), signupEmail: document.getElementById('signup-email'), signupPassword: document.getElementById('signup-password'), loginErrorMsg: document.getElementById('login-error-msg'), signupErrorMsg: document.getElementById('signup-error-msg'), userMenuContainer: document.getElementById('user-menu-container'), userMenuBtn: document.getElementById('user-menu-btn'), userMenuPopover: document.getElementById('user-menu-popover'), userEmailDisplay: document.getElementById('user-email-display'), logoutBtn: document.getElementById('logout-btn'), favoritesModal: document.getElementById('favorites-modal'), closeFavoritesModalBtn: document.getElementById('close-favorites-modal-btn'), favoritesList: document.getElementById('favorites-list'), playAllFavoritesBtn: document.getElementById('play-all-favorites-btn'), showFavoritesBtnMenu: document.getElementById('show-favorites-btn-menu'), fullscreenPopoverBtn: document.getElementById('fullscreen-popover-btn'), iconFullscreenEnter: document.getElementById('icon-fullscreen-enter'), iconFullscreenExit: document.getElementById('icon-fullscreen-exit'), durationDisplay: document.getElementById('duration-display'), historyModal: document.getElementById('history-modal'), showHistoryBtn: document.getElementById('show-history-btn'), closeHistoryModalBtn: document.getElementById('close-history-modal-btn'), historyList: document.getElementById('history-list'), loadMoreHistoryBtn: document.getElementById('load-more-history-btn'), sourceSwitcher: document.getElementById('source-switcher'), themesModal: document.getElementById('themes-modal'), showThemesBtn: document.getElementById('show-themes-btn'), closeThemesModalBtn: document.getElementById('close-themes-modal-btn'), lightModeBtn: document.getElementById('light-mode-btn'), darkModeBtn: document.getElementById('dark-mode-btn'), accentColorList: document.getElementById('accent-color-list'), uiOverlay: document.getElementById('ui-overlay'), glassTintSlider: document.getElementById('glass-tint-slider') // NEW: Slider element
+            passwordOverlay: document.getElementById('password-overlay'), passwordInput: document.getElementById('password-input'), submitPasswordBtn: document.getElementById('submit-password-btn'), passwordError: document.getElementById('password-error'), mainPlayer: document.getElementById('main-player-video'), appContainer: document.getElementById('app-container'), playerWrapper: document.getElementById('player-wrapper'), layoutContainer: document.getElementById('layout-container'), preloadPlayers: document.querySelectorAll('.preload-player'), playFullBtn: document.getElementById('play-full-btn'), toggleViewBtn: document.getElementById('toggle-view-btn'), toggleViewText: document.getElementById('toggle-view-text'), loader: document.getElementById('loader'), errorMessage: document.getElementById('error-message'), playOverlay: document.getElementById('play-overlay'), progressBar: document.getElementById('progress-bar'), progressBarContainer: document.getElementById('progress-bar-container'), videoModal: document.getElementById('video-modal'), modalPlayer: document.getElementById('modal-player'), closeModalBtn: document.getElementById('close-modal-btn'), copyLinkBtn: document.getElementById('copy-link-btn'), bottomControls: document.getElementById('bottom-controls'), fullscreenNavControls: document.getElementById('fullscreen-nav-controls'), topNavControls: document.getElementById('top-nav-controls'), fsPrevBtn: document.getElementById('fs-prev-btn'), fsNextBtn: document.getElementById('fs-next-btn'), topPrevBtn: document.getElementById('top-prev-btn'), topNextBtn: document.getElementById('top-next-btn'), muteBtn: document.getElementById('mute-btn'), iconUnmuted: document.getElementById('icon-unmuted'), iconMuted: document.getElementById('icon-muted'), loopBtn: document.getElementById('loop-btn'), hideUiBtn: document.getElementById('hide-ui-btn'), showUiBtn: document.getElementById('show-ui-btn'), showUiBtnContainer: document.getElementById('show-ui-btn-container'), iconEyeVisible: document.getElementById('icon-eye-visible'), iconEyeHidden: document.getElementById('icon-eye-hidden'), qualityMenuBtn: document.getElementById('quality-menu-btn'), qualityPopover: document.getElementById('quality-popover'), qualityFilterList: document.getElementById('quality-filter-list'), infoBtn: document.getElementById('info-btn'), topRightButtonContainer: document.getElementById('top-right-button-container'), miniViewButtons: document.getElementById('mini-view-buttons'), ambientCanvas: document.getElementById('ambient-canvas'), ambientCtx: document.getElementById('ambient-canvas').getContext('2d'), moreMenuBtn: document.getElementById('more-menu-btn'), morePopover: document.getElementById('more-popover'), togglePanBtn: document.getElementById('toggle-pan-btn'), panControlsContainer: document.getElementById('pan-controls-container'), panLeftBtn: document.getElementById('pan-left-btn'), panRightBtn: document.getElementById('pan-right-btn'), pipBtn: document.getElementById('pip-btn'), randomShotBtn: document.getElementById('random-shot-btn'), favoriteBtn: document.getElementById('favorite-btn'), favoritesFilterBtn: document.getElementById('favorites-filter-btn'), authModal: document.getElementById('auth-modal'), closeAuthModalBtn: document.getElementById('close-auth-modal-btn'), openAuthModalBtn: document.getElementById('open-auth-modal-btn'), loginForm: document.getElementById('login-form'), signupForm: document.getElementById('signup-form'), showSignupBtn: document.getElementById('show-signup-btn'), showLoginBtn: document.getElementById('show-login-btn'), loginBtn: document.getElementById('login-btn'), signupBtn: document.getElementById('signup-btn'), loginEmail: document.getElementById('login-email'), loginPassword: document.getElementById('login-password'), signupEmail: document.getElementById('signup-email'), signupPassword: document.getElementById('signup-password'), loginErrorMsg: document.getElementById('login-error-msg'), signupErrorMsg: document.getElementById('signup-error-msg'), userMenuContainer: document.getElementById('user-menu-container'), userMenuBtn: document.getElementById('user-menu-btn'), userMenuPopover: document.getElementById('user-menu-popover'), userEmailDisplay: document.getElementById('user-email-display'), logoutBtn: document.getElementById('logout-btn'), favoritesModal: document.getElementById('favorites-modal'), closeFavoritesModalBtn: document.getElementById('close-favorites-modal-btn'), favoritesList: document.getElementById('favorites-list'), playAllFavoritesBtn: document.getElementById('play-all-favorites-btn'), showFavoritesBtnMenu: document.getElementById('show-favorites-btn-menu'), fullscreenPopoverBtn: document.getElementById('fullscreen-popover-btn'), iconFullscreenEnter: document.getElementById('icon-fullscreen-enter'), iconFullscreenExit: document.getElementById('icon-fullscreen-exit'), durationDisplay: document.getElementById('duration-display'), historyModal: document.getElementById('history-modal'), showHistoryBtn: document.getElementById('show-history-btn'), closeHistoryModalBtn: document.getElementById('close-history-modal-btn'), historyList: document.getElementById('history-list'), loadMoreHistoryBtn: document.getElementById('load-more-history-btn'), sourceSwitcher: document.getElementById('source-switcher'), themesModal: document.getElementById('themes-modal'), showThemesBtn: document.getElementById('show-themes-btn'), closeThemesModalBtn: document.getElementById('close-themes-modal-btn'), lightModeBtn: document.getElementById('light-mode-btn'), darkModeBtn: document.getElementById('dark-mode-btn'), accentColorList: document.getElementById('accent-color-list'), uiOverlay: document.getElementById('ui-overlay'), glassTintSlider: document.getElementById('glass-tint-slider'),
+            prevFilterBtn: document.getElementById('prev-filter-btn'),
+            nextFilterBtn: document.getElementById('next-filter-btn'),
+            filterNameDisplay: document.getElementById('filter-name-display')
         };
         
         // --- FIREBASE & THEMES ---
@@ -474,31 +504,45 @@
             applyAccentColor(currentAccent);
         };
 
-        // UPDATED: Function to handle slider input
         const applyGlassTint = (intensity) => {
             glassTintIntensity = parseFloat(intensity);
             localStorage.setItem('glassTintIntensity', glassTintIntensity);
-            // Re-apply the current accent color to update the tint immediately
             applyAccentColor(localStorage.getItem('accentColor') || 'default');
         };
 
         const applyAccentColor = (color) => {
             localStorage.setItem('accentColor', color);
             const isDefault = color === 'default';
-
             const accentColorValue = isDefault ? 'var(--text-secondary)' : color;
-            // UPDATED: Tint color now uses the intensity from the slider
             const tintColorValue = !isDefault ? hexToRgba(color, glassTintIntensity) : 'transparent';
-
+            
             els.html.style.setProperty('--accent-color', accentColorValue);
             els.html.style.setProperty('--glass-accent-tint', tintColorValue);
             
             document.querySelectorAll('.theme-swatch').forEach(swatch => {
                 swatch.classList.toggle('active', swatch.dataset.color === color);
             });
-            
             const customPicker = document.getElementById('custom-color-picker');
             if (customPicker && !isDefault) customPicker.value = color;
+        };
+
+        const applyVideoFilter = (index) => {
+            if (index < 0 || index >= VIDEO_FILTERS.length) return;
+            currentVideoFilterIndex = index;
+            const filter = VIDEO_FILTERS[index];
+            els.mainPlayer.style.filter = filter.value;
+            els.filterNameDisplay.textContent = filter.name;
+            localStorage.setItem('videoFilterIndex', index);
+        };
+
+        const nextFilter = () => {
+            const newIndex = (currentVideoFilterIndex + 1) % VIDEO_FILTERS.length;
+            applyVideoFilter(newIndex);
+        };
+        
+        const prevFilter = () => {
+            const newIndex = (currentVideoFilterIndex - 1 + VIDEO_FILTERS.length) % VIDEO_FILTERS.length;
+            applyVideoFilter(newIndex);
         };
 
         const initTheme = () => {
@@ -528,16 +572,18 @@
             
             addSafeListener(document.getElementById('custom-color-picker'), 'input', (e) => applyAccentColor(e.target.value));
             
-            // UPDATED: Initialize theme and glass tint from localStorage
             const savedIntensity = localStorage.getItem('glassTintIntensity');
             if (savedIntensity !== null) {
                 els.glassTintSlider.value = savedIntensity;
             }
-            applyGlassTint(els.glassTintSlider.value); // Set initial tint state first
-            applyTheme(localStorage.getItem('theme') || 'dark'); // Then apply theme
+            applyGlassTint(els.glassTintSlider.value);
+            applyTheme(localStorage.getItem('theme') || 'dark');
+
+            const savedFilterIndex = parseInt(localStorage.getItem('videoFilterIndex'), 10) || 0;
+            applyVideoFilter(savedFilterIndex);
         };
         
-        // --- FUNCTIONS (Most are unchanged) ---
+        // --- FUNCTIONS ---
         const formatTime = (seconds) => { if (isNaN(seconds) || seconds < 0) return '--:--'; const minutes = Math.floor(seconds / 60); const remainingSeconds = Math.floor(seconds % 60); return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`; };
         const setErrorMessage = (element, message) => { element.textContent = message; element.classList.remove('hidden'); };
         const clearErrorMessages = () => { els.loginErrorMsg.classList.add('hidden'); els.signupErrorMsg.classList.add('hidden'); };
@@ -552,7 +598,16 @@
         const stopTrailer = () => { els.mainPlayer.removeEventListener('timeupdate', handleTrailerProgress); els.progressBar.style.transition = 'none'; els.progressBar.style.width = '0%'; els.progressBar.offsetHeight; els.progressBar.style.transition = ''; };
         const updateNavButtons = () => { const showPrev = history.length > 1; els.fsPrevBtn.style.visibility = showPrev ? 'visible' : 'hidden'; els.topPrevBtn.style.visibility = showPrev ? 'visible' : 'hidden'; };
         const updateMuteIcon = () => { els.iconMuted.classList.toggle('hidden', !els.mainPlayer.muted); els.iconUnmuted.classList.toggle('hidden', els.mainPlayer.muted); };
-        const updatePanControlsVisibility = () => { const isMoreMenuOpen = !els.morePopover.classList.contains('hidden'); const shouldBeVisible = isFullScreen && isPanControlsActive && !isUiHidden && !isMoreMenuOpen; els.panControlsContainer.classList.toggle('hidden', !shouldBeVisible); };
+        
+        // FIXED: New function to handle visibility of popovers and nav arrows
+        const updateOverlayElements = () => {
+            const isAnyPopoverOpen = !els.qualityPopover.classList.contains('hidden') ||
+                                   !els.morePopover.classList.contains('hidden') ||
+                                   !els.userMenuPopover.classList.contains('hidden');
+            
+            els.fullscreenNavControls.classList.toggle('hidden', isAnyPopoverOpen || !isFullScreen);
+        };
+
         const fetchVideoList = async (url) => { try { const response = await fetch(url, { cache: "no-store" }); const text = await response.text(); originalVideoList = text.split('\n').filter(url => url.trim().startsWith('http')).map(url => url.trim()); if (originalVideoList.length === 0) throw new Error('Video list is empty.'); } catch (error) { els.loader.innerHTML = `<p class="text-red-400 text-center p-4">Failed to load video list.</p>`; } };
         const handleTrailerProgress = () => { if (els.mainPlayer.paused || els.mainPlayer.seeking) return; const elapsedSeconds = els.mainPlayer.currentTime - currentTrailerStartTime; const trailerDurationSeconds = TRAILER_DURATION_MS / 1000; if (elapsedSeconds >= 0) { const progress = Math.min((elapsedSeconds / trailerDurationSeconds) * 100, 100); els.progressBar.style.width = `${progress}%`; } if (elapsedSeconds >= trailerDurationSeconds) { stopTrailer(); if (isLooping) replayTrailer(); else showNextVideo(); } };
         const drawAmbientFrame = () => { if (isFullScreen || els.mainPlayer.paused || !els.ambientCtx) { if (ambientAnimationId) cancelAnimationFrame(ambientAnimationId); ambientAnimationId = null; return; } try { els.ambientCtx.drawImage(els.mainPlayer, 0, 0, els.ambientCanvas.width, els.ambientCanvas.height); } catch (e) { console.warn("Could not draw ambient frame.", e); if (ambientAnimationId) cancelAnimationFrame(ambientAnimationId); ambientAnimationId = null; els.ambientCanvas.classList.remove('active'); return; } ambientAnimationId = requestAnimationFrame(drawAmbientFrame); };
@@ -561,8 +616,8 @@
         const getNewRandomIndex = (excludeUrls = []) => { if (videoList.length <= 1) return 0; let newIndex, newUrl; const combinedExcludes = new Set([...excludeUrls, els.mainPlayer.src]); do { newIndex = Math.floor(Math.random() * videoList.length); newUrl = videoList[newIndex]; } while (combinedExcludes.has(newUrl) && combinedExcludes.size < videoList.length); return newIndex; };
         const managePreloading = () => { if (videoList.length < 2) return; preloadingUrls.clear(); preloadingUrls.add(els.mainPlayer.src); els.preloadPlayers.forEach(p => { if (p.src) preloadingUrls.add(p.src); }); els.preloadPlayers.forEach(player => { if (!player.src || player.readyState === 4) { const newIndex = getNewRandomIndex(Array.from(preloadingUrls)); const newUrl = videoList[newIndex]; if (newUrl) { player.src = newUrl; player.load(); preloadingUrls.add(newUrl); } } }); };
         const getReadyPreloadedVideo = () => { for (const player of els.preloadPlayers) { if (player.src && player.readyState >= 3) { const readyUrl = player.src; player.src = ''; return readyUrl; } } return null; };
-        const setViewMode = (fullscreen) => { isFullScreen = fullscreen; els.mainPlayer.classList.toggle('object-cover', isFullScreen); els.mainPlayer.classList.toggle('object-contain', !isFullScreen); if (isFullScreen) { els.appContainer.style.aspectRatio = 'auto'; els.appContainer.classList.remove('normal-mode', 'rounded-lg'); els.appContainer.classList.add('fullscreen-mode'); els.playerWrapper.style.display = 'none'; els.layoutContainer.prepend(els.appContainer); els.ambientCanvas.classList.remove('active'); if (ambientAnimationId) cancelAnimationFrame(ambientAnimationId); els.fullscreenNavControls.classList.remove('hidden'); els.topNavControls.classList.add('hidden'); els.toggleViewText.textContent = 'Mini View'; els.appContainer.appendChild(els.bottomControls); els.bottomControls.classList.add('absolute', 'bottom-8', 'left-1/2', '-translate-x-1/2'); els.topRightButtonContainer.append(els.favoriteBtn, els.hideUiBtn, els.loopBtn, els.muteBtn, els.moreMenuBtn.parentElement); } else { if (els.mainPlayer.videoWidth > 0) els.playerWrapper.style.aspectRatio = els.mainPlayer.videoWidth / els.mainPlayer.videoHeight; else els.playerWrapper.style.aspectRatio = '16 / 9'; els.appContainer.style.aspectRatio = ''; els.appContainer.classList.remove('fullscreen-mode'); els.appContainer.classList.add('normal-mode', 'rounded-lg'); els.playerWrapper.style.display = 'flex'; els.playerWrapper.prepend(els.appContainer); els.ambientCanvas.classList.add('active'); drawAmbientFrame(); els.fullscreenNavControls.classList.add('hidden'); els.topNavControls.classList.remove('hidden'); els.toggleViewText.textContent = 'Fullscreen'; els.layoutContainer.appendChild(els.bottomControls); els.bottomControls.classList.remove('absolute', 'bottom-8', 'left-1/2', '-translate-x-1/2'); els.miniViewButtons.append(els.favoriteBtn, els.hideUiBtn, els.loopBtn, els.muteBtn, els.moreMenuBtn.parentElement); els.mainPlayer.style.objectPosition = '50% 50%'; } updatePanControlsVisibility(); };
-        const playTrailer = (indexOrUrl, isFromHistory = false) => { let url, index; if (typeof indexOrUrl === 'string') { url = indexOrUrl; index = videoList.indexOf(url); if (index === -1) index = getNewRandomIndex(); else index = videoList.indexOf(url); } else { index = indexOrUrl; } url = videoList[index]; if (index === undefined || index < 0 || index >= videoList.length || !url) { if (currentFilter === 'Favorites') { els.errorMessage.classList.remove('hidden'); els.errorMessage.querySelector('p').textContent = `Your favorites list is empty.`; els.errorMessage.querySelector('p:last-child').textContent = 'Save some videos first!'; els.loader.classList.add('hidden'); } return; } stopTrailer(); els.errorMessage.classList.add('hidden'); els.playOverlay.classList.add('hidden'); els.loader.classList.remove('hidden'); els.mainPlayer.style.opacity = '0'; els.qualityMenuBtn.classList.add('hidden'); els.durationDisplay.classList.add('hidden'); currentPanPosition = 50; els.mainPlayer.style.objectPosition = `${currentPanPosition}% 50%`; currentIndex = index; if (!isFromHistory) { history.push(currentIndex); } saveToHistory(url); updateNavButtons(); updateFavoriteIcon(); const onSeeked = () => { els.mainPlayer.removeEventListener('seeked', onSeeked); els.loader.classList.add('hidden'); els.mainPlayer.style.opacity = '1'; els.mainPlayer.play().then(startTrailerPlayback).catch(error => { setTimeout(() => { if (els.mainPlayer.paused) els.playOverlay.classList.remove('hidden'); else startTrailerPlayback(); }, 150); }); }; const onLoadedMetadata = () => { els.mainPlayer.removeEventListener('loadedmetadata', onLoadedMetadata); els.ambientCanvas.width = els.mainPlayer.videoWidth / 10; els.ambientCanvas.height = els.mainPlayer.videoHeight / 10; setViewMode(isFullScreen); els.durationDisplay.textContent = formatTime(els.mainPlayer.duration); els.durationDisplay.classList.remove('hidden'); const videoSrc = els.mainPlayer.src; const videoHeight = els.mainPlayer.videoHeight; let qualityText = ''; if (videoSrc.includes('pomf')) qualityText = 'Pomf'; else if (videoSrc.includes('1080')) qualityText = '1080p'; else if (videoHeight >= 720) qualityText = '720p'; else if (videoHeight >= 480) qualityText = '480p'; else if (videoHeight > 0) qualityText = `${videoHeight}p`; if (qualityText) { els.qualityMenuBtn.querySelector('span').textContent = qualityText; els.qualityMenuBtn.classList.remove('hidden'); } currentTrailerStartTime = Math.random() * Math.max(0, els.mainPlayer.duration - (TRAILER_DURATION_MS / 1000)); els.mainPlayer.currentTime = currentTrailerStartTime; els.mainPlayer.addEventListener('seeked', onSeeked); }; els.mainPlayer.onloadeddata = null; els.mainPlayer.addEventListener('loadedmetadata', onLoadedMetadata); els.mainPlayer.onerror = () => { els.loader.classList.add('hidden'); els.errorMessage.classList.remove('hidden'); els.errorMessage.querySelector('p').textContent = 'Error loading video.'; els.errorMessage.querySelector('p:last-child').textContent = 'Trying another video.'; setTimeout(showNextVideo, 2000); }; els.mainPlayer.src = url; managePreloading(); if (history.length <= 1) els.mainPlayer.muted = true; updateMuteIcon(); updateFavoriteIcon(); };
+        const setViewMode = (fullscreen) => { isFullScreen = fullscreen; els.mainPlayer.classList.toggle('object-cover', isFullScreen); els.mainPlayer.classList.toggle('object-contain', !isFullScreen); if (isFullScreen) { els.appContainer.style.aspectRatio = 'auto'; els.appContainer.classList.remove('normal-mode', 'rounded-lg'); els.appContainer.classList.add('fullscreen-mode'); els.playerWrapper.style.display = 'none'; els.layoutContainer.prepend(els.appContainer); els.ambientCanvas.classList.remove('active'); if (ambientAnimationId) cancelAnimationFrame(ambientAnimationId); els.fullscreenNavControls.classList.remove('hidden'); els.topNavControls.classList.add('hidden'); els.toggleViewText.textContent = 'Mini View'; els.appContainer.appendChild(els.bottomControls); els.bottomControls.classList.add('absolute', 'bottom-8', 'left-1/2', '-translate-x-1/2'); els.topRightButtonContainer.append(els.favoriteBtn, els.loopBtn, els.muteBtn, els.moreMenuBtn.parentElement); } else { if (els.mainPlayer.videoWidth > 0) els.playerWrapper.style.aspectRatio = els.mainPlayer.videoWidth / els.mainPlayer.videoHeight; else els.playerWrapper.style.aspectRatio = '16 / 9'; els.appContainer.style.aspectRatio = ''; els.appContainer.classList.remove('fullscreen-mode'); els.appContainer.classList.add('normal-mode', 'rounded-lg'); els.playerWrapper.style.display = 'flex'; els.playerWrapper.prepend(els.appContainer); els.ambientCanvas.classList.add('active'); drawAmbientFrame(); els.fullscreenNavControls.classList.add('hidden'); els.topNavControls.classList.remove('hidden'); els.toggleViewText.textContent = 'Fullscreen'; els.layoutContainer.appendChild(els.bottomControls); els.bottomControls.classList.remove('absolute', 'bottom-8', 'left-1/2', '-translate-x-1/2'); els.miniViewButtons.append(els.favoriteBtn, els.loopBtn, els.muteBtn, els.moreMenuBtn.parentElement); els.mainPlayer.style.objectPosition = '50% 50%'; } updateOverlayElements(); };
+        const playTrailer = (indexOrUrl, isFromHistory = false) => { let url, index; if (typeof indexOrUrl === 'string') { url = indexOrUrl; index = videoList.indexOf(url); if (index === -1) index = getNewRandomIndex(); else index = videoList.indexOf(url); } else { index = indexOrUrl; } url = videoList[index]; if (index === undefined || index < 0 || index >= videoList.length || !url) { if (currentFilter === 'Favorites') { els.errorMessage.classList.remove('hidden'); els.errorMessage.querySelector('p').textContent = `Your favorites list is empty.`; els.errorMessage.querySelector('p:last-child').textContent = 'Save some videos first!'; els.loader.classList.add('hidden'); } return; } stopTrailer(); els.errorMessage.classList.add('hidden'); els.playOverlay.classList.add('hidden'); els.loader.classList.remove('hidden'); els.mainPlayer.style.opacity = '0'; els.qualityMenuBtn.classList.add('hidden'); els.durationDisplay.classList.add('hidden'); currentPanPosition = 50; els.mainPlayer.style.objectPosition = `${currentPanPosition}% 50%`; currentIndex = index; if (!isFromHistory) { history.push(currentIndex); } saveToHistory(url); updateNavButtons(); updateFavoriteIcon(); const onSeeked = () => { els.mainPlayer.removeEventListener('seeked', onSeeked); els.loader.classList.add('hidden'); els.mainPlayer.style.opacity = '1'; els.mainPlayer.play().then(startTrailerPlayback).catch(error => { setTimeout(() => { if (els.mainPlayer.paused) els.playOverlay.classList.remove('hidden'); else startTrailerPlayback(); }, 150); }); }; const onLoadedMetadata = () => { els.mainPlayer.removeEventListener('loadedmetadata', onLoadedMetadata); els.ambientCanvas.width = els.mainPlayer.videoWidth / 10; els.ambientCanvas.height = els.mainPlayer.videoHeight / 10; setViewMode(isFullScreen); els.durationDisplay.textContent = formatTime(els.mainPlayer.duration); els.durationDisplay.classList.remove('hidden'); const videoSrc = els.mainPlayer.src; const videoHeight = els.mainPlayer.videoHeight; let qualityText = ''; if (videoSrc.includes('pomf')) qualityText = 'Pomf'; else if (videoSrc.includes('1080')) qualityText = '1080p'; else if (videoHeight >= 720) qualityText = '720p'; else if (videoHeight >= 480) qualityText = '480p'; else if (videoHeight > 0) qualityText = `${videoHeight}p`; if (qualityText) { els.qualityMenuBtn.textContent = qualityText; els.qualityMenuBtn.classList.remove('hidden'); } currentTrailerStartTime = Math.random() * Math.max(0, els.mainPlayer.duration - (TRAILER_DURATION_MS / 1000)); els.mainPlayer.currentTime = currentTrailerStartTime; els.mainPlayer.addEventListener('seeked', onSeeked); }; els.mainPlayer.onloadeddata = null; els.mainPlayer.addEventListener('loadedmetadata', onLoadedMetadata); els.mainPlayer.onerror = () => { els.loader.classList.add('hidden'); els.errorMessage.classList.remove('hidden'); els.errorMessage.querySelector('p').textContent = 'Error loading video.'; els.errorMessage.querySelector('p:last-child').textContent = 'Trying another video.'; setTimeout(showNextVideo, 2000); }; els.mainPlayer.src = url; managePreloading(); if (history.length <= 1) els.mainPlayer.muted = true; updateMuteIcon(); updateFavoriteIcon(); };
         const checkPassword = () => { if (els.passwordInput.value === CORRECT_PASSWORD) { sessionStorage.setItem('passwordEntered', 'true'); els.passwordOverlay.classList.add('hidden'); initApp(); } else { els.passwordError.classList.remove('hidden'); els.passwordInput.value = ''; els.passwordInput.focus(); } };
         const updateSourceSwitcherUI = (activeIndex) => { document.querySelectorAll('.source-img').forEach((img, index) => { img.classList.toggle('hidden', index !== activeIndex); }); };
         const loadAndPlaySource = async (sourceIndex) => { currentSourceIndex = sourceIndex; const source = SOURCES[currentSourceIndex]; updateSourceSwitcherUI(sourceIndex); els.loader.classList.remove('hidden'); els.mainPlayer.style.opacity = '0'; stopTrailer(); await fetchVideoList(source.url); if (originalVideoList.length > 0) applyFilterAndPlay('All'); else { els.loader.classList.add('hidden'); els.errorMessage.classList.remove('hidden'); els.errorMessage.querySelector('p').textContent = `Failed to load or empty list for "${source.name}".`; } };
@@ -570,7 +625,19 @@
         const applyFilterAndPlay = (filter) => { applyFilter(filter); els.qualityPopover.classList.add('hidden'); if (videoList.length > 0) playTrailer(getNewRandomIndex()); else { els.loader.classList.add('hidden'); els.errorMessage.classList.remove('hidden'); els.errorMessage.querySelector('p').textContent = `No videos found for "${filter}" filter.`; if(filter === 'Favorites') els.errorMessage.querySelector('p').textContent = `Your favorites list is empty.`; els.errorMessage.querySelector('p:last-child').textContent = ''; stopTrailer(); } };
         const showNextVideo = () => { const readyUrl = getReadyPreloadedVideo(); if (readyUrl) playTrailer(readyUrl); else playTrailer(getNewRandomIndex(Array.from(preloadingUrls))); };
         const showPreviousVideo = () => { if (history.length > 1) { history.pop(); playTrailer(history[history.length - 1], true); } };
-        const toggleUiVisibility = () => { isUiHidden = !isUiHidden; els.uiOverlay.classList.toggle('hidden', isUiHidden); };
+        
+        const hideUi = () => {
+            isUiHidden = true;
+            els.uiOverlay.classList.add('hidden');
+            els.showUiBtnContainer.classList.remove('hidden');
+        };
+
+        const showUi = () => {
+            isUiHidden = false;
+            els.uiOverlay.classList.remove('hidden');
+            els.showUiBtnContainer.classList.add('hidden');
+        };
+
         const toggleBrowserFullscreen = () => { if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(err => console.error(`Error: ${err.message}`)); else if (document.exitFullscreen) document.exitFullscreen(); };
         const updateFullscreenIcon = () => { const isBrowserFullscreen = !!document.fullscreenElement; els.iconFullscreenEnter.classList.toggle('hidden', isBrowserFullscreen); els.iconFullscreenExit.classList.toggle('hidden', !isBrowserFullscreen); };
         const playAnotherShot = () => { if (!els.mainPlayer.duration) return; currentTrailerStartTime = Math.random() * (els.mainPlayer.duration - (TRAILER_DURATION_MS / 1000)); replayTrailer(); };
@@ -592,7 +659,10 @@
             }
         });
 
-        addSafeListener(els.sourceSwitcher, 'click', () => { const nextIndex = (currentSourceIndex + 1) % SOURCES.length; loadAndPlaySource(nextIndex); });
+        addSafeListener(els.sourceSwitcher, 'click', () => {
+            const nextIndex = (currentSourceIndex + 1) % SOURCES.length;
+            loadAndPlaySource(nextIndex);
+        });
         addSafeListener(els.submitPasswordBtn, 'click', checkPassword);
         addSafeListener(els.passwordInput, 'keyup', (e) => { if (e.key === 'Enter') checkPassword(); });
         addSafeListener(els.openAuthModalBtn, 'click', () => { els.authModal.classList.remove('hidden'); clearErrorMessages(); });
@@ -609,7 +679,10 @@
         [els.fsPrevBtn, els.topPrevBtn].forEach(btn => addSafeListener(btn, 'click', showPreviousVideo));
         addSafeListener(els.muteBtn, 'click', () => { els.mainPlayer.muted = !els.mainPlayer.muted; updateMuteIcon(); });
         addSafeListener(els.loopBtn, 'click', () => { isLooping = !isLooping; els.loopBtn.classList.toggle('active-accent', isLooping); });
-        addSafeListener(els.hideUiBtn, 'click', toggleUiVisibility);
+        
+        addSafeListener(els.hideUiBtn, 'click', (e) => { e.stopPropagation(); hideUi(); });
+        addSafeListener(els.showUiBtn, 'click', showUi);
+
         addSafeListener(els.fullscreenPopoverBtn, 'click', (e) => { e.stopPropagation(); toggleBrowserFullscreen(); });
         
         addSafeListener(els.playFullBtn, 'click', () => { els.mainPlayer.pause(); stopTrailer(); els.modalPlayer.src = els.mainPlayer.src; els.modalPlayer.currentTime = 0; els.videoModal.classList.remove('hidden'); });
@@ -634,20 +707,19 @@
              document.body.removeChild(textArea);
         });
 
-        addSafeListener(els.qualityMenuBtn, 'click', (e) => { e.stopPropagation(); els.userMenuPopover.classList.add('hidden'); els.morePopover.classList.add('hidden'); els.qualityPopover.classList.toggle('hidden'); });
-        addSafeListener(els.infoBtn, 'click', (e) => { e.stopPropagation(); els.qualityPopover.classList.add('hidden'); /* showStats(); */ });
-        addSafeListener(els.moreMenuBtn, 'click', (e) => { e.stopPropagation(); els.qualityPopover.classList.add('hidden'); els.userMenuPopover.classList.add('hidden'); els.morePopover.classList.toggle('hidden'); updatePanControlsVisibility(); });
-        addSafeListener(els.userMenuBtn, 'click', (e) => { e.stopPropagation(); els.qualityPopover.classList.add('hidden'); els.morePopover.classList.add('hidden'); els.userMenuPopover.classList.toggle('hidden'); });
-        addSafeListener(els.togglePanBtn, 'click', (e) => { e.stopPropagation(); isPanControlsActive = !isPanControlsActive; els.togglePanBtn.classList.toggle('active-accent'); updatePanControlsVisibility(); });
-        addSafeListener(els.toggleHdrBtn, 'click', (e) => { e.stopPropagation(); isHdrActive = !isHdrActive; els.toggleHdrBtn.classList.toggle('active-accent'); els.mainPlayer.classList.toggle('hdr-effect', isHdrActive); });
-        addSafeListener(els.panLeftBtn, 'click', () => { currentPanPosition = Math.max(0, currentPanPosition - 5); els.mainPlayer.style.objectPosition = `${currentPanPosition}% 50%`; });
-        addSafeListener(els.panRightBtn, 'click', () => { currentPanPosition = Math.min(100, currentPanPosition + 5); els.mainPlayer.style.objectPosition = `${currentPanPosition}% 50%`; });
-        addSafeListener(els.randomShotBtn, 'click', (e) => { e.stopPropagation(); playAnotherShot(); els.morePopover.classList.add('hidden'); updatePanControlsVisibility(); });
-        addSafeListener(els.pipBtn, 'click', (e) => { e.stopPropagation(); enterPip(); els.morePopover.classList.add('hidden'); updatePanControlsVisibility(); });
-        addSafeListener(els.showFavoritesBtnMenu, 'click', (e) => { e.stopPropagation(); showFavoritesModal(); els.userMenuPopover.classList.add('hidden'); });
+        // FIXED: Replaced individual popover logic with a single function call
+        addSafeListener(els.qualityMenuBtn, 'click', (e) => { e.stopPropagation(); els.userMenuPopover.classList.add('hidden'); els.morePopover.classList.add('hidden'); els.qualityPopover.classList.toggle('hidden'); updateOverlayElements(); });
+        addSafeListener(els.infoBtn, 'click', (e) => { e.stopPropagation(); els.qualityPopover.classList.add('hidden'); updateOverlayElements(); });
+        addSafeListener(els.moreMenuBtn, 'click', (e) => { e.stopPropagation(); els.qualityPopover.classList.add('hidden'); els.userMenuPopover.classList.add('hidden'); els.morePopover.classList.toggle('hidden'); updateOverlayElements(); });
+        addSafeListener(els.userMenuBtn, 'click', (e) => { e.stopPropagation(); els.qualityPopover.classList.add('hidden'); els.morePopover.classList.add('hidden'); els.userMenuPopover.classList.toggle('hidden'); updateOverlayElements(); });
+        
+        addSafeListener(els.togglePanBtn, 'click', (e) => { e.stopPropagation(); isPanControlsActive = !isPanControlsActive; els.togglePanBtn.classList.toggle('active-accent'); });
+        addSafeListener(els.randomShotBtn, 'click', (e) => { e.stopPropagation(); playAnotherShot(); els.morePopover.classList.add('hidden'); updateOverlayElements(); });
+        addSafeListener(els.pipBtn, 'click', (e) => { e.stopPropagation(); enterPip(); els.morePopover.classList.add('hidden'); updateOverlayElements(); });
+        addSafeListener(els.showFavoritesBtnMenu, 'click', (e) => { e.stopPropagation(); showFavoritesModal(); els.userMenuPopover.classList.add('hidden'); updateOverlayElements(); });
         addSafeListener(els.closeFavoritesModalBtn, 'click', () => els.favoritesModal.classList.add('hidden'));
         addSafeListener(els.playAllFavoritesBtn, 'click', () => { applyFilterAndPlay('Favorites'); els.favoritesModal.classList.add('hidden'); });
-        addSafeListener(els.showHistoryBtn, 'click', (e) => { e.stopPropagation(); showHistoryModal(); els.userMenuPopover.classList.add('hidden'); });
+        addSafeListener(els.showHistoryBtn, 'click', (e) => { e.stopPropagation(); showHistoryModal(); els.userMenuPopover.classList.add('hidden'); updateOverlayElements(); });
         addSafeListener(els.closeHistoryModalBtn, 'click', () => els.historyModal.classList.add('hidden'));
         addSafeListener(els.loadMoreHistoryBtn, 'click', appendHistoryPage);
         addSafeListener(els.showThemesBtn, 'click', (e) => { e.stopPropagation(); els.themesModal.classList.remove('hidden'); });
@@ -655,12 +727,20 @@
         addSafeListener(els.lightModeBtn, 'click', () => applyTheme('light'));
         addSafeListener(els.darkModeBtn, 'click', () => applyTheme('dark'));
         addSafeListener(els.accentColorList, 'click', (e) => { if(e.target.closest('.theme-swatch')?.dataset.color) applyAccentColor(e.target.closest('.theme-swatch').dataset.color); });
-        // NEW: Event listener for the glass tint slider
         addSafeListener(els.glassTintSlider, 'input', (e) => { applyGlassTint(e.target.value); });
         document.querySelectorAll('.quality-filter-btn').forEach(btn => addSafeListener(btn, 'click', (e) => { e.stopPropagation(); applyFilterAndPlay(e.currentTarget.dataset.filter); }));
         addSafeListener(document, 'fullscreenchange', updateFullscreenIcon);
-        addSafeListener(document, 'click', () => { els.qualityPopover.classList.add('hidden'); els.morePopover.classList.add('hidden'); els.userMenuPopover.classList.add('hidden'); updatePanControlsVisibility(); });
         
+        addSafeListener(document, 'click', () => { 
+            if(els.qualityPopover) els.qualityPopover.classList.add('hidden'); 
+            if(els.morePopover) els.morePopover.classList.add('hidden'); 
+            if(els.userMenuPopover) els.userMenuPopover.classList.add('hidden'); 
+            updateOverlayElements(); 
+        });
+        
+        addSafeListener(els.prevFilterBtn, 'click', (e) => { e.stopPropagation(); prevFilter(); });
+        addSafeListener(els.nextFilterBtn, 'click', (e) => { e.stopPropagation(); nextFilter(); });
+
         // --- INITIALIZATION ---
         initTheme();
         if (sessionStorage.getItem('passwordEntered') === 'true') {
